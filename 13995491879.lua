@@ -7,6 +7,8 @@ game.Players.PlayerRemoving:Connect(function()
     game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer)
 end)
 
+local CanComplete = getgenv().CanComplete or 6
+
 local plr = game.Players.LocalPlayer
 
 function getLevel()
