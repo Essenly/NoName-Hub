@@ -145,22 +145,24 @@ end
 
 coroutine.wrap(function()
     while task.wait() do
-        if completed >= CanComplete then
-            teleport(CFrame.new(-122.767815, 16.5909672, 26.2703838, -0.834702849, -2.524013e-08, 0.550700605, -1.87822433e-08, 1, 1.73643144e-08, -0.550700605, 4.15065049e-09, -0.834702849))
-            task.wait(.5)
-            teleport(CFrame.new(-135.839111, 16.4175682, 16.0699024, 0.201874197, 7.23779934e-08, 0.979411483, 2.22018866e-08, 1, -7.84756793e-08, -0.979411483, 3.75869966e-08, 0.201874197))
-            task.wait(.5)
-            teleport(CFrame.new(-159.096497, 15.7625446, 132.476074, -0.99973321, 2.05640962e-08, -0.0230974108, 2.14242419e-08, 1, -3.69924429e-08, 0.0230974108, -3.74774203e-08, -0.99973321))
-        end
-
-        if os.difftime(os.time(), completedtime) > 600 then
+        pcall(function()
             if completed >= CanComplete then
-                completed = 0
+                teleport(CFrame.new(-122.767815, 16.5909672, 26.2703838, -0.834702849, -2.524013e-08, 0.550700605, -1.87822433e-08, 1, 1.73643144e-08, -0.550700605, 4.15065049e-09, -0.834702849))
+                task.wait(.5)
+                teleport(CFrame.new(-135.839111, 16.4175682, 16.0699024, 0.201874197, 7.23779934e-08, 0.979411483, 2.22018866e-08, 1, -7.84756793e-08, -0.979411483, 3.75869966e-08, 0.201874197))
+                task.wait(.5)
+                teleport(CFrame.new(-159.096497, 15.7625446, 132.476074, -0.99973321, 2.05640962e-08, -0.0230974108, 2.14242419e-08, 1, -3.69924429e-08, 0.0230974108, -3.74774203e-08, -0.99973321))
             end
-            if completed == 0 then
-                notify("АвтоФарм: Работает")
+    
+            if os.difftime(os.time(), completedtime) > 600 then
+                if completed >= CanComplete then
+                    completed = 0
+                end
+                if completed == 0 then
+                    notify("АвтоФарм: Работает")
+                end
+                start()
             end
-            start()
-        end
+        end)
     end
 end)()
