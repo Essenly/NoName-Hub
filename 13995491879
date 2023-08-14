@@ -1,6 +1,8 @@
+getgenv().webhook = ""
+local CanComplete = 6
+
 repeat wait() until game:IsLoaded()
 
-local CanComplete = getgenv().CanComplete or 6
 local completed = 0
 local completedtime = 0
 
@@ -37,7 +39,7 @@ function webhook(n)
                 }
             },
         },
-    },
+    }
 
     local newdata = game:GetService("HttpService"):JSONEncode(data)
     
