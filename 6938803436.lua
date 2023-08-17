@@ -1,5 +1,3 @@
-getgenv().webhook = "https://discord.com/api/webhooks/996070420614742126/FYZkREv7jKaHx25psPmaxsIE3hSkNh7ejS2IitEv-Sa0kwzHjcGtbHZc0NMYej-9a-S1"
-
 -- variables
 
 local Dimension
@@ -376,7 +374,7 @@ end)
 
 task.spawn(function()
     while task.wait(1) do
-        pcall(function()
+        local a,b = pcall(function()
             local rewards = getDimensionReward()
             if rewards and Settings.ClearWebhook then
                 local name = plr.Name.."StatDisplay"
@@ -432,6 +430,7 @@ task.spawn(function()
                 return
             end
         end)
+        print(a,b)
     end
 end)
 
