@@ -418,10 +418,10 @@ task.spawn(function()
                     ["timestamp"] = DateTime.now():ToIsoDate()
                 }
     
-                if game.Players.PlayerGui.UniversalGui.UniversalCenterUIFrame.ResultUI.Visible then
+                if game.Players.LocalPlayer.PlayerGui.UniversalGui.UniversalCenterUIFrame.ResultUI.Visible then
                     webhook(data, "")
                     task.wait(15)
-                elseif game.Players.PlayerGui.UniversalGui.UniversalCenterUIFrame.RaidResultUI.Visible then
+                elseif game.Players.LocalPlayer.PlayerGui.UniversalGui.UniversalCenterUIFrame.RaidResultUI.Visible then
                     webhook(data, "")
                     task.wait(15)
                 end
