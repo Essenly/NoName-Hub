@@ -41,46 +41,44 @@ local Settings = {
 -- functions
 
 function getDimensionReward()
-                local DimensionReward = {}
-                local rewardGridFrame
-                local uiVisible = game.Players.LocalPlayer.PlayerGui.UniversalGui.UniversalCenterUIFrame.ResultUI.Visible or Players.PlayerGui.UniversalGui.UniversalCenterUIFrame.RaidResultUI.Visible
+    local DimensionReward = {}
+    local rewardGridFrame
+    local uiVisible = game.Players.LocalPlayer.PlayerGui.UniversalGui.UniversalCenterUIFrame.ResultUI.Visible or game.Players.LocalPlayer.PlayerGui.UniversalGui.UniversalCenterUIFrame.RaidResultUI.Visible
 
-                if uiVisible then
-                    if Players.PlayerGui.UniversalGui.UniversalCenterUIFrame.ResultUI.Visible then
-                        rewardGridFrame = Players.PlayerGui.UniversalGui.UniversalCenterUIFrame.ResultUI.RewardFrame.RewardGridFrame
-                    elseif Players.PlayerGui.UniversalGui.UniversalCenterUIFrame.RaidResultUI.Visible then
-                        for _,c in pairs(Players.PlayerGui.UniversalGui.UniversalCenterUIFrame.RaidResultUI.Frame:GetDescendants()) do
-                            if c.Name == "RaidRewardGridFrame" then
-                                rewardGridFrame = c
-                                break
-                            end
-                        end
-                    end
+    if uiVisible then
+        if game.Players.LocalPlayer.PlayerGui.UniversalGui.UniversalCenterUIFrame.ResultUI.Visible then
+            rewardGridFrame = game.Players.LocalPlayer.PlayerGui.UniversalGui.UniversalCenterUIFrame.ResultUI.RewardFrame.RewardGridFrame
+        elseif game.Players.LocalPlayer.PlayerGui.UniversalGui.UniversalCenterUIFrame.RaidResultUI.Visible then
+            for _,c in pairs(game.Players.LocalPlayer.PlayerGui.UniversalGui.UniversalCenterUIFrame.RaidResultUI.Frame:GetDescendants()) do
+                if c.Name == "RaidRewardGridFrame" then
+                    rewardGridFrame = c
+                    break
+                end
+            end
+        end
 
-                    if rewardGridFrame then
-                        for _,v in pairs(rewardGridFrame:GetChildren()) do
-                            if v.Name ~= "UIGridLayout" then
-                                if DimensionReward[v.Name] then
-                                    DimensionReward[v.Name] = DimensionReward[v.Name] + 1
-                                else
-                                    DimensionReward[v.Name] = 1
-                                end
-                            end
-                        end
-                        local DimensionRewardString = ""
-                        for k,v in pairs(DimensionReward) do
-                            if v > 1 then
-                                DimensionRewardString = DimensionRewardString .. " - " .. k .. " x" .. v .. ", "
-                            else
-                                DimensionRewardString = DimensionRewardString .. " - " .. k .. ", "
-                            end
-                        end
-                        return DimensionRewardString
+        if rewardGridFrame then
+            for _,v in pairs(rewardGridFrame:GetChildren()) do
+                if v.Name ~= "UIGridLayout" then
+                    if DimensionReward[v.Name] then
+                        DimensionReward[v.Name] = DimensionReward[v.Name] + 1
+                    else
+                        DimensionReward[v.Name] = 1
                     end
                 end
             end
-            
-            print(getDimensionReward())
+            local DimensionRewardString = ""
+            for k,v in pairs(DimensionReward) do
+                if v > 1 then
+                    DimensionRewardString = DimensionRewardString .. " - " .. k .. " x" .. v .. ", "
+                else
+                    DimensionRewardString = DimensionRewardString .. " - " .. k .. ", "
+                end
+            end
+            return DimensionRewardString
+        end
+    end
+end
 
 function getwebhook()
     if isfolder("NoName_Hub") then
