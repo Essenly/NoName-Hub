@@ -10,6 +10,8 @@ local QueueOnTeleport = queue_on_teleport or queueonteleport or (syn and syn.que
 
 local Loaded = false
 
+if getgenv().NoNameHub then return end
+
 local success, info = pcall(MarketplaceService.GetProductInfo, MarketplaceService, game.PlaceId)
 if not success then
     PromptLib("Error", "Failed to retrieve product info. \n(Error Code: 117)", {
@@ -20,9 +22,10 @@ end
 
 for i,v in pairs(Scripts) do
     if game.PlaceId == i or string.match(info.Name, v.Name) then
-        print("Found supported game:", v.Name)
+        print("Found supported game:", gameData.Name)
         loadstring(game:HttpGet(`https://raw.githubusercontent.com/Essenly/NoName-Hub/main/{i}.lua`, true))()
         Loaded = true
+        getgenv().NoNameHub = true
     end
 end
 
@@ -32,6 +35,6 @@ end
 
 game.Players.LocalPlayer.OnTeleport:Connect(function(State)
     if State == Enum.TeleportState.InProgress then
-        QueueOnTeleport("loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/Essenly/NoName-Hub/main/init.lua'))()")
+        QueueOnTeleport("loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/Essenly/NoName-Hub/main/init.lua')()")
     end
 end)
