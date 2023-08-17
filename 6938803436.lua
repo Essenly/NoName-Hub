@@ -1,3 +1,24 @@
+task.spawn(function()
+    local reason = "You cannot skip whitelist part"
+    while task.wait() do
+        if getgenv().WL ~= true then
+            return game.Players.LocalPlayer:Kick(reason)
+        end
+        if getgenv().MegaUltraBoy ~= true then
+            return game.Players.LocalPlayer:Kick(reason)
+        end
+        if getgenv().Access ~= false then
+            return game.Players.LocalPlayer:Kick(reason)
+        end
+        if getgenv().Premium ~= false then
+            return game.Players.LocalPlayer:Kick(reason)
+        end
+        if getgenv().NoNameHub ~= true then
+            return game.Players.LocalPlayer:Kick(reason)
+        end
+    end
+end)
+
 -- variables
 
 local Dimension
@@ -373,7 +394,12 @@ end)
 -- task.spawn functions
 
 task.spawn(function()
+    local a = false
     while task.wait(1) do
+        if a == true then
+            break
+        end
+
         local a,b = pcall(function()
             local rewards = getDimensionReward()
             if rewards and Settings.ClearWebhook then
@@ -413,7 +439,7 @@ task.spawn(function()
                         },
                     },
                     ["footer"] = {
-                        ["text"] = `NoName Hub`
+                        ["text"] = "NoName Hub"
                     },
                     ["timestamp"] = DateTime.now():ToIsoDate()
                 }
@@ -425,7 +451,7 @@ task.spawn(function()
                     webhook(data, "")
                     task.wait(15)
                 end
-                return
+                a = true
             end
         end)
         print(a,b)
@@ -547,6 +573,7 @@ local Window = Rayfield:CreateWindow({
 local Main = Window:CreateTab("Main")
 local Setting = Window:CreateTab("Settings")
 local Specific = Window:CreateTab("Specific & Raid")
+local Misc = Window:CreateTab("Misc")
 local Webhook = Window:CreateTab("Webhook")
 
 
@@ -676,15 +703,6 @@ local AutoSkillTime = Setting:CreateSlider({
     end,
 })
 
-local Button = Setting:CreateButton({
-    Name = "Rejoin",
-    Callback = function()
-        game:GetService("TeleportService"):Teleport(6938803436, plr)
-    end,
-})
-
-
-
 
 -- Specific
 
@@ -734,7 +752,14 @@ local Raid = Specific:CreateDropdown({
     end,
 })
 
+--Misc
 
+local Button = Setting:CreateButton({
+    Name = "Rejoin",
+    Callback = function()
+        game:GetService("TeleportService"):Teleport(6938803436, plr)
+    end,
+})
 
 -- webhook
 
