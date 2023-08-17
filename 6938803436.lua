@@ -26,6 +26,7 @@ local Difficulty
 
 local ReplicatedStorage = game.ReplicatedStorage
 local plr = game.Players.LocalPlayer
+local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 
 local twn = nil
@@ -38,6 +39,9 @@ local Settings = {
     Difficulty = "",
     Hardcore = false,
     FarmDimension = false,
+    FarmSpeedRaid = false,
+    FarmBossRush = false,
+    TimeChallenge = false,
 
     FarmRaid = false,
     Raid = "",
@@ -321,7 +325,7 @@ function Tween(obj)
 end
 
 function join()
-    if game.PlaceId ~= 6938803436 and game.PlaceId ~= 7274690025 then return print(1) end
+    if game.PlaceId ~= 6938803436 and game.PlaceId ~= 7274690025 then return end
     if Settings.FarmDimension then
         pcall(function()
             createRoom(Settings.Dimension, Settings.Difficulty, Settings.Hardcore)
@@ -371,6 +375,16 @@ function checkQuest(questName)
     if PlayerGui.QuestComplete:FindFirstChild("ExclamationPoint") then
         ReplicatedStorage.RemoteFunctions.MainRemoteFunction:InvokeServer("CompleteDailyQuest", questName)
     end
+end
+
+function getCharacter()
+    local CharacterList = {}
+    for _,v in pairs(Players.PlayerGui.MainGui.CenterUIFrame.Inventory.Frame.CharacterInventoryFrame.CharacterInventoryScrollingFrame:GetChildren()) do
+        if v.Name ~= "CharacterInventorySlot" and v:IsA("ImageButton") then
+            CharacterList[#CharacterList + 1] = v.Name
+        end
+    end
+    return CharacterList
 end
 
 -- Extra Functions
@@ -444,7 +458,7 @@ task.spawn(function()
             break
         end
 
-        local a,b = pcall(function()
+        pcall(function()
             local rewards = getDimensionReward()
             if rewards and Settings.ClearWebhook then
                 local name = plr.Name.."StatDisplay"
@@ -498,7 +512,6 @@ task.spawn(function()
                 a = true
             end
         end)
-        print(a,b)
     end
 end)
 
@@ -609,6 +622,29 @@ coroutine.wrap(function()
                     end)
                 end
             end
+
+            if Settings.FarmBossRush then
+                local Ticket = plr.PlayerGui.MainGui.CenterUIFrame.BossRushFrame.BossRushEntryPassCount.Text
+                local Free = plr.PlayerGui.MainGui.CenterUIFrame.BossRushFrame.BossRushFreeEntry.Text
+                if tonumber(Ticket) >= 1 or string.match(Free, "1.") then
+                    ReplicatedStorage.RemoteFunctions.MainRemoteFunction:InvokeServer("TeleportToBossRush")
+                end
+            end
+
+            if Settings.TimeChallenge then
+                ReplicatedStorage.RemoteFunctions.MainRemoteFunction:InvokeServer("TeleportToTimeChallenge")
+            end
+
+            if Settings.FarmSpeedRaid then
+                local character = getCharacter()
+                local random = math.random(1, #character)
+                local final = character[random]
+                local LayoutOrder = plr.PlayerGui.MainGui.CenterUIFrame.SpeedRaidCharacterSelector.Shade.SpeedRaidCharacterInventoryScrollingFrame[final].LayoutOrder
+                if LayoutOrder ~= 999 then
+                    ReplicatedStorage.RemoteFunctions.MainRemoteFunction:InvokeServer("TeleportToShadowRaid", final)
+                end
+            end
+
             if Settings.FarmDimension then
                 join()
                 IsTeleport = true
@@ -685,6 +721,34 @@ local FarmDimension = Main:CreateToggle({
         Settings.FarmDimension = Value
     end,
 })
+
+local TimeChallenge = Main:CreateToggle({
+    Name = "Farm Time Challenge",
+    CurrentValue = false,
+    Flag = "FarmTimeChallenge", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Value)
+        Settings.TimeChallenge = Value
+    end,
+})
+
+local BossRush = Main:CreateToggle({
+    Name = "Farm Boss Rush",
+    CurrentValue = false,
+    Flag = "FarmBossRush", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Value)
+        Settings.FarmBossRush = Value
+    end,
+})
+
+local FarmSpeed = Main:CreateToggle({
+    Name = "Farm Speed Raid",
+    CurrentValue = false,
+    Flag = "FarmSpeedRaid", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Value)
+        Settings.FarmSpeedRaid = Value
+    end,
+})
+
 
 local FarmRaid = Main:CreateToggle({
     Name = "Farm Raid",
