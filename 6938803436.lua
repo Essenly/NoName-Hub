@@ -40,6 +40,48 @@ local Settings = {
 
 -- functions
 
+function getDimensionReward()
+                local DimensionReward = {}
+                local rewardGridFrame
+                local uiVisible = game.Players.LocalPlayer.PlayerGui.UniversalGui.UniversalCenterUIFrame.ResultUI.Visible or Players.PlayerGui.UniversalGui.UniversalCenterUIFrame.RaidResultUI.Visible
+
+                if uiVisible then
+                    if Players.PlayerGui.UniversalGui.UniversalCenterUIFrame.ResultUI.Visible then
+                        rewardGridFrame = Players.PlayerGui.UniversalGui.UniversalCenterUIFrame.ResultUI.RewardFrame.RewardGridFrame
+                    elseif Players.PlayerGui.UniversalGui.UniversalCenterUIFrame.RaidResultUI.Visible then
+                        for _,c in pairs(Players.PlayerGui.UniversalGui.UniversalCenterUIFrame.RaidResultUI.Frame:GetDescendants()) do
+                            if c.Name == "RaidRewardGridFrame" then
+                                rewardGridFrame = c
+                                break
+                            end
+                        end
+                    end
+
+                    if rewardGridFrame then
+                        for _,v in pairs(rewardGridFrame:GetChildren()) do
+                            if v.Name ~= "UIGridLayout" then
+                                if DimensionReward[v.Name] then
+                                    DimensionReward[v.Name] = DimensionReward[v.Name] + 1
+                                else
+                                    DimensionReward[v.Name] = 1
+                                end
+                            end
+                        end
+                        local DimensionRewardString = ""
+                        for k,v in pairs(DimensionReward) do
+                            if v > 1 then
+                                DimensionRewardString = DimensionRewardString .. " - " .. k .. " x" .. v .. ", "
+                            else
+                                DimensionRewardString = DimensionRewardString .. " - " .. k .. ", "
+                            end
+                        end
+                        return DimensionRewardString
+                    end
+                end
+            end
+            
+            print(getDimensionReward())
+
 function getwebhook()
     if isfolder("NoName_Hub") then
         if isfile("NoName_Hub/WebHook.txt") then
@@ -333,6 +375,65 @@ workspace.Folders.Debris.ChildAdded:Connect(function(debris)
 end)
 
 -- task.spawn functions
+
+task.spawn(function()
+    while task.wait(1) do
+        local rewards = getDimensionReward()
+        if rewards and Settings.ClearWebhook then
+            local name = plr.Name.."StatDisplay"
+            local data = {
+                ["title"] = "GAME CLEAR",
+                ["type"] = "rich",
+                ["description"] = "Character Info / Session Info:",
+                ["fields"] = {
+                    {
+                        ["name"] = "💥 My Level",
+                        ["value"] = game:GetService("HttpService"):JSONDecode(
+                            game.Players.LocalPlayer.leaderstats.Level.Value
+                        )
+                    },
+                    {
+                        ["name"] = "Rewards",
+                        ["value"] = game:GetService("HttpService"):JSONDecode(
+                            game.Players.LocalPlayer.leaderstats.Level.Value
+                        )
+                    },
+                    {
+                        ["name"] = "⚠️ Exploit Detected",
+                        ["value"] = game:GetService("HttpService"):JSONDecode(
+                            game.ReplicatedStorage[name].ExploitsDetected.Value
+                        )
+                    },
+                    {
+                        ["name"] = "💠 Infinite Record",
+                        ["value"] = game:GetService("HttpService"):JSONDecode(
+                            game.ReplicatedStorage[name].InfiniteRecord.Value
+                        )
+                    },
+                    {
+                        ["name"] = "🌌 Dimension Clear",
+                        ["value"] = game:GetService("HttpService"):JSONDecode(
+                            game.ReplicatedStorage[name].StageClear.Value
+                        )
+                    },
+                },
+                ["footer"] = {
+                    ["text"] = `NoName Hub`
+                },
+                ["timestamp"] = DateTime.now():ToIsoDate()
+            }
+
+            if game.Players.PlayerGui.UniversalGui.UniversalCenterUIFrame.ResultUI.Visible then
+                webhook(data, "")
+                task.wait(15)
+            elseif game.Players.PlayerGui.UniversalGui.UniversalCenterUIFrame.RaidResultUI.Visible then
+                webhook(data, "")
+                task.wait(15)
+            end
+            return
+        end
+    end
+end)
 
 task.spawn(function()
     while task.wait(0.5) do
@@ -654,50 +755,6 @@ local ClearWebhook = Webhook:CreateToggle({
     Flag = "Clear Webhook", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
     Callback = function(Value)
         Settings.ClearWebhook = Value
-
-        while task.wait(1) do
-            if game.Players.LocalPlayer.PlayerGui:WaitForChild("UniversalGui").UniversalCenterUIFrame.ResultUI.Visible == true then
-                local name = plr.Name.."StatDisplay"
-                local data = {
-                    ["title"] = "GAME CLEAR",
-                    ["type"] = "rich",
-                    ["description"] = "Character Info / Session Info:",
-                    ["fields"] = {
-                        {
-                            ["name"] = "💥 My Level",
-                            ["value"] = game:GetService("HttpService"):JSONDecode(
-                                game.Players.LocalPlayer.leaderstats.Level.Value
-                            )
-                        },
-                        {
-                            ["name"] = "⚠️ Exploit Detected",
-                            ["value"] = game:GetService("HttpService"):JSONDecode(
-                                game.ReplicatedStorage[name].ExploitsDetected.Value
-                            )
-                        },
-                        {
-                            ["name"] = "💠 Infinite Record",
-                            ["value"] = game:GetService("HttpService"):JSONDecode(
-                                game.ReplicatedStorage[name].InfiniteRecord.Value
-                            )
-                        },
-                        {
-                            ["name"] = "🌌 Dimension Clear",
-                            ["value"] = game:GetService("HttpService"):JSONDecode(
-                                game.ReplicatedStorage[name].StageClear.Value
-                            )
-                        },
-                    },
-                    ["footer"] = {
-                        ["text"] = `NoName Hub`
-                    },
-                    ["timestamp"] = DateTime.now():ToIsoDate()
-                }
-
-                webhook(data, "")
-                return
-            end
-        end
     end,
 })
 
