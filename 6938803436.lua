@@ -376,60 +376,62 @@ end)
 
 task.spawn(function()
     while task.wait(1) do
-        local rewards = getDimensionReward()
-        if rewards and Settings.ClearWebhook then
-            local name = plr.Name.."StatDisplay"
-            local data = {
-                ["title"] = "Anime Dimensions Simulator",
-                ["type"] = "rich",
-                ["description"] = "Character Info / Session Info:",
-                ["fields"] = {
-                    {
-                        ["name"] = "💥 My Level",
-                        ["value"] = game:GetService("HttpService"):JSONDecode(
-                            game.Players.LocalPlayer.leaderstats.Level.Value
-                        )
+        pcall(function()
+            local rewards = getDimensionReward()
+            if rewards and Settings.ClearWebhook then
+                local name = plr.Name.."StatDisplay"
+                local data = {
+                    ["title"] = "Anime Dimensions Simulator",
+                    ["type"] = "rich",
+                    ["description"] = "Character Info / Session Info:",
+                    ["fields"] = {
+                        {
+                            ["name"] = "💥 My Level",
+                            ["value"] = game:GetService("HttpService"):JSONDecode(
+                                game.Players.LocalPlayer.leaderstats.Level.Value
+                            )
+                        },
+                        {
+                            ["name"] = "Rewards",
+                            ["value"] = game:GetService("HttpService"):JSONDecode(
+                                rewards
+                            )
+                        },
+                        {
+                            ["name"] = "⚠️ Exploit Detected",
+                            ["value"] = game:GetService("HttpService"):JSONDecode(
+                                game.ReplicatedStorage[name].ExploitsDetected.Value
+                            )
+                        },
+                        {
+                            ["name"] = "💠 Infinite Record",
+                            ["value"] = game:GetService("HttpService"):JSONDecode(
+                                game.ReplicatedStorage[name].InfiniteRecord.Value
+                            )
+                        },
+                        {
+                            ["name"] = "🌌 Dimension Clear",
+                            ["value"] = game:GetService("HttpService"):JSONDecode(
+                                game.ReplicatedStorage[name].StageClear.Value
+                            )
+                        },
                     },
-                    {
-                        ["name"] = "Rewards",
-                        ["value"] = game:GetService("HttpService"):JSONDecode(
-                            rewards
-                        )
+                    ["footer"] = {
+                        ["text"] = `NoName Hub`
                     },
-                    {
-                        ["name"] = "⚠️ Exploit Detected",
-                        ["value"] = game:GetService("HttpService"):JSONDecode(
-                            game.ReplicatedStorage[name].ExploitsDetected.Value
-                        )
-                    },
-                    {
-                        ["name"] = "💠 Infinite Record",
-                        ["value"] = game:GetService("HttpService"):JSONDecode(
-                            game.ReplicatedStorage[name].InfiniteRecord.Value
-                        )
-                    },
-                    {
-                        ["name"] = "🌌 Dimension Clear",
-                        ["value"] = game:GetService("HttpService"):JSONDecode(
-                            game.ReplicatedStorage[name].StageClear.Value
-                        )
-                    },
-                },
-                ["footer"] = {
-                    ["text"] = `NoName Hub`
-                },
-                ["timestamp"] = DateTime.now():ToIsoDate()
-            }
-
-            if game.Players.PlayerGui.UniversalGui.UniversalCenterUIFrame.ResultUI.Visible then
-                webhook(data, "")
-                task.wait(15)
-            elseif game.Players.PlayerGui.UniversalGui.UniversalCenterUIFrame.RaidResultUI.Visible then
-                webhook(data, "")
-                task.wait(15)
+                    ["timestamp"] = DateTime.now():ToIsoDate()
+                }
+    
+                if game.Players.PlayerGui.UniversalGui.UniversalCenterUIFrame.ResultUI.Visible then
+                    webhook(data, "")
+                    task.wait(15)
+                elseif game.Players.PlayerGui.UniversalGui.UniversalCenterUIFrame.RaidResultUI.Visible then
+                    webhook(data, "")
+                    task.wait(15)
+                end
+                return
             end
-            return
-        end
+        end)
     end
 end)
 
