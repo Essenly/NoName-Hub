@@ -486,11 +486,13 @@ coroutine.wrap(function()
 
         if game.PlaceId == 6938803436 or game.PlaceId == 7274690025 or game.PlaceId == 7338881230 then
             if Settings.FarmRaid then
-                pcall(function()
-                    createRoom(Settings.Raid, "Easy", false)
-                    startRoom()
-                    IsTeleport = true
-                end)
+                if string.match(workspace.InteractionCircles.RaidPortal.RaidTimer.Frame.RaidTimerText.Text, "RAID IS OPEN") then
+                    pcall(function()
+                        createRoom(Settings.Raid, "Easy", false)
+                        startRoom()
+                        IsTeleport = true
+                    end)
+                end
             end
             if Settings.FarmDimension then
                 join()
