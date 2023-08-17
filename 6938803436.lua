@@ -783,7 +783,7 @@ local Raid = Specific:CreateDropdown({
 
 Misc:CreateSection("Auto Daily Quests")
 
-local Hardcore = Specific:CreateToggle({
+local AutoDailyQUEST = Misc:CreateToggle({
     Name = "Auto Daily Quests",
     CurrentValue = false,
     Flag = "Hardcore", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
