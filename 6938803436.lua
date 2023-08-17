@@ -391,9 +391,7 @@ task.spawn(function()
                         },
                         {
                             ["name"] = "Rewards",
-                            ["value"] = game:GetService("HttpService"):JSONDecode(
-                                rewards
-                            )
+                            ["value"] = rewards
                         },
                         {
                             ["name"] = "⚠️ Exploit Detected",
