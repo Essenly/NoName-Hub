@@ -498,10 +498,12 @@ coroutine.wrap(function()
             end
 
             
-            task.wait(20)
-            if IsTeleport then
-                game:GetService("TeleportService"):Teleport(6938803436, game.Players.LocalPlayer)
-            end
+            task.spawn(function()
+                task.wait(20)
+                if IsTeleport then
+                    game:GetService("TeleportService"):Teleport(6938803436, game.Players.LocalPlayer)
+                end
+            end)
         end
 
     end
