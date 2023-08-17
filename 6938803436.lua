@@ -456,17 +456,6 @@ end)
 task.spawn(function()
     while task.wait(Settings.AutoSkillTime) do
         if Settings.AutoSkill then
-
-            local VirtualInputManager = game:GetService("VirtualInputManager")
-
-            local keycodes1 = {Enum.KeyCode.One, Enum.KeyCode.Two, Enum.KeyCode.Three}
-            local keycodes2 = {Enum.KeyCode.Four, Enum.KeyCode.Five} 
-            local keycodes3 = {Enum.KeyCode.E, Enum.KeyCode.R}
-
-            VirtualInputManager:SendKeyEvent(true, keycodes1[math.random(#keycodes1)], false, game)
-            VirtualInputManager:SendKeyEvent(true, keycodes2[math.random(#keycodes2)], false, game)
-            VirtualInputManager:SendKeyEvent(true, keycodes3[math.random(#keycodes3)], false, game)
-            --[[
             ReplicatedStorage.RemoteEvents.MainRemoteEvent:FireServer("UseSkill", {}, 1)
 
             ReplicatedStorage.RemoteEvents.MainRemoteEvent:FireServer("UseSkill", {}, 2)
@@ -480,7 +469,6 @@ task.spawn(function()
             ReplicatedStorage.RemoteEvents.MainRemoteEvent:FireServer("UseSkill", {}, 4)
 
             ReplicatedStorage.RemoteEvents.MainRemoteEvent:FireServer("UseSkill", {}, 5)
-            ]]
         end
     end
 end)
