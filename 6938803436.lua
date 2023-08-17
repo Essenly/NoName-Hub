@@ -60,6 +60,7 @@ local Settings = {
     DailyQuest = false,
     FPSBoost = false,
     WhiteScreen = false,
+    AutoRejoin = false,
 
     ClearWebhook = false
 
@@ -401,6 +402,14 @@ game:GetService("UserInputService").WindowFocused:Connect(function()
     if Settings.WhiteScreen then
         game:GetService("RunService"):Set3dRenderingEnabled(true)
         setfpscap(60)
+    end
+end)
+
+game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(prompt)
+    if Settings.AutoRejoin then
+        if prompt.Name == "ErrorPrompt" and prompt:FindFirstChild("MessageArea") and prompt.MessageArea:FindFirstChild("ErrorFrame") then
+            game:GetService("TeleportService"):Teleport(6938803436, plr)
+        end
     end
 end)
 
@@ -943,7 +952,16 @@ local WhiteScreen = Misc:CreateToggle({
 })
 
 
-Misc:CreateSection("TP to Lobby")
+Misc:CreateSection("Teleport")
+
+local AutoRejoin = Misc:CreateToggle({
+    Name = "Auto Rejoin If Kick",
+    CurrentValue = false,
+    Flag = "AutoRejoin", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Value)
+        Settings.AutoRejoin = Value
+    end,
+})
 
 local Button = Misc:CreateButton({
     Name = "Rejoin",
