@@ -20,7 +20,7 @@ end
 
 for i,v in pairs(Scripts) do
     if game.PlaceId == i or string.match(info.Name, v.Name) then
-        print("Found supported game:", gameData.Name)
+        print("Found supported game:", v.Name)
         loadstring(game:HttpGet(`https://raw.githubusercontent.com/Essenly/NoName-Hub/main/{i}.lua`, true))()
         Loaded = true
     end
