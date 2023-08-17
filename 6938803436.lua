@@ -642,10 +642,7 @@ local InputWebhook = Webhook:CreateInput({
     RemoveTextAfterFocusLost = true,
     Callback = function(Text)
         if isfolder("NoName_Hub") then
-            if not isfile("NoName_Hub/WebHook.txt") then
-                writefile("NoName_Hub/WebHook.txt", "")
-            end
-            appendfile("NoName_Hub/WebHook.txt", Text)
+            writefile("NoName_Hub/WebHook.txt", Text)
         end
         getwebhook()
     end,
