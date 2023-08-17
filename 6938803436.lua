@@ -53,6 +53,8 @@ local Settings = {
     AutoSkill = false,
     AutoSkillTime = 1.5,
 
+    DailyQuest = false,
+
     ClearWebhook = false
 
 }
@@ -362,6 +364,13 @@ function getNearestMobs()
     return Target
 end
 
+function checkQuest(questName)
+    local PlayerGui = Players.PlayerGui.MainGui.CenterUIFrame.QuestFrame.QuestFrames.DailyQuestFrame.DailyQuestScrollingFrame[questName]
+    if PlayerGui.QuestComplete:FindFirstChild("ExclamationPoint") then
+        ReplicatedStorage.RemoteFunctions.MainRemoteFunction:InvokeServer("CompleteDailyQuest", questName)
+    end
+end
+
 -- Extra Functions
 
 workspace.Folders.Debris.ChildAdded:Connect(function(debris)
@@ -391,7 +400,25 @@ workspace.Folders.Debris.ChildAdded:Connect(function(debris)
     end)
 end)
 
+
+
 -- task.spawn functions
+
+task.spawn(function()
+    while task.wait(1) do
+        if Settings.DailyQuest then
+            pcall(function()
+                checkQuest("DailyQuest_Login")
+                checkQuest("DailyQuest_Enemies")
+                checkQuest("DailyQuest_DungeonClear")
+                checkQuest("DailyQuest_Raid")
+                checkQuest("DailyQuest_BossRush")
+                checkQuest("DailyQuest_AllQuestClear")
+            end)
+        end
+    end
+end)
+
 
 task.spawn(function()
     local a = false
@@ -754,7 +781,21 @@ local Raid = Specific:CreateDropdown({
 
 --Misc
 
-local Button = Setting:CreateButton({
+Misc:CreateSection("Auto Daily Quests")
+
+local Hardcore = Specific:CreateToggle({
+    Name = "Auto Daily Quests",
+    CurrentValue = false,
+    Flag = "Hardcore", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Value)
+        Settings.DailyQuest = Value
+    end,
+})
+
+Misc:CreateSection("Extra")
+
+
+local Button = Misc:CreateButton({
     Name = "Rejoin",
     Callback = function()
         game:GetService("TeleportService"):Teleport(6938803436, plr)
