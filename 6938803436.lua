@@ -382,7 +382,7 @@ task.spawn(function()
         if rewards and Settings.ClearWebhook then
             local name = plr.Name.."StatDisplay"
             local data = {
-                ["title"] = "GAME CLEAR",
+                ["title"] = "Anime Dimensions Simulator",
                 ["type"] = "rich",
                 ["description"] = "Character Info / Session Info:",
                 ["fields"] = {
@@ -395,7 +395,7 @@ task.spawn(function()
                     {
                         ["name"] = "Rewards",
                         ["value"] = game:GetService("HttpService"):JSONDecode(
-                            game.Players.LocalPlayer.leaderstats.Level.Value
+                            rewards
                         )
                     },
                     {
