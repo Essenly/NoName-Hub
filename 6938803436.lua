@@ -40,6 +40,16 @@ local Settings = {
 
 -- functions
 
+function getwebhook()
+    if isfolder("NoName_Hub") then
+        if isfile("NoName_Hub/WebHook.txt") then
+            getgenv().webhook = readfile("NoName_Hub/WebHook.txt")
+        end
+    end
+end
+
+getwebhook()
+
 function webhook(_, a0)
     if getgenv().webhook == nil then return end
     local request = http_request or request or HttpPost or syn.request
@@ -625,6 +635,21 @@ local Raid = Specific:CreateDropdown({
 
 
 -- webhook
+
+local InputWebhook = Webhook:CreateInput({
+    Name = "Webhook",
+    PlaceholderText = "Url here",
+    RemoveTextAfterFocusLost = true,
+    Callback = function(Text)
+        if isfolder("NoName_Hub") then
+            if not isfile("NoName_Hub/WebHook.txt") then
+                writefile("NoName_Hub/WebHook.txt", "")
+            end
+            appendfile("NoName_Hub/WebHook.txt", Text)
+        end
+        getwebhook()
+    end,
+ })
 
 local ClearWebhook = Webhook:CreateToggle({
     Name = "Clear Webhook",
