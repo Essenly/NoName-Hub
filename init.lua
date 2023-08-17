@@ -4,6 +4,7 @@ local Scripts = {
 
 repeat task.wait() until game:IsLoaded()
 
+local KeySystemUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/ui/xrer_mstudio45.lua"))()
 local PromptLib = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/AlexR32/Roblox/main/Useful/PromptLibrary.lua"))()
 local MarketplaceService = game:GetService("MarketplaceService")
 local QueueOnTeleport = queue_on_teleport or queueonteleport or (syn and syn.queue_on_teleport)
@@ -20,21 +21,32 @@ if not success then
     return
 end
 
-for i,v in pairs(Scripts) do
-    if game.PlaceId == i or string.match(info.Name, v.Name) then
-        print("Found supported game:", v.Name)
-        loadstring(game:HttpGet(`https://raw.githubusercontent.com/Essenly/NoName-Hub/main/{i}.lua`, true))()
-        Loaded = true
-        getgenv().NoNameHub = true
-    end
-end
+KeySystemUI.New({
+    ApplicationName = "NoNameHub", -- Your Key System Application Name
+    Name = "NoName Hub", -- Your Script name
+    Info = "", -- Info text in the GUI, keep empty for default text.
+    DiscordInvite = "" -- Optional.
+})
 
-if Loaded == false then
-    return game.Players.LocalPlayer:Kick("NoName Hub does not support this game")
-end
+repeat task.wait() until KeySystemUI.Finished() or KeySystemUI.Closed
 
-game.Players.LocalPlayer.OnTeleport:Connect(function(State)
-    if State == Enum.TeleportState.InProgress then
-        QueueOnTeleport("loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/Essenly/NoName-Hub/main/init.lua'))()")
+if KeySystemUI.Finished() and KeySystemUI.Closed == false then
+    for i,v in pairs(Scripts) do
+        if game.PlaceId == i or string.match(info.Name, v.Name) then
+            print("Found supported game:", v.Name)
+            loadstring(game:HttpGet(`https://raw.githubusercontent.com/Essenly/NoName-Hub/main/{i}.lua`, true))()
+            Loaded = true
+            getgenv().NoNameHub = true
+        end
     end
-end)
+    
+    if Loaded == false then
+        return game.Players.LocalPlayer:Kick("NoName Hub does not support this game")
+    end
+    
+    game.Players.LocalPlayer.OnTeleport:Connect(function(State)
+        if State == Enum.TeleportState.InProgress then
+            QueueOnTeleport("loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/Essenly/NoName-Hub/main/init.lua')()")
+        end
+    end)
+end
