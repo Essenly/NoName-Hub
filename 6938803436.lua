@@ -54,6 +54,8 @@ local Settings = {
     AutoSkillTime = 1.5,
 
     DailyQuest = false,
+    FPSBoost = false,
+    WhiteScreen = false,
 
     ClearWebhook = false
 
@@ -373,6 +375,21 @@ end
 
 -- Extra Functions
 
+
+game:GetService("UserInputService").WindowFocusReleased:Connect(function()
+    if Settings.WhiteScreen then
+        game:GetService("RunService"):Set3dRenderingEnabled(false)
+        setfpscap(20)
+    end
+end)
+
+game:GetService("UserInputService").WindowFocused:Connect(function()
+    if Settings.WhiteScreen then
+        game:GetService("RunService"):Set3dRenderingEnabled(true)
+        setfpscap(60)
+    end
+end)
+
 workspace.Folders.Debris.ChildAdded:Connect(function(debris)
     pcall(function()
         if Settings.Dodge and table.find({"telegraph"}, debris.Name:lower()) and debris.Material ~= Enum.Material.Neon then
@@ -528,8 +545,53 @@ end)
 
 -- coroutine
 
+local OnceBoost = false
+
 coroutine.wrap(function()
     while task.wait(10) do
+
+        if Settings.FPSBoost then
+            if OnceBoost == false then
+                OnceBoost = true
+                local decalsyeeted = true -- Leaving this on makes games look shitty but the fps goes up by at least 20.
+                local g = game
+                local w = g.Workspace
+                local l = g.Lighting
+                local t = w.Terrain
+                t.WaterWaveSize = 0
+                t.WaterWaveSpeed = 0
+                t.WaterReflectance = 0
+                t.WaterTransparency = 0
+                l.GlobalShadows = false
+                l.FogEnd = 9e9
+                l.Brightness = 0
+                settings().Rendering.QualityLevel = "Level01"
+                for i, v in pairs(g:GetDescendants()) do
+                    if v:IsA("Part") or v:IsA("UnionOperation") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") then
+                        v.Material = "Plastic"
+                        v.Reflectance = 0
+                    elseif v:IsA("Decal") or v:IsA("Texture") and decalsyeeted then
+                        v.Transparency = 1
+                    elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+                        v.Lifetime = NumberRange.new(0)
+                    elseif v:IsA("Explosion") then
+                        v.BlastPressure = 1
+                        v.BlastRadius = 1
+                    elseif v:IsA("Fire") or v:IsA("SpotLight") or v:IsA("Smoke") or v:IsA("Sparkles") then
+                        v.Enabled = false
+                    elseif v:IsA("MeshPart") then
+                        v.Material = "Plastic"
+                        v.Reflectance = 0
+                        v.TextureID = 10385902758728957
+                    end
+                end
+                for i, e in pairs(l:GetChildren()) do
+                    if e:IsA("BlurEffect") or e:IsA("SunRaysEffect") or e:IsA("ColorCorrectionEffect") or e:IsA("BloomEffect") or e:IsA("DepthOfFieldEffect") then
+                        e.Enabled = false
+                    end
+                end
+            end
+        end
 
         local IsTeleport = false
         
@@ -781,19 +843,39 @@ local Raid = Specific:CreateDropdown({
 
 --Misc
 
-Misc:CreateSection("Auto Daily Quests")
+Misc:CreateSection("Auto Daily")
 
 local AutoDailyQUEST = Misc:CreateToggle({
     Name = "Auto Daily Quests",
     CurrentValue = false,
-    Flag = "Hardcore", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Flag = "AutoDailyQuest", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
     Callback = function(Value)
         Settings.DailyQuest = Value
     end,
 })
 
-Misc:CreateSection("Extra")
+Misc:CreateSection("Perfomance")
 
+local FPSBoost = Misc:CreateToggle({
+    Name = "FPS Boost",
+    CurrentValue = false,
+    Flag = "FPSBoost", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Value)
+        Settings.FPSBoost = Value
+    end,
+})
+
+local WhiteScreen = Misc:CreateToggle({
+    Name = "White Screen",
+    CurrentValue = false,
+    Flag = "WhiteScreen", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Value)
+        Settings.WhiteScreen = Value
+    end,
+})
+
+
+Misc:CreateSection("TP to Lobby")
 
 local Button = Misc:CreateButton({
     Name = "Rejoin",
