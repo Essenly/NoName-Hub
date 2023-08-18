@@ -552,6 +552,22 @@ end)
 task.spawn(function()
     while task.wait(Settings.AutoSkillTime) do
         if Settings.AutoSkill then
+
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.One, false, game)
+
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.Two, false, game)
+
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.E, false, game)
+
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.R, false, game)
+
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.Three, false, game)
+
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.Four, false, game)
+
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.Five, false, game)
+           
+            --[[
             ReplicatedStorage.RemoteEvents.MainRemoteEvent:FireServer("UseSkill", {}, 1)
 
             ReplicatedStorage.RemoteEvents.MainRemoteEvent:FireServer("UseSkill", {}, 2)
@@ -565,6 +581,7 @@ task.spawn(function()
             ReplicatedStorage.RemoteEvents.MainRemoteEvent:FireServer("UseSkill", {}, 4)
 
             ReplicatedStorage.RemoteEvents.MainRemoteEvent:FireServer("UseSkill", {}, 5)
+            ]]
         end
     end
 end)
