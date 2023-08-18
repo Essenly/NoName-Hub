@@ -390,6 +390,12 @@ end
 
 -- Extra Functions
 
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+    game:GetService("VirtualUser"):Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+    task.wait(1)
+    game:GetService("VirtualUser"):Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+end)
+
 
 game:GetService("UserInputService").WindowFocusReleased:Connect(function()
     if Settings.WhiteScreen then
