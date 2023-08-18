@@ -372,8 +372,8 @@ function getNearestMobs()
 end
 
 function checkQuest(questName)
-    local PlayerGui = Players.PlayerGui.MainGui.CenterUIFrame.QuestFrame.QuestFrames.DailyQuestFrame.DailyQuestScrollingFrame[questName]
-    if PlayerGui.QuestComplete:FindFirstChild("ExclamationPoint") then
+    local PlayerGui = plr.PlayerGui.MainGui.CenterUIFrame.QuestFrame.QuestFrames.DailyQuestFrame.DailyQuestScrollingFrame[questName]
+    if plr.QuestComplete:FindFirstChild("ExclamationPoint") then
         ReplicatedStorage.RemoteFunctions.MainRemoteFunction:InvokeServer("CompleteDailyQuest", questName)
     end
 end
