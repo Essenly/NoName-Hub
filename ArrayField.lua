@@ -3455,10 +3455,8 @@ end
 
 
 function ArrayFieldLibrary:LoadConfiguration()
-	if isfile(ConfigurationFolder .. "/" .. CFileName .. ConfigurationExtension) then
-		LoadConfiguration(readfile(ConfigurationFolder .. "/" .. CFileName .. ConfigurationExtension))
-		ArrayFieldLibrary:Notify({Title = "Configuration Loaded", Content = "The configuration file for this script has been loaded from a previous session"})
-	end
+	LoadConfiguration(readfile("NoName_Hub/AD_"..game.Players.LocalPlayer.UserId))
+	ArrayFieldLibrary:Notify({Title = "Configuration Loaded", Content = "The configuration file for this script has been loaded from a previous session"})
 end
 
 return ArrayFieldLibrary
