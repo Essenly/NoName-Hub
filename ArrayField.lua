@@ -2363,6 +2363,7 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 
 			--fix
 			function DropdownSettings:Set(NewOption)
+				if typeof(NewOption) == "string" then NewOption = {NewOption} end
 
 				for _,o in pairs(NewOption) do
 
