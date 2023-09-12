@@ -3455,7 +3455,7 @@ end
 
 
 function ArrayFieldLibrary:LoadConfiguration()
-	LoadConfiguration(readfile("NoName_Hub/AD_"..game.Players.LocalPlayer.UserId))
+	LoadConfiguration(readfile("NoName_Hub/AD_"..game.Players.LocalPlayer.UserId..".rfld"))
 	ArrayFieldLibrary:Notify({Title = "Configuration Loaded", Content = "The configuration file for this script has been loaded from a previous session"})
 end
 
