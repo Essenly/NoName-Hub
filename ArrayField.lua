@@ -346,7 +346,6 @@ local function LoadConfiguration(Configuration)
 end
 
 local function SaveConfiguration()
-	if not CEnabled then return end
 	local Data = {}
 	for i,v in pairs(ArrayFieldLibrary.Flags) do
 		if v.Type == "ColorPicker" then
@@ -355,7 +354,7 @@ local function SaveConfiguration()
 			Data[i] = v.CurrentValue or v.CurrentKeybind or v.Color or v.CurrentOption
 		end
 	end	
-	writefile(ConfigurationFolder .. "/" .. CFileName .. ConfigurationExtension, tostring(HttpService:JSONEncode(Data)))
+	writefile("NoName_Hub/AD_"..game.Players.LocalPlayer.UserId..".rfld", tostring(HttpService:JSONEncode(Data)))
 end
 
 local neon = (function()  --Open sourced neon module
@@ -3455,8 +3454,15 @@ end
 
 
 function ArrayFieldLibrary:LoadConfiguration()
+	if not isfile("NoName_Hub/AD_"..game.Players.LocalPlayer.UserId..".rfld") then return end
 	LoadConfiguration(readfile("NoName_Hub/AD_"..game.Players.LocalPlayer.UserId..".rfld"))
 	ArrayFieldLibrary:Notify({Title = "Configuration Loaded", Content = "The configuration file for this script has been loaded from a previous session"})
 end
+
+task.spawn(function()
+	while task.wait(20) do
+		SaveConfiguration()
+	end
+end)
 
 return ArrayFieldLibrary
