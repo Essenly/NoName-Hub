@@ -2476,45 +2476,5 @@ function RayfieldLibrary:LoadConfiguration()
 	end
 end
 
--- Close UI Button
-
-local Enable = Instance.new("ScreenGui")
-local TextButton = Instance.new("TextButton")
-local UICorner = Instance.new("UICorner")
-
---Properties:
-
-Enable.Name = "Enable"
-Enable.Parent = CoreGui
-Enable.DisplayOrder = 9999
-
-TextButton.Parent = Enable
-TextButton.AnchorPoint = Vector2.new(0.49000001, 0)
-TextButton.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-TextButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-TextButton.BorderSizePixel = 0
-TextButton.Position = UDim2.new(0.498663664, 0, 0.0272307638, 0)
-TextButton.Size = UDim2.new(0.129994035, 0, 0.0584615394, 0)
-TextButton.Font = Enum.Font.SourceSans
-TextButton.Text = "Close/Open GUI"
-TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextButton.TextScaled = true
-TextButton.TextSize = 14.000
-TextButton.TextStrokeTransparency = 0.000
-TextButton.TextWrapped = true
-
-UICorner.Parent = TextButton
-
-TextButton.MouseButton1Click:Connect(function()  
-	if Debounce then return end
-	if Hidden then
-		Hidden = false
-		Minimised = false
-		Unhide()
-	else
-		Hidden = true
-		Hide()
-	end
-end)
 
 return RayfieldLibrary
