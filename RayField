@@ -2268,6 +2268,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 			end)
 
 			Slider.Main.Interact.InputBegan:Connect(function(Input)
+				print(Input.UserInputType)
 				if Input.UserInputType == Enum.UserInputType.MouseButton1 then 
 					Dragging = true 
 				end 
