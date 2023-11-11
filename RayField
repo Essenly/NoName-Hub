@@ -2268,9 +2268,8 @@ function RayfieldLibrary:CreateWindow(Settings)
 			end)
 
 			Slider.Main.Interact.InputBegan:Connect(function(Input)
-				print(Input.UserInputType)
 				if Input.UserInputType == Enum.UserInputType.MouseButton1 then 
-					Dragging = true 
+					Dragging = true
 				end 
 			end)
 			Slider.Main.Interact.InputEnded:Connect(function(Input) 
@@ -2336,6 +2335,23 @@ function RayfieldLibrary:CreateWindow(Settings)
 					else
 						TweenService:Create(Slider.Main.Progress, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Size = UDim2.new(0, Location - Slider.Main.AbsolutePosition.X > 5 and Location - Slider.Main.AbsolutePosition.X or 5, 1, 0)}):Play()
 						Loop:Disconnect()
+
+						local Success, Response = pcall(function()
+							SliderSettings.Callback(NewValue)
+						end)
+						if not Success then
+							TweenService:Create(Slider, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = Color3.fromRGB(85, 0, 0)}):Play()
+							TweenService:Create(Slider.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+							Slider.Title.Text = "Callback Error"
+							print("Rayfield | "..SliderSettings.Name.." Callback Error " ..tostring(Response))
+							wait(0.5)
+							Slider.Title.Text = SliderSettings.Name
+							TweenService:Create(Slider, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+							TweenService:Create(Slider.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+						end
+
+						SliderSettings.CurrentValue = NewValue
+						SaveConfiguration()
 					end
 				end)
 			end)
