@@ -982,6 +982,42 @@ local Window = Rayfield:CreateWindow({
     }
 })
 
+
+-- HideUi
+
+local HideGui = Instance.new("ScreenGui")
+local TextButton = Instance.new("TextButton")
+local UICorner = Instance.new("UICorner")
+
+--Properties:
+
+HideGui.Name = "HideGui"
+HideGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+HideGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+HideGui.DisplayOrder = 99999999
+
+TextButton.Parent = HideGui
+TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextButton.BorderSizePixel = 0
+TextButton.Position = UDim2.new(0.487394959, 0, 0.0269461069, 0)
+TextButton.Size = UDim2.new(0.024009604, 0, 0.0634026006, 0)
+TextButton.Font = Enum.Font.SourceSansBold
+TextButton.Text = "HIDE"
+TextButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextButton.TextScaled = true
+TextButton.TextSize = 14.000
+TextButton.TextWrapped = true
+
+UICorner.CornerRadius = UDim.new(1, 0)
+UICorner.Parent = TextButton
+
+TextButton.MouseButton1Click:Connect(function()
+    getgenv().HideFunction()
+end)
+
+--
+
 -- Tabs
 
 local Main = Window:CreateTab("Main")
