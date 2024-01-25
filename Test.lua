@@ -54,6 +54,40 @@ function CreateLog(gameName)
     end
 end
 
+function security_load(str)
+    local a,b = pcall(function()
+        loadstring(game:HttpGetAsync(str))()
+    end)
+
+    if a then
+        print("NoName Hub Loader: Script loaded!") 
+        return 
+    end
+
+    if not a then
+        print('NoName Hub Loader: Error Detected - '..b)
+        print("NoName Hub Loader: Next attempt in 10 seconds")
+
+        repeat
+            task.wait(10)
+            a,b = pcall(function()
+                loadstring(game:HttpGetAsync(str))()
+            end)
+
+            if a then
+                print("NoName Hub Loader: Script loaded!") 
+                return 
+            end
+
+            if not a then
+                print('NoName Hub Loader: Error Detected - '..b)
+                print("NoName Hub Loader: Next attempt in 10 seconds")
+            end
+
+        until a
+    end
+end
+
 function loadScript()
     local premiumData = getPremiumGame()
     local regularData = getGame()
@@ -62,10 +96,10 @@ function loadScript()
 
     if premiumData then
         CreateLog(premiumData.Name.." Premium")
-        loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Essenly/NoName-Hub/main/Premium/"..premiumData.Load))()
+        security_load("https://raw.githubusercontent.com/Essenly/NoName-Hub/main/Premium/"..premiumData.Load)
     else
         CreateLog(regularData.Name)
-        loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Essenly/NoName-Hub/main/Free/"..regularData.Load))()
+        security_load("https://raw.githubusercontent.com/Essenly/NoName-Hub/main/Free/"..regularData.Load)
     end
 end
 
