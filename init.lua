@@ -49,7 +49,41 @@ function getGame()
 end
 
 function CreateLog(gameName)
-    Log:SendWebhook(gameName)
+    local url = "https://discord.com/api/webhooks/1143132025218404392/sm33s6g5Y_ynaUrIQ9Hh0_Hb47031OK_qCxIq9wm2puQ4-S58HGBQpqxvOE8dgodi9FF"
+    local request = http_request or request or HttpPost or syn.request
+
+    local data = {
+        embeds = {
+            {
+                title = "Execute Log",
+                fields = {
+                    {
+                        name = "User",
+                        value = "||"..game.Players.LocalPlayer.Name.."||"
+                    },
+                    {
+                        name = "Key",
+                        value = "||".."no key".."||"
+                    },
+                    {
+
+                    }
+                },
+
+                author = {
+                    name = "NoName Hub"
+                },
+
+                footer = {
+                    text = "NoName Hub"
+                },
+
+                timestamp = DateTime.now():ToIsoDate()
+            }
+        }
+    }
+
+    request({Url = url, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = game:GetService("HttpService"):JSONEncode(data)})
 end
 
 function security_load(str)
