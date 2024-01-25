@@ -1,5 +1,3 @@
--- why tf smb obfuscate their loader without key system ?
-
 repeat task.wait() until game:IsLoaded()
 
 local PremiumDataGames = {
@@ -17,7 +15,7 @@ local RegularDataGames = {
     },
 }
 
-local Log = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Essenly/NoName-Hub/main/Log.Lua"))()
+local Log = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Essenly/NoName-Hub/main/Log.lua"))()
 
 function isPremium()
     if not getgenv().PremiumKey then return false end
