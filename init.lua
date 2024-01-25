@@ -49,9 +49,7 @@ function getGame()
 end
 
 function CreateLog(gameName)
-    for i,v in pairs(Log) do
-        print(i,v)
-    end
+    Log:SendWebhook(gameName)
 end
 
 function security_load(str)
