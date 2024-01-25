@@ -15,8 +15,6 @@ local RegularDataGames = {
     },
 }
 
-local Log = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Essenly/NoName-Hub/main/Log.lua"))()
-
 function isPremium()
     if not getgenv().PremiumKey then return false end
 
@@ -66,7 +64,8 @@ function CreateLog(gameName)
                         value = "||".."no key".."||"
                     },
                     {
-
+                        name = "Game",
+                        value = gameName
                     }
                 },
 
