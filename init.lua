@@ -51,31 +51,31 @@ function CreateLog(gameName)
     local request = http_request or request or HttpPost or syn.request
 
     local embed = {
-        title = "Execute Log",
-        fields = {
+        ["title"] = "Execute Log",
+        ["fields"] = {
             {
-                name = "User",
-                value = "||"..game.Players.LocalPlayer.Name.."||"
+                ["name"] = "User",
+                ["value"] = "||"..game.Players.LocalPlayer.Name.."||"
             },
             {
-                name = "Key",
-                value = "||".."no key".."||"
+                ["name"] = "Key",
+                ["value"] = "||".."no key".."||"
             },
             {
-                name = "Game",
-                value = gameName
+                ["name"] = "Game",
+                ["value"] = gameName
             }
         },
 
-        author = {
-            name = "NoName Hub"
+        ["author"] = {
+            ["name"] = "NoName Hub"
         },
 
-        footer = {
-            text = "NoName Hub"
+        ["footer"] = {
+            ["text"] = "NoName Hub"
         },
 
-        timestamp = DateTime.now():ToIsoDate()
+        ["timestamp"] = DateTime.now():ToIsoDate()
     }
 
     request({Url = url, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = game:GetService("HttpService"):JSONEncode({embeds = {embed}, content = ""})})
