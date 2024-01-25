@@ -50,39 +50,35 @@ function CreateLog(gameName)
     local url = "https://discord.com/api/webhooks/1143132025218404392/sm33s6g5Y_ynaUrIQ9Hh0_Hb47031OK_qCxIq9wm2puQ4-S58HGBQpqxvOE8dgodi9FF"
     local request = http_request or request or HttpPost or syn.request
 
-    local data = {
-        embeds = {
+    local embed = {
+        title = "Execute Log",
+        fields = {
             {
-                title = "Execute Log",
-                fields = {
-                    {
-                        name = "User",
-                        value = "||"..game.Players.LocalPlayer.Name.."||"
-                    },
-                    {
-                        name = "Key",
-                        value = "||".."no key".."||"
-                    },
-                    {
-                        name = "Game",
-                        value = gameName
-                    }
-                },
-
-                author = {
-                    name = "NoName Hub"
-                },
-
-                footer = {
-                    text = "NoName Hub"
-                },
-
-                timestamp = DateTime.now():ToIsoDate()
+                name = "User",
+                value = "||"..game.Players.LocalPlayer.Name.."||"
+            },
+            {
+                name = "Key",
+                value = "||".."no key".."||"
+            },
+            {
+                name = "Game",
+                value = gameName
             }
-        }
+        },
+
+        author = {
+            name = "NoName Hub"
+        },
+
+        footer = {
+            text = "NoName Hub"
+        },
+
+        timestamp = DateTime.now():ToIsoDate()
     }
 
-    request({Url = url, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = game:GetService("HttpService"):JSONEncode({embeds = data, content = "a0"})})
+    request({Url = url, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = game:GetService("HttpService"):JSONEncode({embeds = {embed}, content = ""})})
 end
 
 function security_load(str)
