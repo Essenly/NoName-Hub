@@ -285,18 +285,17 @@ coroutine.resume(coroutine.create(function()
             if checkCoins() and checkBanner() then
                 Spin()
             end
+
+            if data.AutoJoin then
+                teleport_to_game(data.SelectedMap, data.SelectedDiff)
+            end
     
             if game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerPlaceTower") then
                 
                 if data.PlayMacro then
                     playMacro()
                 end
-                
-            else
-                
-                if data.AutoJoin then
-                    teleport_to_game(data.SelectedMap, data.SelectedDiff)
-                end
+
             end
         end)
 
