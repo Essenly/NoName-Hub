@@ -230,19 +230,23 @@ end)
 
 coroutine.resume(coroutine.create(function()
     while task.wait(5) do
-        Fishing()
+        local succ, err = pcall(function()
+            Fishing()
 
-        if checkCoins() and checkBanner() then
-            Spin()
-        end
-
-        if game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerPlaceTower") then
-            
-            if data.PlayMacro then
-                playMacro()
+            if checkCoins() and checkBanner() then
+                Spin()
             end
+    
+            if game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerPlaceTower") then
+                
+                if data.PlayMacro then
+                    playMacro()
+                end
+    
+            end
+        end)
 
-        end
+        if not succ then print(err) end
     end
 end))
 
