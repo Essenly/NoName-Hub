@@ -158,7 +158,7 @@ function playMacro()
         repeat task.wait() until tick() - Timeout >= v.Timeout
 
         if v.Action == "PlaceTower" then
-            game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerPlaceTower"):FireServer(v.Tower, Vector3.new(v.Position.X, v.Position.Y, v.Position.Z))
+            game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerPlaceTower"):FireServer(v.Tower, Vector3.new(v.Position[1], v.Position[2], v.Position[3]))
         end
 
         if v.Action == "UpgradeTower" then
