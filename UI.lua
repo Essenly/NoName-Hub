@@ -11,6 +11,52 @@ local UIS = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 local HTTPService = game:GetService("HttpService")
+local KeyLibrary = loadstring(game:HttpGet('https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/setup_obf.lua'))()
+local KeySystem = KeyLibrary.new("NoNameHub", {authType = "clientid"})
+local GeneratedTag
+
+function generateTag()
+	local Tag = ""
+	
+	for i = 1, 64 do
+		
+		local t = math.random(0, 3)
+		
+		if t == 0 then
+			Tag = Tag..string.char(math.random(48, 57))
+		end
+		
+		if t == 1 then
+			Tag = Tag..string.char(math.random(97,122))
+		end
+		
+		if t == 2 then
+			Tag = Tag..string.char(math.random(65, 90))
+		end
+		
+		if t == 3 then
+			local d = math.random(1, 3)
+			
+			if d == 1 then
+				Tag = Tag..string.char(math.random(33, 47))
+			end
+			
+			if d == 2 then
+				Tag = Tag..string.char(math.random(58, 64))
+			end
+			
+			if d == 3 then
+				Tag = Tag..string.char(math.random(91, 96))
+			end
+		end
+		
+		task.wait()
+	end
+	
+	return Tag
+end
+
+GeneratedTag = generateTag()
 
 -- functions
 
@@ -122,6 +168,69 @@ function setSecureParent(obj : Instance)
 	obj.Parent = plr.PlayerGui
 	return
 end
+
+function keySystem()
+	if game.CoreGui:FindFirstChild("Key") then
+		game.CoreGui:FindFirstChild("Key"):Destroy()
+	end
+
+	
+	local Gui = game:GetObjects("rbxassetid://11380036235")[1]
+	local Main = Gui.Main
+	
+	Main.Title.Text = "NoName Hub"
+	Main.NoteMessage.Text = "Join our Discord server to get the key! discord.gg/MArf5n46gA"
+	
+	local Destroyed = false
+	local Completed = false
+	
+	Main.Hide.MouseButton1Click:Connect(function()
+		Gui:Destroy()
+		Destroyed = true
+		
+		return
+	end)
+	
+	Main.Input.InputBox.FocusLost:Connect(function()
+		
+		if getgenv().NoNameHubLoaded then
+			-- premium
+			local EnteredKey = Gui.Input.InputBox.Text
+			local verify = KeySystem:verifyPremiumKey(EnteredKey)
+			
+			if verify then
+				Completed = true
+				Gui:Destroy()
+			else
+				NoGui:Notify("Key System", "Invalid Key / Invalid HWID", "1.6")
+			end
+			
+			return
+		end
+		
+		local EnteredKey = Gui.Input.InputBox.Text
+		local verify = KeySystem:verifyDefaultKey(EnteredKey)
+
+		if verify then
+			Completed = true
+			Gui:Destroy()
+		else
+			NoGui:Notify("Key System", "Invalid Key / Invalid HWID", "1.6")	
+		end
+		
+	end)
+	
+	repeat task.wait() until Destroyed or Completed
+	
+	if Destroyed then
+		return false
+	end
+	
+	if Completed then
+		return GeneratedTag
+	end
+end
+
 
 -- save config
 
@@ -272,6 +381,13 @@ function NoGui:CreateWindow(placeName)
 	if getgenv().Gui then
 		getgenv().Gui:Destroy()
 	end
+
+	local keyData = keySystem()
+
+	if keydata ~= GeneratedTag then
+		return
+	end
+	
 	
 	NoGui.PlaceName = placeName or "Test"
 	
