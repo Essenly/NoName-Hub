@@ -273,6 +273,7 @@ Game:CreateBox({
     Placeholder = "Name here",
     Flag = "MacroName",
     CanChangedByFlag = false,
+    CurrentValue = "",
 
     Callback = function(value)
         data.MacroName = value
@@ -286,23 +287,28 @@ Game:CreateToggle({
     Flag = "RecordMacro",
 
     Callback = function(value)
-        if not data.MacroName then return end
+        if not data.MacroName then print(1) return end
         if string.len(data.MacroName) == 0 then
+            print(2)
             UI.Flags["RecordMacro"]:Set(false)
             MacroData = {}
             return
         end
 
         if value then
+            print(3)
             data.RecordMacro = true
             MacroData = {}
             timeout = tick()
             return
         end
 
+        print(4)
+
         data.RecordMacro = false
         
         if #MacroData > 0 then
+            print(5)
             saveMacro()
         end
     end
