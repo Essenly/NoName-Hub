@@ -10,6 +10,9 @@ local data = {
     RecordMacro = false,
     SelectedMacro = "",
     PlayMacro = false,
+
+    AutoSkip = false,
+    AutoStartGame = false
 }
 
 local timeout = tick()
@@ -56,15 +59,7 @@ function Spin()
     end)
 end
 
-function upgradeTower(id)
-    
-end
-
-function placeTower(id, position)
-    game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerPlaceTower"):FireServer(id, position)
-end
-
-
+-- macro
 
 function getWave()
     local Label = plr.PlayerGui.MainGui.MainFrames.Wave.WaveIndex
@@ -140,6 +135,16 @@ function readMacro()
     return DecodedJson
 end
 
+function startGame()
+    if plr.PlayerGui.MainGui.MainFrames.StartMatch.Visible then
+        game:GetService("ReplicatedStorage"):WaitForChild("Modules"):WaitForChild("GlobalInit"):WaitForChild("RemoteEvents"):WaitForChild("PlayerVoteToStartMatch"):FireServer()
+    end
+end
+
+function skipWave()
+    game:GetService("ReplicatedStorage"):WaitForChild("Modules"):WaitForChild("GlobalInit"):WaitForChild("RemoteEvents"):WaitForChild("PlayerReadyForNextWave"):FireServer()
+end
+
 function playMacro()
     if not game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerPlaceTower") then return end
 
@@ -173,6 +178,10 @@ function playMacro()
             game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerSellTower"):FireServer(v.Tower)
         end
     end
+
+    print("macro is done")
+
+    task.wait(9e9)
 end
 
 -- hookfunctions
@@ -222,6 +231,22 @@ task.spawn(function()
 
         return hook(self, ...)
     end)
+end)
+
+-- task spawns
+
+task.spawn(function()
+    while task.wait(1) do
+        pcall(function()
+            if data.AutoStartGame then
+                startGame()
+            end
+
+            if data.AutoSkip then
+                skipWave()
+            end
+        end)
+    end
 end)
 
 -- coroutine
@@ -345,6 +370,26 @@ Game:CreateToggle({
     Flag = "Play Macro",
     Callback = function(value)
         data.PlayMacro = value
+    end
+})
+
+Game:CreateSection("Settings")
+
+Game:CreateToggle({
+    Name = "Auto Start Match",
+    CurrentValue = false,
+    Flag = "Auto Start Match",
+    Callback = function(value)
+        data.AutoStartGame = value
+    end
+})
+
+Game:CreateToggle({
+    Name = "Auto Skip Wave",
+    CurrentValue = false,
+    Flag = "Auto Skip Wave",
+    Callback = function(value)
+        data.AutoSkip = value
     end
 })
 
