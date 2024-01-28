@@ -181,7 +181,9 @@ function playMacro()
 
     print("macro is done")
 
-    task.wait(9e9)
+    if #selectedMacro > 0 then   
+        task.wait(9e9)
+    end
 end
 
 -- hookfunctions
@@ -275,7 +277,7 @@ end))
 
 -- gui
 
-local UI = loadstring(game:HttpGet('https://raw.githubusercontent.com/Essenly/NoName-Hub/main/UI.lua'))()
+UI = loadstring(game:HttpGet('https://raw.githubusercontent.com/Essenly/NoName-Hub/main/UI.lua'))()
 
 local Window = UI:CreateWindow("UTD")
 Window:CreateHideButton(true)
@@ -352,7 +354,6 @@ local MacroList = Game:CreateDropdown({
     CurrentValue = {},
 
     Callback = function(value)
-        print(value[1])
         data.SelectedMacro = value[1]
     end
 })
