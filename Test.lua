@@ -323,7 +323,7 @@ Game:CreateToggle({
     Callback = function(value)
         if not data.MacroName then return end
         if string.len(data.MacroName) == 0 then
-            UI.Flags["RecordMacro"]:Set(false, false)
+            -- notify
             MacroData = {}
             return
         end
