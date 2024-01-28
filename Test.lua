@@ -145,6 +145,30 @@ function skipWave()
     game:GetService("ReplicatedStorage"):WaitForChild("Modules"):WaitForChild("GlobalInit"):WaitForChild("RemoteEvents"):WaitForChild("PlayerReadyForNextWave"):FireServer()
 end
 
+function teleport_to_game(map, diff)
+    local teleporters = workspace.Lobby.ClassicPartyTeleporters
+
+    for i,v in pairs(teleporters:GetChildren()) do
+        local status = v.Teleport.DisplayPart.BillboardGui.Status
+
+        if status.Text == "0/20 Players" then
+            local savedCFrame = plr.Character.HumanoidRootPart.CFrame
+
+            plr.Character.HumanoidRootPart.CFrame = v.Top.CFrame
+
+            task.wait(1)
+
+            game.ReplicatedStorage.Modules.GlobalInit.RemoteEvents.PlayerQuickstartTeleport:FireServer(map, diff)
+
+            task.wait(1)
+
+            plr.Character.HumanoidRootPart.CFrame = savedCFrame
+
+            task.wait(4)
+        end
+    end
+end
+
 function playMacro()
     if not game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerPlaceTower") then return end
 
@@ -267,7 +291,12 @@ coroutine.resume(coroutine.create(function()
                 if data.PlayMacro then
                     playMacro()
                 end
-    
+                
+            else
+                
+                if data.AutoJoin then
+                    teleport_to_game(data.SelectedMap, data.SelectedDiff)
+                end
             end
         end)
 
@@ -375,6 +404,39 @@ Game:CreateToggle({
 })
 
 Game:CreateSection("Settings")
+
+Game:CreateDropdown({
+    Name = "Select Map",
+    Flag = "SelectedMap",
+    MultiSelection = false,
+    Options = {"Planet Namek", "Hidden Leaf Village", "Marineford", "Kamii University", "Kami's Lookout", "Space", "Costa Shemaralda", "Skeleton Hell Stone", "Vally of the End", "Ruby Palace", "Ant's Nest", "Trost District", "Karakura Town", "Menos' Garden", "Orange Town", "Shibuya Train Station", "Eishu Detention Center", "Chamber of Agony"},
+    CurrentValue = {"Planet Namek"},
+
+    Callback = function(value)
+        data.SelectedMap = value[1]
+    end
+})
+
+Game:CreateDropdown({
+    Name = "Select Diff",
+    Flag = "SelectedDiff",
+    MultiSelection = false,
+    Options = {"Classic", "Hard", "Infinite Mode"},
+    CurrentValue = {"Classic"},
+
+    Callback = function(value)
+        data.SelectedDiff = value[1]
+    end
+})
+
+Game:CreateToggle({
+    Name = "Auto Join",
+    CurrentValue = false,
+    Flag = "Auto Join",
+    Callback = function(value)
+        data.AutoJoin = value
+    end
+})
 
 Game:CreateToggle({
     Name = "Auto Start Match",
