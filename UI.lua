@@ -159,9 +159,11 @@ function NoGui:loadFlags()
 end
 
 function NoGui:Notify(data)
+	if not getgenv().Gui then return end
+
 	data = data or {Name = "Info", Text = "InfoText", Time = 2}
 
-	if getgenv().Gui and getgenv().Gui:FindFirstChild("Notify") then
+	if getgenv().Gui:FindFirstChild("Notify") then
 		repeat task.wait() until not getgenv().Gui:FindFirstChild("Notify")
 	end
 
@@ -173,7 +175,7 @@ function NoGui:Notify(data)
 	local Bar2 = Instance.new("Frame")
 
 	Notify.Name = "Notify"
-	Notify.Parent = game.StarterGui.NoNameHub
+	Notify.Parent = getgenv().Gui
 	Notify.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 	Notify.BackgroundTransparency = 0.200
 	Notify.BorderColor3 = Color3.fromRGB(0, 0, 0)
