@@ -1006,7 +1006,7 @@ function NoGui:CreateWindow(placeName)
 					TextLabel.Text = data.Name.." - "..setStringSize(table.concat(Selected, ", "), 40)
 				end
 				
-				NoGui.Flags[data.Flag].Value = Selected
+				NoGui.Flags[data.Flag].Value = d
 			end
 
 			function Methods:Update(newData)
