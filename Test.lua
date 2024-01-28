@@ -175,7 +175,7 @@ function playMacro()
 
     local selectedMacro = readMacro()
 
-    UI:Notify("Macro Play", "Macro "..data.SelectedMacro.." started!", .6)
+    UI:Notify("Macro Play", "Macro "..data.SelectedMacro.." started!", 1.6)
 
     for i,v in pairs(selectedMacro) do
         if getWave() < v.Wave then
@@ -206,7 +206,7 @@ function playMacro()
         end
     end
 
-    UI:Notify("Macro Play", "Macro "..data.SelectedMacro.." done!", .6)
+    UI:Notify("Macro Play", "Macro "..data.SelectedMacro.." done!", 1.6)
 
     if #selectedMacro > 0 then
         task.wait(9e9)
@@ -354,7 +354,7 @@ Game:CreateToggle({
     Callback = function(value)
         if not data.MacroName then return end
         if string.len(data.MacroName) == 0 then
-            UI:Notify("Record Macro", "Macro name cannot be empty!", .6)
+            UI:Notify("Record Macro", "Macro name cannot be empty!", 1)
             MacroData = {}
             return
         end
