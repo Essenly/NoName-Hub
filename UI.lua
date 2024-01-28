@@ -162,8 +162,18 @@ end
 function NoGui:Notify(data1, data2, data3)
 	if not getgenv().Gui then return end
 
+	local CustomY
+
 	if getgenv().Gui:FindFirstChild("Notify") then
-		repeat task.wait() until not getgenv().Gui:FindFirstChild("Notify")
+		local findNotifes = 0
+
+		for i,v in pairs(getgenv().Gui:GetChildren()) do
+			if v.Name == "Notify" then
+				findNotifes += 1
+			end
+		end
+
+		CustomY = 1.8 - (0.15 * findNotifes)
 	end
 
 	local Notify = Instance.new("TextButton")
@@ -179,7 +189,7 @@ function NoGui:Notify(data1, data2, data3)
 	Notify.BackgroundTransparency = 0.200
 	Notify.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	Notify.BorderSizePixel = 0
-	Notify.Position = UDim2.new(0.808691621, 0, 1.8, 0)
+	Notify.Position = UDim2.new(0.808691621, 0, CustomY or 1.8, 0)
 	Notify.Size = UDim2.new(0.167, 0, 0.135, 0)
 	Notify.Font = Enum.Font.SourceSans
 	Notify.Text = ""
@@ -243,8 +253,8 @@ function NoGui:Notify(data1, data2, data3)
 	UICorner:Clone().Parent = Bar2
 
 	local twnBar = createTween(Bar2, TweenInfo.new(data3, Enum.EasingStyle.Linear), {Size = UDim2.new(1,0,1,0)})
-	local twnAppear = createTween(Notify, TweenInfo.new(0.6), {Position = UDim2.new(0.8, 0, 0.799661875, 0)})
-	local twnDestroy = createTween(Notify, TweenInfo.new(0.6), {Position = UDim2.new(0.8, 0, 1.799661875, 0)})
+	local twnAppear = createTween(Notify, TweenInfo.new(0.6), {Position = UDim2.new(0.8, 0, (CustomY and CustomY - 1) or 0.8, 0)})
+	local twnDestroy = createTween(Notify, TweenInfo.new(0.6), {Position = UDim2.new(0.8, 0, CustomY or 1.8, 0)})
 
 	Notify.MouseButton1Click:Connect(function()
 		twnDestroy:Play()
