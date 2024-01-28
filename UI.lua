@@ -915,6 +915,35 @@ function NoGui:CreateWindow(placeName)
 
 			local CanChangedByFlag = data.CanChangedByFlag or true
 			
+			local function select(obj)
+				local is_toggled = table.find(Selected, obj.Name)
+					
+				if is_toggled then
+					if not data.MultiSelection then Selected = {obj.Name} return end
+					
+					obj.TextColor3 = Color3.fromRGB(134, 134, 134)
+					obj.TextTransparency = 0.490
+					table.remove(Selected, is_toggled)
+				else
+					obj.TextColor3 = Color3.fromRGB(223,223,223)
+					obj.TextTransparency = 0.38
+					
+					if data.MultiSelection then
+						table.insert(Selected, obj.Name)
+					else
+						for _,d in pairs(List:GetChildren()) do
+							if not d:IsA("TextButton") then continue end
+							d.TextColor3 = Color3.fromRGB(134, 134, 134)
+							d.TextTransparency = 0.490
+						end
+						
+						obj.TextColor3 = Color3.fromRGB(223,223,223)
+						obj.TextTransparency = 0.38
+						
+						Selected = {obj.Name}
+					end
+				end
+			end
 			
 			for i,v in pairs(data.Options) do
 				local Option = Instance.new("TextButton")
@@ -936,33 +965,7 @@ function NoGui:CreateWindow(placeName)
 				Option.TextWrapped = true
 				
 				Option.MouseButton1Click:Connect(function()
-					local is_toggled = table.find(Selected, Option.Name)
-					
-					if is_toggled then
-						if not data.MultiSelection then Selected = {Option.Name} return end
-						
-						Option.TextColor3 = Color3.fromRGB(134, 134, 134)
-						Option.TextTransparency = 0.490
-						table.remove(Selected, is_toggled)
-					else
-						Option.TextColor3 = Color3.fromRGB(223,223,223)
-						Option.TextTransparency = 0.38
-						
-						if data.MultiSelection then
-							table.insert(Selected, Option.Name)
-						else
-							for _,obj in pairs(List:GetChildren()) do
-								if not obj:IsA("TextButton") then continue end
-								obj.TextColor3 = Color3.fromRGB(134, 134, 134)
-								obj.TextTransparency = 0.490
-							end
-							
-							Option.TextColor3 = Color3.fromRGB(223,223,223)
-							Option.TextTransparency = 0.38
-							
-							Selected = {Option.Name}
-						end
-					end
+					select(Option)
 					
 					if #Selected == 0 then
 						TextLabel.Text = data.Name.." - None"
@@ -1032,33 +1035,7 @@ function NoGui:CreateWindow(placeName)
 					Option.TextWrapped = true
 
 					Option.MouseButton1Click:Connect(function()
-						local is_toggled = table.find(Selected, Option.Name)
-						
-						if is_toggled then
-							if not data.MultiSelection then Selected = {Option.Name} return end
-							
-							Option.TextColor3 = Color3.fromRGB(134, 134, 134)
-							Option.TextTransparency = 0.490
-							table.remove(Selected, is_toggled)
-						else
-							Option.TextColor3 = Color3.fromRGB(223,223,223)
-							Option.TextTransparency = 0.38
-							
-							if data.MultiSelection then
-								table.insert(Selected, Option.Name)
-							else
-								for _,obj in pairs(List:GetChildren()) do
-									if not obj:IsA("TextButton") then continue end
-									obj.TextColor3 = Color3.fromRGB(134, 134, 134)
-									obj.TextTransparency = 0.490
-								end
-								
-								Option.TextColor3 = Color3.fromRGB(223,223,223)
-								Option.TextTransparency = 0.38
-								
-								Selected = {Option.Name}
-							end
-						end
+						select(Option)
 						
 						if #NoGui.Flags[data.Flag].Value == 0 then
 							TextLabel.Text = data.Name.." - None"
