@@ -983,7 +983,7 @@ function NoGui:CreateWindow(placeName)
 
 			function Methods:Set(d)
 				if not CanChangedByFlag then return end
-				Selected = {}
+				Selected = d
 				
 				for i,v in pairs(List:GetChildren()) do
 					if not v:IsA("TextButton") then continue end
@@ -1006,8 +1006,8 @@ function NoGui:CreateWindow(placeName)
 					TextLabel.Text = data.Name.." - "..setStringSize(table.concat(Selected, ", "), 40)
 				end
 				
-				NoGui.Flags[data.Flag].Value = d
-				data.Callback(d)
+				NoGui.Flags[data.Flag].Value = Selected
+				data.Callback(Selected)
 			end
 
 			function Methods:Update(newData)
