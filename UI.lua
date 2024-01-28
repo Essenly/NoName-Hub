@@ -1033,11 +1033,6 @@ function NoGui:CreateWindow(placeName)
 					Option.TextTransparency = 0.490
 					Option.TextWrapped = true
 
-					if table.find(NoGui.Flags[data.Flag].Value, Option.Name) then
-						Option.TextColor3 = Color3.fromRGB(223,223,223)
-						Option.TextTransparency = 0.38
-					end
-
 					Option.MouseButton1Click:Connect(function()
 						local is_toggled = table.find(Selected, Option.Name)
 						
@@ -1083,6 +1078,8 @@ function NoGui:CreateWindow(placeName)
 						TextLabel.Text = data.Name.." - "..setStringSize(table.concat(Selected, ", "), 40)
 					end
 				end
+
+				Methods:Set(NoGui.Flags[data.Flag].Value)
 			end
 			
 			NoGui.Flags[data.Flag] = Methods
