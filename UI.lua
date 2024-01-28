@@ -158,6 +158,112 @@ function NoGui:loadFlags()
 	end
 end
 
+function NoGui:Notify(data)
+	data = data or {Name = "Info", Text = "InfoText", Time = 2}
+
+	if getgenv().Gui and getgenv().Gui:FindFirstChild("Notify") then
+		repeat task.wait() until not getgenv().Gui:FindFirstChild("Notify")
+	end
+
+	local Notify = Instance.new("TextButton")
+	local UICorner = Instance.new("UICorner")
+	local NotifyName = Instance.new("TextLabel")
+	local NotifyText = Instance.new("TextLabel")
+	local Bar = Instance.new("Frame")
+	local Bar2 = Instance.new("Frame")
+
+	Notify.Name = "Notify"
+	Notify.Parent = game.StarterGui.NoNameHub
+	Notify.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	Notify.BackgroundTransparency = 0.200
+	Notify.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Notify.BorderSizePixel = 0
+	Notify.Position = UDim2.new(0.808691621, 0, 1.8, 0)
+	Notify.Size = UDim2.new(0.152712271, 0, 0.11621967, 0)
+	Notify.Font = Enum.Font.SourceSans
+	Notify.Text = ""
+	Notify.TextColor3 = Color3.fromRGB(0, 0, 0)
+	Notify.TextSize = 14.000
+
+	UICorner.CornerRadius = UDim.new(0, 7)
+	UICorner.Parent = Notify
+
+	NotifyName.Name = "NotifyName"
+	NotifyName.Parent = Notify
+	NotifyName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	NotifyName.BackgroundTransparency = 1.000
+	NotifyName.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	NotifyName.BorderSizePixel = 0
+	NotifyName.Position = UDim2.new(0.0540540554, 0, 0.0549450554, 0)
+	NotifyName.Size = UDim2.new(0.895752907, 0, 0.263736278, 0)
+	NotifyName.Font = Enum.Font.SourceSansBold
+	NotifyName.Text = data.Name
+	NotifyName.TextColor3 = Color3.fromRGB(255, 255, 255)
+	NotifyName.TextScaled = true
+	NotifyName.TextSize = 14.000
+	NotifyName.TextStrokeTransparency = 0.000
+	NotifyName.TextWrapped = true
+	NotifyName.TextXAlignment = Enum.TextXAlignment.Left
+
+	NotifyText.Name = "NotifyText"
+	NotifyText.Parent = Notify
+	NotifyText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	NotifyText.BackgroundTransparency = 1.000
+	NotifyText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	NotifyText.BorderSizePixel = 0
+	NotifyText.Position = UDim2.new(0.0540540554, 0, 0.319999993, 0)
+	NotifyText.Size = UDim2.new(0.895752907, 0, 0.439560443, 0)
+	NotifyText.Font = Enum.Font.SourceSansBold
+	NotifyText.Text = data.Text
+	NotifyText.TextColor3 = Color3.fromRGB(255, 255, 255)
+	NotifyText.TextScaled = true
+	NotifyText.TextSize = 14.000
+	NotifyText.TextStrokeTransparency = 0.000
+	NotifyText.TextWrapped = true
+	NotifyText.TextXAlignment = Enum.TextXAlignment.Left
+	NotifyText.TextYAlignment = Enum.TextYAlignment.Bottom
+
+	Bar.Name = "Bar"
+	Bar.Parent = Notify
+	Bar.BackgroundColor3 = Color3.fromRGB(15, 57, 83)
+	Bar.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Bar.BorderSizePixel = 0
+	Bar.Position = UDim2.new(0.0540540554, 0, 0.822058797, 0)
+	Bar.Size = UDim2.new(0.895752907, 0, 0.0879120901, 0)
+
+	Bar2.Name = "Bar2"
+	Bar2.Parent = Bar
+	Bar2.BackgroundColor3 = Color3.fromRGB(0, 122, 255)
+	Bar2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Bar2.BorderSizePixel = 0
+	Bar2.Size = UDim2.new(0, 0, 1, 0)
+
+	UICorner:Clone().Parent = Bar
+	UICorner:Clone().Parent = Bar2
+
+	local twnBar = createTween(Bar2, TweenInfo.new(data.Time, Enum.EasingStyle.Linear), {Size = UDim2.new(1,0,1,0)})
+	local twnAppear = createTween(Notify, TweenInfo.new(0.6), {Position = UDim2.new(0.8, 0, 0.799661875, 0)})
+	local twnDestroy = createTween(Notify, TweenInfo.new(0.6), {Position = UDim2.new(0.8, 0, 1.799661875, 0)})
+
+	Notify.MouseButton1Click:Connect(function()
+		twnDestroy:Play()
+		twnDestroy.Completed:Wait()
+	
+		Notify:Destroy()
+	end)
+
+	twnAppear:Play()
+	twnAppear.Completed:Wait()
+
+	twnBar:Play()
+	twnBar.Completed:Wait()
+
+	twnDestroy:Play()
+	twnDestroy.Completed:Wait()
+
+	Notify:Destroy()
+end
+
 --
 
 -- ui
