@@ -945,6 +945,24 @@ function NoGui:CreateWindow(placeName)
 					end
 				end
 			end
+
+			local function changeText()
+				local newSelected = {}
+
+				for i,v in pairs(Selected) do
+					if not table.find(newSelected, v) then
+						table.insert(newSelected, v)
+					end
+				end
+
+				if #newSelected == 0 then
+					TextLabel.Text = data.Name.." - None"
+				else
+					TextLabel.Text = data.Name.." - "..setStringSize(table.concat(newSelected, ", "), 40)
+				end
+
+				return newSelected
+			end
 			
 			for i,v in pairs(data.Options) do
 				local Option = Instance.new("TextButton")
@@ -967,12 +985,7 @@ function NoGui:CreateWindow(placeName)
 				
 				Option.MouseButton1Click:Connect(function()
 					_select(Option)
-					
-					if #Selected == 0 then
-						TextLabel.Text = data.Name.." - None"
-					else
-						TextLabel.Text = data.Name.." - "..setStringSize(table.concat(Selected, ", "), 40)
-					end
+					changeText()
 									
 					NoGui.Flags[data.Flag].Value = Selected
 					data.Callback(Selected)
@@ -1005,17 +1018,15 @@ function NoGui:CreateWindow(placeName)
 					table.insert(Selected, v.Name)
 				end
 				
-				if #Selected == 0 then
-					TextLabel.Text = data.Name.." - None"
-				else
-					TextLabel.Text = data.Name.." - "..setStringSize(table.concat(Selected, ", "), 40)
-				end
+				local newSelected = changeText()
 				
-				NoGui.Flags[data.Flag].Value = Selected
-				data.Callback(Selected)
+				NoGui.Flags[data.Flag].Value = newSelected
+				data.Callback(newSelected)
 			end
 
 			function Methods:Update(newData)
+				local newSelected = changeText()
+
 				for i,v in pairs(List:GetChildren()) do
 					if not v:IsA("TextButton") then continue end
 					v:Destroy()
@@ -1043,13 +1054,9 @@ function NoGui:CreateWindow(placeName)
 					Option.MouseButton1Click:Connect(function()
 						_select(Option)
 						
-						if #NoGui.Flags[data.Flag].Value == 0 then
-							TextLabel.Text = data.Name.." - None"
-						else
-							TextLabel.Text = data.Name.." - "..setStringSize(table.concat(Selected, ", "), 40)
-						end
+						local newSelected = changeText()
 										
-						data.Callback(Selected)
+						data.Callback(newSelected)
 					end)
 
 					if #Selected == 0 then
@@ -1059,11 +1066,11 @@ function NoGui:CreateWindow(placeName)
 					end
 				end
 
-				Methods:Set(Selected)
+				Methods:Set(newSelected)
 			end
 			
 			NoGui.Flags[data.Flag] = Methods
-			NoGui.Flags[data.Flag].Value = Selected
+			NoGui.Flags[data.Flag].Value = changeText()
 			
 			Methods:Set(data.CurrentValue)
 
