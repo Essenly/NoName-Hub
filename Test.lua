@@ -324,7 +324,7 @@ local MacroList = Game:CreateDropdown({
     CurrentValue = {},
 
     Callback = function(value)
-        data.SelectedMacro = value
+        data.SelectedMacro = value[1]
     end
 })
 
