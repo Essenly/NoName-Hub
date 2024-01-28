@@ -67,7 +67,7 @@ end
 function getWave()
     local Label = plr.PlayerGui.MainGui.MainFrames.Wave.WaveIndex
     local split = string.split(Label.Text, "")
-    
+
     local number = ""
 
     for i,v in pairs(split) do
@@ -216,6 +216,8 @@ Game:CreateSection("Macro")
 Game:CreateBox({
     Name = "Macro Name",
     Placeholder = "Name here",
+    Flag = "MacroName",
+    CanChangedByFlag = false,
 
     Callback = function(value)
         data.MacroName = value
@@ -225,6 +227,8 @@ Game:CreateBox({
 Game:CreateToggle({
     Name = "Record Macro",
     CurrentValue = false,
+    CanChangedByFlag = false,
+    Flag = "RecordMacro",
 
     Callback = function(value)
         if not data.MacroName then return end
