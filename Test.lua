@@ -142,7 +142,8 @@ end
 
 function playMacro()
     if not game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerPlaceTower") then return end
-    if string.len(data.SelectedMacro) == 0 then return print("No selected macro") end
+    local SelectedMacro = data.SelectedMacro[1]
+    if string.len(SelectedMacro) == 0 then return print("No selected macro") end
 
     local selectedMacro = readMacro()
 
@@ -324,7 +325,7 @@ local MacroList = Game:CreateDropdown({
     CurrentValue = {},
 
     Callback = function(value)
-        data.SelectedMacro = value[1]
+        data.SelectedMacro = value
     end
 })
 
