@@ -8,6 +8,8 @@ local data = {
     
     MacroName = "",
     RecordMacro = false,
+    SelectedMacro = "",
+    PlayMacro = false,
 }
 
 local timeout = tick()
@@ -125,6 +127,51 @@ function getMacros()
     return Macros
 end
 
+function readMacro()
+    local SelectedMacro = data.SelectedMacro..".json"
+
+    if not isfile("NoNameHub/NoNameHub_Macros/"..SelectedMacro) then print("This macro is empty") return {} end
+
+    local MacroFile = readfile("NoNameHub/NoNameHub_Macros/"..SelectedMacro)
+
+
+    local DecodedJson = HttpService:JSONDecode(MacroFile)
+
+    return DecodedJson
+end
+
+function playMacro()
+    if string.len(data.SelectedMacro) == 0 then return end
+
+    local selectedMacro = readMacro()
+
+    for i,v in pairs(selectedMacro) do
+        if getWave() < v.Wave then
+            repeat task.wait() until getWave() >= v.Wave
+        end
+
+        local Timeout = tick()
+
+        repeat task.wait() until tick() - Timeout >= v.Timeout
+
+        if v.Action == "PlaceTower" then
+            game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerPlaceTower"):FireServer(v.Tower, v.Position)
+        end
+
+        if v.Action == "UpgradeTower" then
+            game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerUpgradeTower"):FireServer(v.Tower)
+        end
+
+        if v.Action == "SetTargetTower" then
+            game:GetService("ReplicatedStorage"):WaitForChild("Modules"):WaitForChild("GlobalInit"):WaitForChild("RemoteEvents"):WaitForChild("PlayerSetTowerTargetMode"):FireServer(v.Tower, v.Target)
+        end
+
+        if v.Action == "SellTower" then
+            game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerSellTower"):FireServer(v.Tower)
+        end
+    end
+end
+
 -- hookfunctions
 
 if game.PlaceId ~= 5902977746 then
@@ -182,6 +229,14 @@ coroutine.resume(coroutine.create(function()
 
         if checkCoins() and checkBanner() then
             Spin()
+        end
+
+        if game.PlaceId ~= 5902977746 then
+            
+            if data.PlayMacro then
+                playMacro()
+            end
+
         end
     end
 end))
@@ -265,7 +320,7 @@ local MacroList = Game:CreateDropdown({
     CurrentValue = {},
 
     Callback = function(value)
-        
+        data.SelectedMacro = value
     end
 })
 
