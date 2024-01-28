@@ -180,6 +180,8 @@ function keySystem()
 	
 	Main.Title.Text = "NoName Hub"
 	Main.NoteMessage.Text = "Join our Discord server to get the key! discord.gg/MArf5n46gA"
+
+	setSecureParent(Gui)
 	
 	local Destroyed = false
 	local Completed = false
