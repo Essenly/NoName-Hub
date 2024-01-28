@@ -158,7 +158,7 @@ function NoGui:loadFlags()
 	end
 end
 
-function NoGui:Notify(NotifyName, NotifyText, NotifyTime)
+function NoGui:Notify(data1, data2, data3)
 	if not getgenv().Gui then return end
 
 	if getgenv().Gui:FindFirstChild("Notify") then
@@ -197,7 +197,7 @@ function NoGui:Notify(NotifyName, NotifyText, NotifyTime)
 	NotifyName.Position = UDim2.new(0.0540540554, 0, 0.0549450554, 0)
 	NotifyName.Size = UDim2.new(0.895752907, 0, 0.263736278, 0)
 	NotifyName.Font = Enum.Font.SourceSansBold
-	NotifyName.Text = NotifyName
+	NotifyName.Text = data1
 	NotifyName.TextColor3 = Color3.fromRGB(255, 255, 255)
 	NotifyName.TextScaled = true
 	NotifyName.TextSize = 14.000
@@ -214,7 +214,7 @@ function NoGui:Notify(NotifyName, NotifyText, NotifyTime)
 	NotifyText.Position = UDim2.new(0.0540540554, 0, 0.319999993, 0)
 	NotifyText.Size = UDim2.new(0.895752907, 0, 0.439560443, 0)
 	NotifyText.Font = Enum.Font.SourceSansBold
-	NotifyText.Text = NotifyText
+	NotifyText.Text = data12
 	NotifyText.TextColor3 = Color3.fromRGB(255, 255, 255)
 	NotifyText.TextScaled = true
 	NotifyText.TextSize = 14.000
@@ -241,7 +241,7 @@ function NoGui:Notify(NotifyName, NotifyText, NotifyTime)
 	UICorner:Clone().Parent = Bar
 	UICorner:Clone().Parent = Bar2
 
-	local twnBar = createTween(Bar2, TweenInfo.new(NotifyTime, Enum.EasingStyle.Linear), {Size = UDim2.new(1,0,1,0)})
+	local twnBar = createTween(Bar2, TweenInfo.new(data3, Enum.EasingStyle.Linear), {Size = UDim2.new(1,0,1,0)})
 	local twnAppear = createTween(Notify, TweenInfo.new(0.6), {Position = UDim2.new(0.8, 0, 0.799661875, 0)})
 	local twnDestroy = createTween(Notify, TweenInfo.new(0.6), {Position = UDim2.new(0.8, 0, 1.799661875, 0)})
 
