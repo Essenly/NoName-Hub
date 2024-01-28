@@ -1007,6 +1007,7 @@ function NoGui:CreateWindow(placeName)
 				end
 				
 				NoGui.Flags[data.Flag].Value = d
+				data.Callback(d)
 			end
 
 			function Methods:Update(newData)
