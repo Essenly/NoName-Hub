@@ -115,8 +115,12 @@ function getMacros()
     local Macros = {}
     
     for i,v in pairs(Files) do
-        print(i,v)
+        local newName = string.gsub(v, "NoNameHub/NoNameHub_Macros/", "")
+        newName = newName:gsub(".json", "")
+        table.insert(Macros, newName)
     end
+
+    return Macros
 end
 
 -- hookfunctions
@@ -208,7 +212,7 @@ Game:CreateSection("Macro")
 Game:CreateBox({
     Name = "Macro Name",
     Placeholder = "Name here",
-    
+
     Callback = function(value)
         data.MacroName = value
     end
@@ -243,11 +247,12 @@ Game:CreateToggle({
 
 Game:CreateSection("Play Macro")
 
-Game:CreateDropdown({
+
+local MacroList = Game:CreateDropdown({
     Name = "Macro List",
     MultiSelection = false,
     CanChangedByFlag = false,
-    Options = {},
+    Options = getMacros(),
     Callback = function(value)
         
     end
@@ -256,7 +261,7 @@ Game:CreateDropdown({
 Game:CreateButton({
     Name = "Update List",
     Callback = function()
-        getMacros()  
+        MacroList:Update(getMacros())
     end
 })
 
