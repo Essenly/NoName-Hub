@@ -915,7 +915,7 @@ function NoGui:CreateWindow(placeName)
 
 			local CanChangedByFlag = data.CanChangedByFlag or true
 			
-			local function select(obj)
+			local function _select(obj)
 				local is_toggled = table.find(Selected, obj.Name)
 					
 				if is_toggled then
@@ -965,7 +965,7 @@ function NoGui:CreateWindow(placeName)
 				Option.TextWrapped = true
 				
 				Option.MouseButton1Click:Connect(function()
-					select(Option)
+					_select(Option)
 					
 					if #Selected == 0 then
 						TextLabel.Text = data.Name.." - None"
@@ -1036,7 +1036,7 @@ function NoGui:CreateWindow(placeName)
 					Option.TextWrapped = true
 
 					Option.MouseButton1Click:Connect(function()
-						select(Option)
+						_select(Option)
 						
 						if #NoGui.Flags[data.Flag].Value == 0 then
 							TextLabel.Text = data.Name.." - None"
