@@ -111,7 +111,7 @@ end
 function getMacros()
     if not isfolder("NoNameHub") or not isfolder("NoNameHub/NoNameHub_Macros") then return {} end
 
-    local Files = listfiles("NoNameHub/NoNameHub_Macro")
+    local Files = listfiles("NoNameHub/NoNameHub_Macros")
     local Macros = {}
     
     for i,v in pairs(Files) do
@@ -208,7 +208,7 @@ Game:CreateSection("Macro")
 Game:CreateBox({
     Name = "Macro Name",
     Placeholder = "Name here",
-    Flag = "MacroName",
+    
     Callback = function(value)
         data.MacroName = value
     end
@@ -217,8 +217,7 @@ Game:CreateBox({
 Game:CreateToggle({
     Name = "Record Macro",
     CurrentValue = false,
-    Flag = "RecordMacro",
-    CanChangedByFlag = false,
+
     Callback = function(value)
         if not data.MacroName then return end
         if string.len(data.MacroName) == 0 then
@@ -257,7 +256,7 @@ Game:CreateDropdown({
 Game:CreateButton({
     Name = "Update List",
     Callback = function()
-        getMacros()     
+        getMacros()  
     end
 })
 
