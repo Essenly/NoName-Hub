@@ -939,7 +939,7 @@ function NoGui:CreateWindow(placeName)
 					local is_toggled = table.find(Selected, Option.Name)
 					
 					if is_toggled then
-						if not data.MultiSelection then return end
+						if not data.MultiSelection then Selected = {Option.Name} return end
 						
 						Option.TextColor3 = Color3.fromRGB(134, 134, 134)
 						Option.TextTransparency = 0.490
@@ -951,10 +951,10 @@ function NoGui:CreateWindow(placeName)
 						if data.MultiSelection then
 							table.insert(Selected, Option.Name)
 						else
-							for i,v in pairs(List:GetChildren()) do
-								if not v:IsA("TextButton") then continue end
-								v.TextColor3 = Color3.fromRGB(134, 134, 134)
-								v.TextTransparency = 0.490
+							for _,obj in pairs(List:GetChildren()) do
+								if not obj:IsA("TextButton") then continue end
+								obj.TextColor3 = Color3.fromRGB(134, 134, 134)
+								obj.TextTransparency = 0.490
 							end
 							
 							Option.TextColor3 = Color3.fromRGB(223,223,223)
@@ -1007,8 +1007,6 @@ function NoGui:CreateWindow(placeName)
 			end
 
 			function Methods:Update(newData)
-				Selected = {}
-
 				for i,v in pairs(List:GetChildren()) do
 					if not v:IsA("TextButton") then continue end
 					v:Destroy()
@@ -1037,7 +1035,7 @@ function NoGui:CreateWindow(placeName)
 						local is_toggled = table.find(Selected, Option.Name)
 						
 						if is_toggled then
-							if not data.MultiSelection then return end
+							if not data.MultiSelection then Selected = {Option.Name} return end
 							
 							Option.TextColor3 = Color3.fromRGB(134, 134, 134)
 							Option.TextTransparency = 0.490
@@ -1049,10 +1047,10 @@ function NoGui:CreateWindow(placeName)
 							if data.MultiSelection then
 								table.insert(Selected, Option.Name)
 							else
-								for i,v in pairs(List:GetChildren()) do
-									if not v:IsA("TextButton") then continue end
-									v.TextColor3 = Color3.fromRGB(134, 134, 134)
-									v.TextTransparency = 0.490
+								for _,obj in pairs(List:GetChildren()) do
+									if not obj:IsA("TextButton") then continue end
+									obj.TextColor3 = Color3.fromRGB(134, 134, 134)
+									obj.TextTransparency = 0.490
 								end
 								
 								Option.TextColor3 = Color3.fromRGB(223,223,223)
@@ -1079,7 +1077,7 @@ function NoGui:CreateWindow(placeName)
 					end
 				end
 
-				Methods:Set(NoGui.Flags[data.Flag].Value)
+				Methods:Set(Selected)
 			end
 			
 			NoGui.Flags[data.Flag] = Methods
