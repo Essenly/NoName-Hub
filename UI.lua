@@ -890,6 +890,7 @@ function NoGui:CreateWindow(placeName)
 			
 			Layout.Parent = List
 			Layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+			Layout.SortOrder = Enum.SortOrder.LayoutOrder
 			
 			Padding.Parent = List
 			Padding.PaddingTop = UDim.new(0.07, 0)
@@ -984,6 +985,10 @@ function NoGui:CreateWindow(placeName)
 			function Methods:Set(d)
 				if not CanChangedByFlag then return end
 				Selected = d
+
+				if not data.MultiSelection and #Selected > 1 then
+					Selected = d[1]
+				end
 				
 				for i,v in pairs(List:GetChildren()) do
 					if not v:IsA("TextButton") then continue end
