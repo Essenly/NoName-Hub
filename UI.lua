@@ -179,7 +179,7 @@ function NoGui:Notify(data1, data2, data3)
 	Notify.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	Notify.BorderSizePixel = 0
 	Notify.Position = UDim2.new(0.808691621, 0, 1.8, 0)
-	Notify.Size = UDim2.new(0.152712271, 0, 0.11621967, 0)
+	Notify.Size = UDim2.new(0.167, 0, 0.135, 0)
 	Notify.Font = Enum.Font.SourceSans
 	Notify.Text = ""
 	Notify.TextColor3 = Color3.fromRGB(0, 0, 0)
