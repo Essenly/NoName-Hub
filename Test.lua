@@ -62,18 +62,20 @@ function placeTower(id, position)
     game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerPlaceTower"):FireServer(id, position)
 end
 
+
+
 function getWave()
     local Label = plr.PlayerGui.MainGui.MainFrames.Wave.WaveIndex
     local split = string.split(Label.Text, "")
-
+    
     local number = ""
 
     for i,v in pairs(split) do
-        if tonumber(v) ~= v and string.len(number) > 0 then
+        if tonumber(v) == nil and string.len(number) > 0 then
             break
         end
 
-        if tonumber(v) == v then
+        if tonumber(v) ~= nil then
             number = number..v
         end
     end
