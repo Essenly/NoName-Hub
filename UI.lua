@@ -170,7 +170,7 @@ function NoGui:Notify(data1, data2, data3)
 		local findNotifes = 0
 
 		for i,v in pairs(getgenv().Gui:GetChildren()) do
-			if v.Name == "Notify" then
+			if v:GetAttribute("OriginalName") == "Notify" then
 				findNotifes += 1
 			end
 		end
@@ -188,6 +188,7 @@ function NoGui:Notify(data1, data2, data3)
 	local Bar2 = Instance.new("Frame")
 
 	Notify.Name = Position
+	Notify:SetAttribute("OriginalName", "Notify")
 	Notify.Parent = getgenv().Gui
 	Notify.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 	Notify.BackgroundTransparency = 0.200
