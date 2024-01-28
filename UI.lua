@@ -1000,7 +1000,7 @@ function NoGui:CreateWindow(placeName)
 				Selected = d
 
 				if not data.MultiSelection and #Selected > 1 then
-					Selected = d[1]
+					Selected = {d[1]}
 				end
 				
 				for i,v in pairs(List:GetChildren()) do
