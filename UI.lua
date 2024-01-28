@@ -164,6 +164,8 @@ function NoGui:Notify(data1, data2, data3)
 
 	local CustomY
 
+	local Position = 1
+
 	if getgenv().Gui:FindFirstChild("Notify") then
 		local findNotifes = 0
 
@@ -172,6 +174,8 @@ function NoGui:Notify(data1, data2, data3)
 				findNotifes += 1
 			end
 		end
+
+		Position = findNotifes + 1
 
 		CustomY = 1.8 - (0.15 * findNotifes)
 	end
@@ -183,7 +187,7 @@ function NoGui:Notify(data1, data2, data3)
 	local Bar = Instance.new("Frame")
 	local Bar2 = Instance.new("Frame")
 
-	Notify.Name = "Notify"
+	Notify.Name = Position
 	Notify.Parent = getgenv().Gui
 	Notify.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 	Notify.BackgroundTransparency = 0.200
@@ -265,6 +269,21 @@ function NoGui:Notify(data1, data2, data3)
 
 	twnAppear:Play()
 	twnAppear.Completed:Wait()
+
+	task.spawn(function()
+		while task.wait() do
+			if not Notify.Parent then break end
+
+			if Position > 1 then
+				if not getgenv().Gui:FindFirstChild(Position - 1) then
+					local decreaseTween = createTween(Notify, TweenInfo.new(0.3), {Position = UDim2.new(0.8, 0, Notify.Position.Y - 0.15, 0)})
+					decreaseTween:Play()
+					decreaseTween.Completed:Wait()
+				end
+			end
+		end
+	end)
+
 
 	twnBar:Play()
 	twnBar.Completed:Wait()
