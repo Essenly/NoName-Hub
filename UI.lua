@@ -228,7 +228,7 @@ function keySystem()
 		
 		if getgenv().NoNameHubLoaded then
 			-- premium
-			local EnteredKey = Gui.Input.InputBox.Text
+			local EnteredKey = Main.Input.InputBox.Text
 			local verify = KeySystem:verifyPremiumKey(EnteredKey)
 			
 			if verify then
@@ -242,7 +242,7 @@ function keySystem()
 			return
 		end
 		
-		local EnteredKey = Gui.Input.InputBox.Text
+		local EnteredKey = Main.Input.InputBox.Text
 		local verify = KeySystem:verifyDefaultKey(EnteredKey)
 
 		if verify then
