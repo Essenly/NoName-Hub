@@ -1378,7 +1378,7 @@ function NoGui:CreateWindow(placeName)
 	end
 	
 	coroutine.resume(coroutine.create(function()
-		while task.wait(5) do
+		while task.wait(2) do
 			local a,b = pcall(function()
 				NoGui:saveFlags()
 			end)
