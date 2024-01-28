@@ -11,52 +11,7 @@ local UIS = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 local HTTPService = game:GetService("HttpService")
-local KeyLibrary = loadstring(game:HttpGet('https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/setup_obf.lua'))()
-local KeySystem = KeyLibrary.new("NoNameHub", {authType = "clientid"})
 local GeneratedTag
-
-function generateTag()
-	local Tag = ""
-	
-	for i = 1, 64 do
-		
-		local t = math.random(0, 3)
-		
-		if t == 0 then
-			Tag = Tag..string.char(math.random(48, 57))
-		end
-		
-		if t == 1 then
-			Tag = Tag..string.char(math.random(97,122))
-		end
-		
-		if t == 2 then
-			Tag = Tag..string.char(math.random(65, 90))
-		end
-		
-		if t == 3 then
-			local d = math.random(1, 3)
-			
-			if d == 1 then
-				Tag = Tag..string.char(math.random(33, 47))
-			end
-			
-			if d == 2 then
-				Tag = Tag..string.char(math.random(58, 64))
-			end
-			
-			if d == 3 then
-				Tag = Tag..string.char(math.random(91, 96))
-			end
-		end
-		
-		task.wait()
-	end
-	
-	return Tag
-end
-
-GeneratedTag = generateTag()
 
 -- functions
 
@@ -168,110 +123,6 @@ function setSecureParent(obj : Instance)
 	obj.Parent = plr.PlayerGui
 	return
 end
-
-function keySystem()
-	if game.CoreGui:FindFirstChild("Key") then
-		game.CoreGui:FindFirstChild("Key"):Destroy()
-	end
-
-	
-	local Gui = game:GetObjects("rbxassetid://11380036235")[1]
-	local Main = Gui.Main
-	
-	Main.Title.Text = "NoName Hub"
-	Main.NoteMessage.Text = "Join our Discord server to get the key! discord.gg/MArf5n46gA"
-
-	setSecureParent(Gui)
-	
-	local Destroyed = false
-	local Completed = false
-
-	local KeyToSave
-	local SavedKey
-
-	if isfolder("NoNameHub") and isfile("NoNameHub/Key.txt") then
-		SavedKey = readfile("NoNameHub/Key.txt")
-	end
-	
-	Main.Hide.MouseButton1Click:Connect(function()
-		Gui:Destroy()
-		Destroyed = true
-		
-		return
-	end)
-
-	if SavedKey then
-		local verify = KeySystem:verifyPremiumKey(SavedKey)
-		
-		if verify then
-			Completed = true
-			KeyToSave = _G.key
-			Gui:Destroy()
-		else
-			NoGui:Notify("Key System", "Invalid Key / Invalid HWID", "1.6")
-		end
-	end
-
-	if _G.key then
-		local verify = KeySystem:verifyPremiumKey(_G.key)
-		
-		if verify then
-			Completed = true
-			KeyToSave = _G.key
-			Gui:Destroy()
-		else
-			NoGui:Notify("Key System", "Invalid Key / Invalid HWID", "1.6")
-		end
-	end
-	
-	Main.Input.InputBox.FocusLost:Connect(function()
-		
-		if getgenv().NoNameHubLoaded then
-			-- premium
-			local EnteredKey = Main.Input.InputBox.Text
-			local verify = KeySystem:verifyPremiumKey(EnteredKey)
-			
-			if verify then
-				KeyToSave = _G.key
-				Completed = true
-				Gui:Destroy()
-			else
-				NoGui:Notify("Key System", "Invalid Key / Invalid HWID", "1.6")
-			end
-			
-			return
-		end
-		
-		local EnteredKey = Main.Input.InputBox.Text
-		local verify = KeySystem:verifyDefaultKey(EnteredKey)
-
-		if verify then
-			KeyToSave = _G.key
-			Completed = true
-			Gui:Destroy()
-		else
-			NoGui:Notify("Key System", "Invalid Key / Invalid HWID", "1.6")	
-		end
-		
-	end)
-	
-	repeat task.wait() until Destroyed or Completed
-
-	if not isfolder("NoNameHub") then
-		makefolder("NoNameHub")
-	end
-
-	writefile("NoNameHub/Key.txt", KeyToSave)
-	
-	if Destroyed then
-		return false
-	end
-	
-	if Completed then
-		return GeneratedTag
-	end
-end
-
 
 -- save config
 
@@ -423,14 +274,6 @@ function NoGui:CreateWindow(placeName)
 		getgenv().Gui:Destroy()
 	end
 
-	local keyData = keySystem()
-
-	if keyData ~= GeneratedTag then
-		print(keyData, GeneratedTag)
-		return
-	end
-	
-	
 	NoGui.PlaceName = placeName or "Test"
 	
 	local is_hidden = false
