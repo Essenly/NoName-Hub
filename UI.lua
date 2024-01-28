@@ -616,7 +616,7 @@ function NoGui:CreateWindow(placeName)
 			UIStroke:Clone().Parent = TweenToggle
 			
 			
-			local function ToggleFunc(status)
+			local function ToggleFunc(status, callback)
 				Toggled = status
 				
 				if status then
@@ -628,18 +628,21 @@ function NoGui:CreateWindow(placeName)
 				end
 				NoGui.Flags[data.Flag].Value = Toggled
 				
-				data.Callback(Toggled)
+				if callback then
+					data.Callback(Toggled)
+				end
 			end
 			
 			Toggle.MouseButton1Click:Connect(function()
-				ToggleFunc(not Toggled)
+				ToggleFunc(not Toggled, true)
 			end)
 			
 			local Methods = {}
 			
-			function Methods:Set(value)
+			function Methods:Set(value, callback)
+				callback = callback or true
 				if not CanChangedByFlag then return end
-				ToggleFunc(value)
+				ToggleFunc(value, callback)
 			end
 			
 			NoGui.Flags[data.Flag] = Methods
@@ -1143,7 +1146,6 @@ function NoGui:CreateWindow(placeName)
 				if enterPress or inp.UserInputType == Enum.UserInputType.Touch then
 					local text = Box.Text
 					NoGui.Flags[data.Flag].Value = text
-					Box.Text = ""
 
 					data.Callback(text)
 				end
