@@ -130,10 +130,12 @@ function NoGui:saveFlags()
 	
 	for i,v in pairs(NoGui.Flags) do
 		if v.Value == nil then continue end
+		if i == "NoFlag" then continue end
+
 		newTable[i] = v.Value
 	end
 	
-	local Data = HTTPService:JSONEncode(newTable)	
+	local Data = HTTPService:JSONEncode(newTable)
 	
 	if not isfolder("NoNameHub") then
 		makefolder("NoNameHub")
@@ -541,6 +543,7 @@ function NoGui:CreateWindow(placeName)
 		
 		function Elements:CreateToggle(data)
 			data = data or {}
+			data.Flag = data.Flag or "NoFlag"
 			local CanChangedByFlag = data.CanChangedByFlag or true
 
 			local Toggled = false
@@ -649,6 +652,7 @@ function NoGui:CreateWindow(placeName)
 		
 		function Elements:CreateSlider(data)
 			data = data or {}
+			data.Flag = data.Flag or "NoFlag"
 			
 			local Slider = Instance.new("Frame")
 			local UICorner = Instance.new("UICorner")
@@ -807,6 +811,7 @@ function NoGui:CreateWindow(placeName)
 		end
 		
 		function Elements:CreateDropdown(data)
+			data.Flag = data.Flag or "NoFlag"
 			local Dropdown = Instance.new("Frame")
 			local Interact = Instance.new("TextButton")
 			local TextLabel = Instance.new("TextLabel")
@@ -1086,7 +1091,8 @@ function NoGui:CreateWindow(placeName)
 		end
 		
 		function Elements:CreateBox(data)
-			
+			data.Flag = data.Flag or "NoFlag"
+
 			local TextBox = Instance.new("Frame")
 			local Box = Instance.new("TextBox")
 			local TextLabel = Instance.new("TextLabel")
@@ -1159,7 +1165,8 @@ function NoGui:CreateWindow(placeName)
 		end
 		
 		function Elements:CreateColorPicker(data)
-			
+			data.Flag = data.Flag or "NoFlag"
+
 			local TextBox = Instance.new("Frame")
 			local Box = Instance.new("TextBox")
 			local TextLabel = Instance.new("TextLabel")
