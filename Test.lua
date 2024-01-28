@@ -142,16 +142,19 @@ end
 
 function playMacro()
     if not game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerPlaceTower") then return end
-    if string.len(data.SelectedMacro) == 0 then return end
+    if string.len(data.SelectedMacro) == 0 then return print("No selected macro") end
 
     local selectedMacro = readMacro()
 
     for i,v in pairs(selectedMacro) do
         if getWave() < v.Wave then
+            print("not enough wave, req: "..v.Wave)
             repeat task.wait() until getWave() >= v.Wave
         end
 
         local Timeout = tick()
+
+        print("wait "..Timeout.."s")
 
         repeat task.wait() until tick() - Timeout >= v.Timeout
 
@@ -232,7 +235,7 @@ coroutine.resume(coroutine.create(function()
             Spin()
         end
 
-        if game.PlaceId ~= 5902977746 then
+        if game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerPlaceTower") then
             
             if data.PlayMacro then
                 playMacro()
@@ -317,7 +320,6 @@ local MacroList = Game:CreateDropdown({
     Name = "Macro List",
     Flag = "SelectedMacro",
     MultiSelection = false,
-    CanChangedByFlag = false,
     Options = getMacros(),
     CurrentValue = {},
 
