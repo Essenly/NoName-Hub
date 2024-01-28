@@ -84,64 +84,49 @@ end
 
 -- hookfunctions
 
-local placetower ; placetower = hookmetamethod(game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerPlaceTower"), "__namecall", function(self, ...)
+local placetower = game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerPlaceTower")
+local upgradetower = game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerUpgradeTower")
+local set_target_tower = game:GetService("ReplicatedStorage"):WaitForChild("Modules"):WaitForChild("GlobalInit"):WaitForChild("RemoteEvents"):WaitForChild("PlayerSetTowerTargetMode")
+local sell_tower = game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerSellTower")
+
+local hook; hook = hookmetamethod(game, "__namecall", function(self, ...)
     local args = {...}
     local method = getnamecallmethod():lower()
 
     if not checkcaller() and method == "fireserver" then
-        saveMacroType({
-            Action = "PlaceTower",
-            Tower = args[1],
-            Position = args[2]
-        })
+        
+        if self == placetower then
+            saveMacroType({
+                Action = "PlaceTower",
+                Tower = args[1],
+                Position = args[2]
+            })
+        end
+
+        if self == upgradetower then
+            saveMacroType({
+                Action = "UpgradeTower",
+                Tower = args[1],
+            })
+        end
+
+        if self == set_target_tower then
+            saveMacroType({
+                Action = "SetTargetTower",
+                Tower = args[1],
+                Target = args[2]
+            })
+        end
+
+        if self == sell_tower then
+            saveMacroType({
+                Action = "SellTower",
+                Tower = args[1],
+            })
+        end
     end
 
-    return placetower(self, ...)
-end)
-
-local upgradetower ; upgradetower = hookmetamethod(game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerUpgradeTower"), "__namecall", function(self, ...)
-    local args = {...}
-    local method = getnamecallmethod():lower()
-
-    if not checkcaller() and method == "fireserver" then
-        saveMacroType({
-            Action = "UpgradeTower",
-            Tower = args[1],
-        })
-    end
-
-    return upgradetower(self, ...)
-end)
-
-local set_target_tower ; set_target_tower = hookmetamethod(game:GetService("ReplicatedStorage"):WaitForChild("Modules"):WaitForChild("GlobalInit"):WaitForChild("RemoteEvents"):WaitForChild("PlayerSetTowerTargetMode"), "__namecall", function(self, ...)
-    local args = {...}
-    local method = getnamecallmethod():lower()
-
-    if not checkcaller() and method == "fireserver" then
-        saveMacroType({
-            Action = "SetTargetTower",
-            Tower = args[1],
-            Target = args[2]
-        })
-    end
-
-    return set_target_tower(self, ...)
-end)
-
-local sell_tower ; sell_tower = hookmetamethod(game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerSellTower"), "__namecall", function(self, ...)
-    local args = {...}
-    local method = getnamecallmethod():lower()
-
-    if not checkcaller() and method == "fireserver" then
-        print("Sell Tower: "..args[1])
-
-        saveMacroType({
-            Action = "SellTower",
-            Tower = args[1],
-        })
-    end
-
-    return sell_tower(self, ...)
+    return namecall(self, ...)
 end)
 
 -- coroutine
