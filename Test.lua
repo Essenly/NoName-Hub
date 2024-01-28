@@ -62,10 +62,30 @@ function placeTower(id, position)
     game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerPlaceTower"):FireServer(id, position)
 end
 
+function getWave()
+    local Label = plr.PlayerGui.MainGui.MainFrames.Wave.WaveIndex
+    local split = string.split(Label.Text, "")
+
+    local number = ""
+
+    for i,v in pairs(split) do
+        if tonumber(v) ~= v and string.len(number) > 0 then
+            break
+        end
+
+        if tonumber(v) == v then
+            number = number..v
+        end
+    end
+
+    return tonumber(number) or 0
+end
+
 function saveMacroType(info)
     if not data.RecordMacro then return end
 
     info.Timeout = tick() - timeout
+    info.Wave = getWave()
 
     MacroData[#MacroData+1] = info
 
@@ -76,7 +96,27 @@ function saveMacro()
     local macrodata = HttpService:JSONEncode(MacroData)
     MacroData = {}
 
-    print(macrodata)
+    if not isfolder("NoNameHub") then
+        makefolder("NoNameHub")
+    end
+
+    if not isfolder("NoNameHub/NoNameHub_Macros") then
+        makefolder("NoNameHub/NoNameHub_Macros")
+    end
+
+    writefile("NoNameHub/NoNameHub_Macros/"..data.MacroName..".json", macrodata)
+    print("Macro saved!")
+end
+
+function getMacros()
+    if not isfolder("NoNameHub") or not isfolder("NoNameHub/NoNameHub_Macros") then return {} end
+
+    local Files = listfiles("NoNameHub/NoNameHub_Macro")
+    local Macros = {}
+    
+    for i,v in pairs(Files) do
+        print(i,v)
+    end
 end
 
 -- hookfunctions
@@ -178,7 +218,9 @@ Game:CreateToggle({
     Name = "Record Macro",
     CurrentValue = false,
     Flag = "RecordMacro",
+    CanChangedByFlag = false,
     Callback = function(value)
+        if not data.MacroName then return end
         if string.len(data.MacroName) == 0 then
             UI.Flags["RecordMacro"]:Set(false)
             MacroData = {}
@@ -197,6 +239,25 @@ Game:CreateToggle({
         if #MacroData > 0 then
             saveMacro()
         end
+    end
+})
+
+Game:CreateSection("Play Macro")
+
+Game:CreateDropdown({
+    Name = "Macro List",
+    MultiSelection = false,
+    CanChangedByFlag = false,
+    Options = {},
+    Callback = function(value)
+        
+    end
+})
+
+Game:CreateButton({
+    Name = "Update List",
+    Callback = function()
+        getMacros()     
     end
 })
 
