@@ -141,6 +141,7 @@ function readMacro()
 end
 
 function playMacro()
+    if not game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerPlaceTower") then return end
     if string.len(data.SelectedMacro) == 0 then return end
 
     local selectedMacro = readMacro()
@@ -174,7 +175,7 @@ end
 
 -- hookfunctions
 
-if game.PlaceId ~= 5902977746 then
+task.spawn(function()
     local placetower = game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerPlaceTower")
     local upgradetower = game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerUpgradeTower")
     local set_target_tower = game:GetService("ReplicatedStorage"):WaitForChild("Modules"):WaitForChild("GlobalInit"):WaitForChild("RemoteEvents"):WaitForChild("PlayerSetTowerTargetMode")
@@ -219,7 +220,7 @@ if game.PlaceId ~= 5902977746 then
 
         return hook(self, ...)
     end)
-end
+end)
 
 -- coroutine
 
@@ -287,28 +288,23 @@ Game:CreateToggle({
     Flag = "RecordMacro",
 
     Callback = function(value)
-        if not data.MacroName then print(1) return end
+        if not data.MacroName then return end
         if string.len(data.MacroName) == 0 then
-            print(2)
             UI.Flags["RecordMacro"]:Set(false, false)
             MacroData = {}
             return
         end
 
         if value then
-            print(3)
             data.RecordMacro = true
             MacroData = {}
             timeout = tick()
             return
         end
 
-        print(4)
-
         data.RecordMacro = false
         
         if #MacroData > 0 then
-            print(5)
             saveMacro()
         end
     end
