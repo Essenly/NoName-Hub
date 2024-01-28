@@ -126,7 +126,7 @@ local hook; hook = hookmetamethod(game, "__namecall", function(self, ...)
         end
     end
 
-    return namecall(self, ...)
+    return hook(self, ...)
 end)
 
 -- coroutine
