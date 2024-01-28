@@ -146,6 +146,7 @@ function skipWave()
 end
 
 function teleport_to_game(map, diff)
+    if not workspace:FindFirstChild("Lobby") then return end
     local teleporters = workspace.Lobby.ClassicPartyTeleporters
 
     for i,v in pairs(teleporters:GetChildren()) do
