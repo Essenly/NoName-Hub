@@ -183,6 +183,13 @@ function keySystem()
 	
 	local Destroyed = false
 	local Completed = false
+
+	local KeyToSave
+	local SavedKey
+
+	if isfolder("NoNameHub") and isfile("NoNameHub/Key.txt") then
+		SavedKey = readfile("NoNameHub/Key.txt")
+	end
 	
 	Main.Hide.MouseButton1Click:Connect(function()
 		Gui:Destroy()
@@ -190,6 +197,30 @@ function keySystem()
 		
 		return
 	end)
+
+	if SavedKey then
+		local verify = KeySystem:verifyPremiumKey(SavedKey)
+		
+		if verify then
+			Completed = true
+			KeyToSave = _G.key
+			Gui:Destroy()
+		else
+			NoGui:Notify("Key System", "Invalid Key / Invalid HWID", "1.6")
+		end
+	end
+
+	if _G.key then
+		local verify = KeySystem:verifyPremiumKey(_G.key)
+		
+		if verify then
+			Completed = true
+			KeyToSave = _G.key
+			Gui:Destroy()
+		else
+			NoGui:Notify("Key System", "Invalid Key / Invalid HWID", "1.6")
+		end
+	end
 	
 	Main.Input.InputBox.FocusLost:Connect(function()
 		
@@ -199,6 +230,7 @@ function keySystem()
 			local verify = KeySystem:verifyPremiumKey(EnteredKey)
 			
 			if verify then
+				KeyToSave = _G.key
 				Completed = true
 				Gui:Destroy()
 			else
@@ -212,6 +244,7 @@ function keySystem()
 		local verify = KeySystem:verifyDefaultKey(EnteredKey)
 
 		if verify then
+			KeyToSave = _G.key
 			Completed = true
 			Gui:Destroy()
 		else
@@ -221,6 +254,12 @@ function keySystem()
 	end)
 	
 	repeat task.wait() until Destroyed or Completed
+
+	if not isfolder("NoNameHub") then
+		makefolder("NoNameHub")
+	end
+
+	writefile("NoNameHub/Key.txt", KeyToSave)
 	
 	if Destroyed then
 		return false
@@ -384,7 +423,7 @@ function NoGui:CreateWindow(placeName)
 
 	local keyData = keySystem()
 
-	if keydata ~= GeneratedTag then
+	if keyData ~= GeneratedTag then
 		return
 	end
 	
