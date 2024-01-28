@@ -214,7 +214,7 @@ function NoGui:Notify(data1, data2, data3)
 	NotifyText.Position = UDim2.new(0.0540540554, 0, 0.319999993, 0)
 	NotifyText.Size = UDim2.new(0.895752907, 0, 0.439560443, 0)
 	NotifyText.Font = Enum.Font.SourceSansBold
-	NotifyText.Text = data12
+	NotifyText.Text = data2
 	NotifyText.TextColor3 = Color3.fromRGB(255, 255, 255)
 	NotifyText.TextScaled = true
 	NotifyText.TextSize = 14.000
