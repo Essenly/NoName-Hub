@@ -541,7 +541,8 @@ function NoGui:CreateWindow(placeName)
 		
 		function Elements:CreateToggle(data)
 			data = data or {}
-			
+			local CanChangedByFlag = data.CanChangedByFlag or true
+
 			local Toggled = false
 			
 			local Toggle = Instance.new("TextButton")
@@ -634,6 +635,7 @@ function NoGui:CreateWindow(placeName)
 			local Methods = {}
 			
 			function Methods:Set(value)
+				if not CanChangedByFlag then return end
 				ToggleFunc(value)
 			end
 			
