@@ -133,9 +133,7 @@ function NoGui:saveFlags()
 		newTable[i] = v.Value
 	end
 	
-	local Data = HTTPService:JSONEncode(newTable)
-	
-	print(Data)
+	local Data = HTTPService:JSONEncode(newTable)	
 	
 	if not isfolder("NoNameHub") then
 		makefolder("NoNameHub")
@@ -904,6 +902,8 @@ function NoGui:CreateWindow(placeName)
 				
 				List.Visible = Open
 			end)
+
+			local CanChangedByFlag = data.CanChangedByFlag or true
 			
 			
 			for i,v in pairs(data.Options) do
@@ -924,8 +924,6 @@ function NoGui:CreateWindow(placeName)
 				Option.TextStrokeTransparency = 0.000
 				Option.TextTransparency = 0.490
 				Option.TextWrapped = true
-				
-				local Pos = #List:GetChildren() + 1
 				
 				Option.MouseButton1Click:Connect(function()
 					local is_toggled = table.find(Selected, Option.Name)
@@ -971,6 +969,7 @@ function NoGui:CreateWindow(placeName)
 			local Methods = {}
 
 			function Methods:Set(d)
+				if not CanChangedByFlag then return end
 				Selected = {}
 				
 				for i,v in pairs(List:GetChildren()) do
@@ -995,6 +994,85 @@ function NoGui:CreateWindow(placeName)
 				end
 				
 				NoGui.Flags[data.Flag].Value = Selected
+			end
+
+			function Methods:Update(newData)
+				Selected = {}
+
+				for i,v in pairs(List:GetChildren()) do
+					if not v:IsA("TextButton") then continue end
+					v:Destroy()
+				end
+
+				for i,v in pairs(newData) do
+					local Option = Instance.new("TextButton")
+
+					Option.Name = v
+					Option.Parent = List
+					Option.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+					Option.BackgroundTransparency = 1.000
+					Option.BorderColor3 = Color3.fromRGB(0, 0, 0)
+					Option.BorderSizePixel = 0
+					Option.Size = UDim2.new(1, 0, 0.0425000004, 0)
+					Option.Font = Enum.Font.SourceSansBold
+					Option.Text = v
+					Option.TextColor3 = Color3.fromRGB(134, 134, 134)
+					Option.TextScaled = true
+					Option.TextSize = 18.000
+					Option.TextStrokeTransparency = 0.000
+					Option.TextTransparency = 0.490
+					Option.TextWrapped = true
+
+					if table.find(NoGui.Flags[data.Flag].Value, Option.Name) then
+						Option.TextColor3 = Color3.fromRGB(223,223,223)
+						Option.TextTransparency = 0.38
+					end
+
+					Option.MouseButton1Click:Connect(function()
+						local is_toggled = table.find(Selected, Option.Name)
+						
+						if is_toggled then
+							if not data.MultiSelection then return end
+							
+							Option.TextColor3 = Color3.fromRGB(134, 134, 134)
+							Option.TextTransparency = 0.490
+							table.remove(Selected, is_toggled)
+						else
+							Option.TextColor3 = Color3.fromRGB(223,223,223)
+							Option.TextTransparency = 0.38
+							
+							if data.MultiSelection then
+								table.insert(Selected, Option.Name)
+							else
+								for i,v in pairs(List:GetChildren()) do
+									if not v:IsA("TextButton") then continue end
+									v.TextColor3 = Color3.fromRGB(134, 134, 134)
+									v.TextTransparency = 0.490
+								end
+								
+								Option.TextColor3 = Color3.fromRGB(223,223,223)
+								Option.TextTransparency = 0.38
+								
+								Selected = {Option.Name}
+							end
+						end
+						
+						if #NoGui.Flags[data.Flag].Value == 0 then
+							TextLabel.Text = data.Name.." - None"
+						else
+							TextLabel.Text = data.Name.." - "..setStringSize(table.concat(Selected, ", "), 40)
+						end
+										
+						Selected = NoGui.Flags[data.Flag].Value
+						data.Callback(Selected)
+					end)
+
+					if #Selected == 0 then
+						TextLabel.Text = data.Name.." - None"
+					else
+						TextLabel.Text = data.Name.." - "..setStringSize(table.concat(Selected, ", "), 40)
+					end
+				end
 			end
 			
 			NoGui.Flags[data.Flag] = Methods
