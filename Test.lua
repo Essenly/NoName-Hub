@@ -19,15 +19,13 @@ function Fishing()
     task.spawn(function()
         if data.AutoFishing == false then return end
 
-        while true do
+        while task.wait() do
             if data.AutoFishing == false then return end
     
             local stuff = getrenv()._G.FireNetwork
             local id = plr.UserId
         
             stuff("PlayerCatchFish", id)
-    
-            task.wait()
         end
     end)
 end
@@ -44,7 +42,7 @@ function Spin()
     if not data.AutoSpin then return end
     
     task.spawn(function()
-        while true do
+        while task.wait() do
             if not checkBanner() then return end
             if not checkCoins() then return end
             if not data.AutoSpin then return end
@@ -52,7 +50,6 @@ function Spin()
             local unit = game:GetService("ReplicatedStorage"):WaitForChild("Modules"):WaitForChild("Globalinit"):WaitForChild("RemoteEvent"):WaitForChild("PlayerBuyTower"):FireServer(1)
             print("Spin Unit:", unit)
 
-            task.wait()
         end
     end)
 end
@@ -99,7 +96,7 @@ local hook; hook = hookmetamethod(game, "__namecall", function(self, ...)
             saveMacroType({
                 Action = "PlaceTower",
                 Tower = args[1],
-                Position = args[2]
+                Position = {args[2].X, args[2].Y, args[2].Z}
             })
         end
 
