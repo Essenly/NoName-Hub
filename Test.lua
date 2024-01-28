@@ -125,50 +125,52 @@ end
 
 -- hookfunctions
 
-local placetower = game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerPlaceTower")
-local upgradetower = game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerUpgradeTower")
-local set_target_tower = game:GetService("ReplicatedStorage"):WaitForChild("Modules"):WaitForChild("GlobalInit"):WaitForChild("RemoteEvents"):WaitForChild("PlayerSetTowerTargetMode")
-local sell_tower = game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerSellTower")
+if game.PlaceId ~= 5902977746 then
+    local placetower = game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerPlaceTower")
+    local upgradetower = game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerUpgradeTower")
+    local set_target_tower = game:GetService("ReplicatedStorage"):WaitForChild("Modules"):WaitForChild("GlobalInit"):WaitForChild("RemoteEvents"):WaitForChild("PlayerSetTowerTargetMode")
+    local sell_tower = game:GetService("ReplicatedStorage"):WaitForChild("GenericModules"):WaitForChild("Service"):WaitForChild("Network"):WaitForChild("PlayerSellTower")
 
-local hook; hook = hookmetamethod(game, "__namecall", function(self, ...)
-    local args = {...}
-    local method = getnamecallmethod():lower()
+    local hook; hook = hookmetamethod(game, "__namecall", function(self, ...)
+        local args = {...}
+        local method = getnamecallmethod():lower()
 
-    if not checkcaller() and method == "fireserver" then
-        
-        if self == placetower then
-            saveMacroType({
-                Action = "PlaceTower",
-                Tower = args[1],
-                Position = {args[2].X, args[2].Y, args[2].Z}
-            })
+        if not checkcaller() and method == "fireserver" then
+            
+            if self == placetower then
+                saveMacroType({
+                    Action = "PlaceTower",
+                    Tower = args[1],
+                    Position = {args[2].X, args[2].Y, args[2].Z}
+                })
+            end
+
+            if self == upgradetower then
+                saveMacroType({
+                    Action = "UpgradeTower",
+                    Tower = args[1],
+                })
+            end
+
+            if self == set_target_tower then
+                saveMacroType({
+                    Action = "SetTargetTower",
+                    Tower = args[1],
+                    Target = args[2]
+                })
+            end
+
+            if self == sell_tower then
+                saveMacroType({
+                    Action = "SellTower",
+                    Tower = args[1],
+                })
+            end
         end
 
-        if self == upgradetower then
-            saveMacroType({
-                Action = "UpgradeTower",
-                Tower = args[1],
-            })
-        end
-
-        if self == set_target_tower then
-            saveMacroType({
-                Action = "SetTargetTower",
-                Tower = args[1],
-                Target = args[2]
-            })
-        end
-
-        if self == sell_tower then
-            saveMacroType({
-                Action = "SellTower",
-                Tower = args[1],
-            })
-        end
-    end
-
-    return hook(self, ...)
-end)
+        return hook(self, ...)
+    end)
+end
 
 -- coroutine
 
@@ -250,9 +252,12 @@ Game:CreateSection("Play Macro")
 
 local MacroList = Game:CreateDropdown({
     Name = "Macro List",
+    Flag = "SelectedMacro",
     MultiSelection = false,
     CanChangedByFlag = false,
     Options = getMacros(),
+    CurrentValue = {},
+
     Callback = function(value)
         
     end
@@ -264,6 +269,16 @@ Game:CreateButton({
         MacroList:Update(getMacros())
     end
 })
+
+Game:CreateToggle({
+    Name = "Play Macro",
+    CurrentValue = false,
+    Flag = "Play Macro",
+    Callback = function(value)
+        data.PlayMacro = value
+    end
+})
+
 
 
 
