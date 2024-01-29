@@ -171,13 +171,10 @@ function NoGui:Notify(data1, data2, data3)
 		Folder.Name = "NotifyFolder"
 	end
 
-	if #getgenv().Gui:FindFirstChild("NotifyFolder"):GetChildren() > 0 then
-		local findNotifes = #getgenv().Gui:FindFirstChild("NotifyFolder"):GetChildren()
+	Position = #getgenv().Gui:FindFirstChild("NotifyFolder"):GetChildren() + 1
+	CustomY = 1.8 - (0.15 * (Position - 1))
 
-		Position = findNotifes + 1
-
-		CustomY = 1.8 - (0.15 * findNotifes)
-	end
+	print(Position, CustomY)
 
 	local Notify = Instance.new("TextButton")
 	local UICorner = Instance.new("UICorner")
@@ -192,7 +189,7 @@ function NoGui:Notify(data1, data2, data3)
 	Notify.BackgroundTransparency = 0.200
 	Notify.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	Notify.BorderSizePixel = 0
-	Notify.Position = UDim2.new(0.808691621, 0, CustomY or 1.8, 0)
+	Notify.Position = UDim2.new(0.808691621, 0, CustomY, 0)
 	Notify.Size = UDim2.new(0.167, 0, 0.135, 0)
 	Notify.Font = Enum.Font.SourceSans
 	Notify.Text = ""
@@ -256,8 +253,8 @@ function NoGui:Notify(data1, data2, data3)
 	UICorner:Clone().Parent = Bar2
 
 	local twnBar = createTween(Bar2, TweenInfo.new(data3, Enum.EasingStyle.Linear), {Size = UDim2.new(1,0,1,0)})
-	local twnAppear = createTween(Notify, TweenInfo.new(0.6), {Position = UDim2.new(0.8, 0, (CustomY and CustomY - 1) or 0.8, 0)})
-	local twnDestroy = createTween(Notify, TweenInfo.new(0.6), {Position = UDim2.new(0.8, 0, CustomY or 1.8, 0)})
+	local twnAppear = createTween(Notify, TweenInfo.new(0.6), {Position = UDim2.new(0.8, 0, CustomY - 1, 0)})
+	local twnDestroy = createTween(Notify, TweenInfo.new(0.6), {Position = UDim2.new(0.8, 0, CustomY, 0)})
 
 	Notify.MouseButton1Click:Connect(function()
 		twnDestroy:Play()
@@ -276,7 +273,7 @@ function NoGui:Notify(data1, data2, data3)
 			if Position > 1 then
 				if not getgenv().Gui:FindFirstChild(Position - 1) then
 					Notify.Name = Position - 1
-					local decreaseTween = createTween(Notify, TweenInfo.new(0.3), {Position = UDim2.new(0.8, 0, Notify.Position.Y - 0.15, 0)})
+					local decreaseTween = createTween(Notify, TweenInfo.new(0.3), {Position = UDim2.new(0.8, 0, Notify.Position.Y + 0.15, 0)})
 					decreaseTween:Play()
 					decreaseTween.Completed:Wait()
 				end
