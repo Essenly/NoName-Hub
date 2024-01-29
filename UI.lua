@@ -254,7 +254,7 @@ function NoGui:Notify(data1, data2, data3)
 
 	local twnBar = createTween(Bar2, TweenInfo.new(data3, Enum.EasingStyle.Linear), {Size = UDim2.new(1,0,1,0)})
 	local twnAppear = createTween(Notify, TweenInfo.new(0.6), {Position = UDim2.new(0.8, 0, CustomY - 1, 0)})
-	local twnDestroy = createTween(Notify, TweenInfo.new(0.6), {Position = UDim2.new(0.8, 0, CustomY, 0)})
+	local twnDestroy = createTween(Notify, TweenInfo.new(0.6), {Position = UDim2.new(0.8, 0, 2, 0)})
 
 	Notify.MouseButton1Click:Connect(function()
 		twnDestroy:Play()
