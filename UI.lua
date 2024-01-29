@@ -250,6 +250,18 @@ function NoGui:Notify(data1, data2, data3)
 	UICorner:Clone().Parent = Bar
 	UICorner:Clone().Parent = Bar2
 
+	local function updatePos()
+		for i = Position + 1, #getgenv().Gui:FindFirstChild("NotifyFolder"):GetChildren() do
+			local obj = getgenv().Gui:FindFirstChild("NotifyFolder"):FindFirstChild(i)
+			local decreaseTween = createTween(obj, TweenInfo.new(0.3), {Position = UDim2.new(0.8, 0, obj.Position.Y + 0.15, 0)})
+			decreaseTween:Play()
+
+			obj.Name = Position - 1
+			
+			task.wait()
+		end
+	end
+
 	local twnBar = createTween(Bar2, TweenInfo.new(data3, Enum.EasingStyle.Linear), {Size = UDim2.new(1,0,1,0)})
 	local twnAppear = createTween(Notify, TweenInfo.new(0.6), {Position = UDim2.new(0.8, 0, CustomY - 1, 0)})
 	local twnDestroy = createTween(Notify, TweenInfo.new(0.6), {Position = UDim2.new(0.8, 0, 2, 0)})
@@ -259,22 +271,12 @@ function NoGui:Notify(data1, data2, data3)
 		twnDestroy.Completed:Wait()
 	
 		Notify:Destroy()
+		updatePos()
 	end)
 
 	twnAppear:Play()
 	twnAppear.Completed:Wait()
 
-	local function updatePos(pos)
-		for i = pos + 1, #getgenv().Gui:FindFirstChild("NotifyFolder"):GetChildren() do
-			local obj = getgenv().Gui:FindFirstChild("NotifyFolder"):FindFirstChild(i)
-			local decreaseTween = createTween(obj, TweenInfo.new(0.3), {Position = UDim2.new(0.8, 0, obj.Position.Y + 0.15, 0)})
-			decreaseTween:Play()
-
-			obj.Name = pos - 1
-			
-			task.wait()
-		end
-	end
 
 	twnBar:Play()
 	twnBar.Completed:Wait()
