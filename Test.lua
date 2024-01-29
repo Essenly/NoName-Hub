@@ -1,3 +1,5 @@
+_G.key = _G.key or ""
+
 local UI = loadstring(game:HttpGet('https://raw.githubusercontent.com/Essenly/NoName-Hub/main/UI.lua'))()
 
 local KeyLibrary = loadstring(game:HttpGet('https://raw.githubusercontent.com/MaGiXxScripter0/keysystemv2api/master/setup_obf.lua'))()
@@ -538,9 +540,16 @@ local Time = Settings:CreateLabel("Time: 00:00")
 task.spawn(function()
     while task.wait(1) do
         local scriptTime = convertToMS(os.time() - startTime)
+        local macroName = ""
+
+        if string.len(data.MacroName) > 0 then
+            macroName = data.MacroName
+        else
+            macroName = "None"
+        end
 
         Wave:Set("Wave: "..getWave())
-        Macro:Set("Macro: "..string.len(data.MacroName) > 0 and data.MacroName or "None")
+        Macro:Set("Macro: "..macroName)
         Status:Set("Macro Status:"..MacroStatus)
         Time:Set("Time: "..scriptTime)
     end
