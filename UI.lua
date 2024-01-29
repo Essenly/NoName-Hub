@@ -171,7 +171,7 @@ function NoGui:Notify(data1, data2, data3)
 		Folder.Name = "NotifyFolder"
 	end
 
-	if getgenv().Gui:FindFirstChild("Notify") then
+	if getgenv().Gui:FindFirstChild("NotifyFolder"):FindFirstChild("Notify") then
 		local findNotifes = #getgenv().Gui:FindFirstChild("NotifyFolder"):GetChildren()
 
 		Position = findNotifes + 1
