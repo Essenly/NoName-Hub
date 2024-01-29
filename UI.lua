@@ -174,8 +174,6 @@ function NoGui:Notify(data1, data2, data3)
 	Position = #getgenv().Gui:FindFirstChild("NotifyFolder"):GetChildren() + 1
 	CustomY = 1.8 - (0.15 * (Position - 1))
 
-	print(Position, CustomY)
-
 	local Notify = Instance.new("TextButton")
 	local UICorner = Instance.new("UICorner")
 	local NotifyName = Instance.new("TextLabel")
@@ -266,21 +264,17 @@ function NoGui:Notify(data1, data2, data3)
 	twnAppear:Play()
 	twnAppear.Completed:Wait()
 
-	task.spawn(function()
-		while task.wait() do
-			if not Notify.Parent then break end
+	local function updatePos(pos)
+		for i = pos + 1, #getgenv().Gui:FindFirstChild("NotifyFolder"):GetChildren() do
+			local obj = getgenv().Gui:FindFirstChild("NotifyFolder"):FindFirstChild(i)
+			local decreaseTween = createTween(obj, TweenInfo.new(0.3), {Position = UDim2.new(0.8, 0, obj.Position.Y + 0.15, 0)})
+			decreaseTween:Play()
 
-			if Position > 1 then
-				if not getgenv().Gui:FindFirstChild("NotifyFolder"):FindFirstChild(Position - 1) then
-					Notify.Name = Position - 1
-					local decreaseTween = createTween(Notify, TweenInfo.new(0.3), {Position = UDim2.new(0.8, 0, Notify.Position.Y + 0.15, 0)})
-					decreaseTween:Play()
-					decreaseTween.Completed:Wait()
-				end
-			end
+			obj.Name = pos - 1
+			
+			task.wait()
 		end
-	end)
-
+	end
 
 	twnBar:Play()
 	twnBar.Completed:Wait()
@@ -289,6 +283,8 @@ function NoGui:Notify(data1, data2, data3)
 	twnDestroy.Completed:Wait()
 
 	Notify:Destroy()
+
+	updatePos(Position)
 end
 
 --
