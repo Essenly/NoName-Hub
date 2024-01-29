@@ -251,14 +251,13 @@ function NoGui:Notify(data1, data2, data3)
 	UICorner:Clone().Parent = Bar2
 
 	local function updatePos()
-		for i = Position + 1, #getgenv().Gui:FindFirstChild("NotifyFolder"):GetChildren() do
+		for i = Position + 1, #getgenv().Gui:FindFirstChild("NotifyFolder"):GetChildren() + 1 do
 			local obj = getgenv().Gui:FindFirstChild("NotifyFolder"):FindFirstChild(i)
-			local decreaseTween = createTween(obj, TweenInfo.new(0.3), {Position = UDim2.new(0.8, 0, obj.Position.Y.Scale + 0.15, 0)})
+			local decreaseTween = createTween(obj, TweenInfo.new(0.2), {Position = UDim2.new(0.8, 0, obj.Position.Y.Scale + 0.15, 0)})
 			decreaseTween:Play()
 
 			obj.Name = Position - 1
-			
-			task.wait()
+			RunService.RenderStepped:Wait()
 		end
 	end
 
