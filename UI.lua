@@ -275,6 +275,7 @@ function NoGui:Notify(data1, data2, data3)
 
 			if Position > 1 then
 				if not getgenv().Gui:FindFirstChild(Position - 1) then
+					Notify.Name = Position - 1
 					local decreaseTween = createTween(Notify, TweenInfo.new(0.3), {Position = UDim2.new(0.8, 0, Notify.Position.Y - 0.15, 0)})
 					decreaseTween:Play()
 					decreaseTween.Completed:Wait()
