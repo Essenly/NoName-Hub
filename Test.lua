@@ -163,13 +163,17 @@ function readMacro()
 end
 
 function startGame()
-    if plr.PlayerGui.MainGui.MainFrames.StartMatch.Visible then
-        game:GetService("ReplicatedStorage"):WaitForChild("Modules"):WaitForChild("GlobalInit"):WaitForChild("RemoteEvents"):WaitForChild("PlayerVoteToStartMatch"):FireServer()
-    end
+    pcall(function()
+        if plr.PlayerGui.MainGui.MainFrames.StartMatch.Visible then
+            game:GetService("ReplicatedStorage"):WaitForChild("Modules"):WaitForChild("GlobalInit"):WaitForChild("RemoteEvents"):WaitForChild("PlayerVoteToStartMatch"):FireServer()
+        end
+    end)
 end
 
 function skipWave()
-    game:GetService("ReplicatedStorage"):WaitForChild("Modules"):WaitForChild("GlobalInit"):WaitForChild("RemoteEvents"):WaitForChild("PlayerReadyForNextWave"):FireServer()
+    pcall(function()
+        game:GetService("ReplicatedStorage"):WaitForChild("Modules"):WaitForChild("GlobalInit"):WaitForChild("RemoteEvents"):WaitForChild("PlayerReadyForNextWave"):FireServer()
+    end)
 end
 
 function teleport_to_game(map, diff)
@@ -550,7 +554,7 @@ task.spawn(function()
 
         Wave:Set("Wave: "..getWave())
         Macro:Set("Macro: "..macroName)
-        Status:Set("Macro Status:"..MacroStatus)
+        Status:Set("Macro Status: "..MacroStatus)
         Time:Set("Time: "..scriptTime)
     end
 end)
