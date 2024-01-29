@@ -11,7 +11,6 @@ local UIS = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 local HTTPService = game:GetService("HttpService")
-local GeneratedTag
 
 -- functions
 
@@ -166,14 +165,13 @@ function NoGui:Notify(data1, data2, data3)
 
 	local Position = 1
 
-	if getgenv().Gui:FindFirstChild("Notify") then
-		local findNotifes = 0
+	if not getgenv().Gui:FindFirstChild("NotifyFolder") then
+		local Folder = Instance.new("Folder", getgenv().Gui)
+		Folder.Name = "NotifyFolder"
+	end
 
-		for i,v in pairs(getgenv().Gui:GetChildren()) do
-			if v:GetAttribute("OriginalName") == "Notify" then
-				findNotifes += 1
-			end
-		end
+	if getgenv().Gui:FindFirstChild("Notify") then
+		local findNotifes = #getgenv().Gui:FindFirstChild("NotifyFolder"):GetChildren()
 
 		Position = findNotifes + 1
 
@@ -188,7 +186,6 @@ function NoGui:Notify(data1, data2, data3)
 	local Bar2 = Instance.new("Frame")
 
 	Notify.Name = Position
-	Notify:SetAttribute("OriginalName", "Notify")
 	Notify.Parent = getgenv().Gui
 	Notify.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 	Notify.BackgroundTransparency = 0.200
