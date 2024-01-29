@@ -300,6 +300,7 @@ task.spawn(function()
             if self == upgradetower then
                 print(args[1])
                 local Pos = Towers:FindFirstChild(args[1]).HumanoidRootPart.Position
+                print(Pos)
                 saveMacroType({
                     Action = "UpgradeTower",
                     Position = {Pos.X, Pos.Y, Pos.Z},
@@ -435,6 +436,7 @@ Game:CreateToggle({
         end
 
         if value then
+            UI:Notify("Record Macro", "Macro recording", 2)
             data.RecordMacro = true
             MacroData = {}
             timeout = tick()
