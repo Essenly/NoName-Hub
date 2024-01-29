@@ -298,28 +298,29 @@ task.spawn(function()
             end
 
             if self == upgradetower then
-                local Position = Towers:FindFirstChild(args[1]).HumanoidRootPart.Position
+                print(args[1])
+                local Pos = Towers:FindFirstChild(args[1]).HumanoidRootPart.Position
                 saveMacroType({
                     Action = "UpgradeTower",
-                    Position = {Position.X, Position.Y, Position.Z},
+                    Position = {Pos.X, Pos.Y, Pos.Z},
                 })
             end
 
             if self == set_target_tower then
-                local Position = Towers:FindFirstChild(args[1]).HumanoidRootPart.Position
+                local Pos = Towers:FindFirstChild(args[1]).HumanoidRootPart.Position
                 saveMacroType({
                     Action = "SetTargetTower",
-                    Position = {Position.X, Position.Y, Position.Z},
+                    Position = {Pos.X, Pos.Y, Pos.Z},
                     Target = args[2]
                 })
             end
 
             if self == sell_tower then
-                local Position = Towers:FindFirstChild(args[1]).HumanoidRootPart.Position
+                local Pos = Towers:FindFirstChild(args[1]).HumanoidRootPart.Position
 
                 saveMacroType({
                     Action = "SellTower",
-                    Position = {Position.X, Position.Y, Position.Z},
+                    Position = {Pos.X, Pos.Y, Pos.Z},
                 })
             end
         end
