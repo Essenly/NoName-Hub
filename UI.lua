@@ -11,6 +11,7 @@ local UIS = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 local HTTPService = game:GetService("HttpService")
+local GeneratedTag
 
 -- functions
 
@@ -186,7 +187,7 @@ function NoGui:Notify(data1, data2, data3)
 	local Bar2 = Instance.new("Frame")
 
 	Notify.Name = Position
-	Notify.Parent = getgenv().Gui
+	Notify.Parent = getgenv().Gui:FindFirstChild("NotifyFolder")
 	Notify.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 	Notify.BackgroundTransparency = 0.200
 	Notify.BorderColor3 = Color3.fromRGB(0, 0, 0)
