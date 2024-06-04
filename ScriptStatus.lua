@@ -1,7 +1,7 @@
 return {
 	["Anime Dimension"] = {
 		Status = "working",
-		Update = "16.05.2024",
+		Update = "04.06.2024",
 		Info = "Info for today: Nonentiy (moderator) will be best"
 	}
 }
