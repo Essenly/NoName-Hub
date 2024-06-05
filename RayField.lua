@@ -1690,7 +1690,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 			function InputSettings:Set(value)
 				local Success, Response = pcall(function()
-					InputSettings.Callback(Input.InputFrame.InputBox.Text)
+					InputSettings.Callback(value)
 					Input.InputFrame.InputBox.Text = value
 					InputSettings.Text = Input.InputFrame.InputBox.Text
 					SaveConfiguration()
