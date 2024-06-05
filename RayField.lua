@@ -264,7 +264,7 @@ local function SaveConfiguration()
 		if v.Type == "ColorPicker" then
 			Data[i] = PackColor(v.Color)
 		else
-			Data[i] = v.CurrentValue or v.CurrentKeybind or v.CurrentOption or v.Color
+			Data[i] = v.CurrentValue or v.CurrentKeybind or v.CurrentOption or v.Color or v.Text
 		end
 	end	
 	writefile(ConfigurationFolder .. "/" .. CFileName .. ConfigurationExtension, tostring(HttpService:JSONEncode(Data)))
@@ -1657,7 +1657,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 				local Success, Response = pcall(function()
 					InputSettings.Callback(Input.InputFrame.InputBox.Text)
-					InputSetttings.CurrentValue = Input.InputFrame.InputBox.Text
+					InputSettings.Text = Input.InputFrame.InputBox.Text
 				end)
 				if not Success then
 					TweenService:Create(Input, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = Color3.fromRGB(85, 0, 0)}):Play()
@@ -1692,7 +1692,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 				local Success, Response = pcall(function()
 					InputSettings.Callback(Input.InputFrame.InputBox.Text)
 					Input.InputFrame.InputBox.Text = value
-					InputSetttings.CurrentValue = Input.InputFrame.InputBox.Text
+					InputSettings.Text = Input.InputFrame.InputBox.Text
 					SaveConfiguration()
 				end)
 			end
