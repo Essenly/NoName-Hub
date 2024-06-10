@@ -2492,12 +2492,33 @@ end
 
 function RayfieldLibrary:LoadConfiguration()
 	if CEnabled then
-		pcall(function()
+		if getgenv().Config then
+			local a,b = pcall(function()
+				for i,v in pairs(getgenv().Config) do
+					if RayfieldLibrary.Flags[i] then
+						RayfieldLibrary.Flags[i]:Set(v)
+					end
+				end
+			end)
+
+			if not a then 
+				print("NoName Hub Config Error: "..b)
+				RayfieldLibrary:Notify({Title = "Configuration Failed to load!", Content = "Press F9 or type /console in chat for logs"}) 
+			end
+			return
+		end
+
+		local a,b = pcall(function()
 			if isfile(ConfigurationFolder .. "/" .. CFileName .. ConfigurationExtension) then
 				LoadConfiguration(readfile(ConfigurationFolder .. "/" .. CFileName .. ConfigurationExtension))
 				RayfieldLibrary:Notify({Title = "Configuration Loaded", Content = "The configuration file for this script has been loaded from a previous session"})
 			end
 		end)
+
+		if not a then 
+			print("NoName Hub Config Error: "..b)
+			RayfieldLibrary:Notify({Title = "Configuration Failed to load!", Content = "Press F9 or type /console in chat for logs"})  
+		end
 	end
 end
 
