@@ -2451,10 +2451,13 @@ end
 function RayfieldLibrary:CreateScriptInfoTab(Window, Game)
 	local ScriptInfo = ScriptStatus[Game] or {} 
 
+	print(ScriptInfo, Game)
+	for i,v in pairs(ScriptInfo) do print(i,v) end
+
 	local Info = Window:CreateTab("Script Info")
-	Info:CreateLabel("Script Status: "..ScriptInfo.Status or "Unknown")
-	Info:CreateLabel("Script Updated: "..ScriptInfo.Update or "Unknown")
-	Info:CreateLabel("Script Info: "..ScriptInfo.Info or "Unknown")
+	Info:CreateLabel("Script Status: "..(ScriptInfo.Status or "Unknown"))
+	Info:CreateLabel("Script Updated: "..(ScriptInfo.Update or "Unknown"))
+	Info:CreateLabel("Script Info: "..(ScriptInfo.Info or "Unknown"))
 
 	Info:CreateButton({
 		Name = "Discord: discord.gg/MArf5n46gA (press to copy)",
@@ -2471,7 +2474,7 @@ function RayfieldLibrary:CreateScriptInfoTab(Window, Game)
 	})
 
 
-	return ScriptInfo
+	return Info
 end
 
 Topbar.ChangeSize.MouseButton1Click:Connect(function()
