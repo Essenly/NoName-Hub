@@ -2431,7 +2431,7 @@ end
 function RayfieldLibrary:CopyConfig()
 	local str = "getgenv().Config = {\n"
 
-	for i,v in pairs(Rayfield.Flags) do
+	for i,v in pairs(RayfieldLibrary.Flags) do
 		local value = v.CurrentValue or v.CurrentKeybind or v.CurrentOption or v.Color or v.Text
 
 		if type(value) == "boolean" then
