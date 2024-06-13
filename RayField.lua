@@ -2451,7 +2451,7 @@ end
 function RayfieldLibrary:CreateScriptInfoTab(Window, Game)
 	local ScriptInfo = ScriptStatus[Game] or {} 
 
-	local ScriptInfo = Window:CreateTab("Script Info")
+	local Info = Window:CreateTab("Script Info")
 	Info:CreateLabel("Script Status: "..ScriptInfo.Status or "Unknown")
 	Info:CreateLabel("Script Updated: "..ScriptInfo.Update or "Unknown")
 	Info:CreateLabel("Script Info: "..ScriptInfo.Info or "Unknown")
