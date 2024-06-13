@@ -113,6 +113,10 @@ local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
 
+-- Script Data
+
+local ScriptStatus = loadstring(game:HttpGet("https://raw.githubusercontent.com/Essenly/NoName-Hub/main/ScriptStatus.lua"))() or {}
+
 -- Interface Management
 local Rayfield = game:GetObjects("rbxassetid://10804731440")[1]
 
@@ -2420,9 +2424,54 @@ function RayfieldLibrary:CreateWindow(Settings)
 	return Window
 end
 
-
 function RayfieldLibrary:Destroy()
 	Rayfield:Destroy()
+end
+
+function RayfieldLibrary:CopyConfig()
+	local str = "getgenv().Config = {\n"
+
+	for i,v in pairs(Rayfield.Flags) do
+		local value = v.CurrentValue or v.CurrentKeybind or v.CurrentOption or v.Color or v.Text
+
+		if type(value) == "boolean" then
+			str = str.."	"..i.." = "..tostring(value)..",\n"
+		end
+		
+		if type(value) == "string" then
+			str = str.."	"..i.." = "..'"'..value..'"'..",\n"
+		end
+	end
+
+	str = str.."}"
+	setclipboard(str)
+	RayfieldLibrary:Notify({Title = "NoName Hub", Content = "Config was copied to clipboard", Duration = 15})
+end
+
+function RayfieldLibrary:CreateScriptInfoTab(Window, Game)
+	local ScriptInfo = ScriptStatus[Game] or {} 
+
+	local ScriptInfo = Window:CreateTab("Script Info")
+	Info:CreateLabel("Script Status: "..ScriptInfo.Status or "Unknown")
+	Info:CreateLabel("Script Updated: "..ScriptInfo.Update or "Unknown")
+	Info:CreateLabel("Script Info: "..ScriptInfo.Info or "Unknown")
+
+	Info:CreateButton({
+		Name = "Discord: discord.gg/MArf5n46gA (press to copy)",
+		Callback = function()
+			setclipboard("discord.gg/MArf5n46gA")
+		end
+	})
+
+	Info:CreateButton({
+		Name = "Copy Config",
+		Callback = function()
+			RayfieldLibrary:CopyConfig()
+		end,
+	})
+
+
+	return ScriptInfo
 end
 
 Topbar.ChangeSize.MouseButton1Click:Connect(function()
