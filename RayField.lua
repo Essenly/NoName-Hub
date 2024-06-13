@@ -2450,10 +2450,7 @@ end
 
 function RayfieldLibrary:CreateScriptInfoTab(Window, Game)
 	local ScriptInfo = ScriptStatus[Game] or {} 
-
-	print(ScriptInfo, Game)
-	for i,v in pairs(ScriptInfo) do print(i,v) end
-
+	
 	local Info = Window:CreateTab("Script Info")
 	Info:CreateLabel("Script Status: "..(ScriptInfo.Status or "Unknown"))
 	Info:CreateLabel("Script Updated: "..(ScriptInfo.Update or "Unknown"))
