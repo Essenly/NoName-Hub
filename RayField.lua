@@ -2487,8 +2487,6 @@ function RayfieldLibrary:CreateScriptInfoTab(Window, Game)
 	Info:CreateLabel("Script Updated: "..(ScriptInfo.Update or "Unknown"))
 	Info:CreateLabel("Script Info: "..(ScriptInfo.Info or "Unknown"))
 
-	Info:CreateSection("    ")
-
 	Info:CreateButton({
 		Name = "Discord: discord.gg/MArf5n46gA (press to copy)",
 		Callback = function()
