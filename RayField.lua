@@ -261,6 +261,24 @@ local function LoadConfiguration(Configuration)
 	end
 end
 
+local function getValue(object)
+	if object.CurrentValue ~= nil then
+		return object.CurrentValue
+	end
+	if object.CurrentKeybind ~= nil then
+		return object.CurrentKeybind
+	end
+	if object.CurrentOption ~= nil then
+		return object.CurrentOption
+	end
+	if object.Color ~= nil then
+		return object.Color
+	end
+	if object.Text ~= nil then
+		return object.Text
+	end
+end
+
 local function SaveConfiguration()
 	if not CEnabled then return end
 	local Data = {}
@@ -268,7 +286,7 @@ local function SaveConfiguration()
 		if v.Type == "ColorPicker" then
 			Data[i] = PackColor(v.Color)
 		else
-			Data[i] = v.CurrentValue or v.CurrentKeybind or v.CurrentOption or v.Color or v.Text
+			Data[i] = getValue(v)
 		end
 	end	
 	writefile(ConfigurationFolder .. "/" .. CFileName .. ConfigurationExtension, tostring(HttpService:JSONEncode(Data)))
@@ -2432,14 +2450,27 @@ function RayfieldLibrary:CopyConfig()
 	local str = "getgenv().Config = {\n"
 
 	for i,v in pairs(RayfieldLibrary.Flags) do
-		local value = v.CurrentValue or v.CurrentKeybind or v.CurrentOption or v.Color or v.Text
+		local value = getValue(v)
 
 		if type(value) == "boolean" then
+			str = str.."	"..i.." = "..tostring(value)..",\n"
+		end
+
+		if type(value) == "number" then
 			str = str.."	"..i.." = "..tostring(value)..",\n"
 		end
 		
 		if type(value) == "string" then
 			str = str.."	"..i.." = "..'"'..value..'"'..",\n"
+		end
+
+		if type(value) == "table" then
+			local newTable = {}
+			for i,v in pairs(value) do
+				table.insert(newTable, '"'..v..'"')
+			end
+			
+			str = str.."	"..i.." = {"..table.concat(newTable, ", ").."},\n"
 		end
 	end
 
