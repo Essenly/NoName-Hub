@@ -1675,6 +1675,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 			Input.InputFrame.InputBox.PlaceholderText = InputSettings.PlaceholderText
 			Input.InputFrame.Size = UDim2.new(0, Input.InputFrame.InputBox.TextBounds.X + 24, 0, 30)
 
+			Input.InputFrame.InputBox.ClearTextOnFocus = true
 			Input.InputFrame.InputBox.FocusLost:Connect(function()
 
 				local Success, Response = pcall(function()
