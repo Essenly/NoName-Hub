@@ -1680,6 +1680,9 @@ function RayfieldLibrary:CreateWindow(Settings)
 			Input.InputFrame.InputBox.TextXAlignment = Enum.TextXAlignment.Left
 			
 			Input.InputFrame.InputBox.FocusLost:Connect(function()
+				Input.InputFrame.InputBox.ClearTextOnFocus = true
+				Input.InputFrame.InputBox.ClipsDescendants = true
+				Input.InputFrame.InputBox.TextXAlignment = Enum.TextXAlignment.Left
 
 				local Success, Response = pcall(function()
 					InputSettings.Callback(Input.InputFrame.InputBox.Text)
@@ -1710,12 +1713,12 @@ function RayfieldLibrary:CreateWindow(Settings)
 				TweenService:Create(Input, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
 			end)
 
-			Input.InputFrame.InputBox:GetPropertyChangedSignal("Text"):Connect(function()
-				TweenService:Create(Input.InputFrame, TweenInfo.new(0.55, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Size = UDim2.new(0, Input.InputFrame.InputBox.TextBounds.X + 24, 0, 30)}):Play()
-			end)
-
 			function InputSettings:Set(value)
 				local Success, Response = pcall(function()
+					Input.InputFrame.InputBox.ClearTextOnFocus = true
+					Input.InputFrame.InputBox.ClipsDescendants = true
+					Input.InputFrame.InputBox.TextXAlignment = Enum.TextXAlignment.Left
+						
 					InputSettings.Callback(value)
 					Input.InputFrame.InputBox.Text = value
 					InputSettings.Text = Input.InputFrame.InputBox.Text
