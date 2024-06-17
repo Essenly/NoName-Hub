@@ -1678,14 +1678,6 @@ function RayfieldLibrary:CreateWindow(Settings)
 			Input.InputFrame.InputBox.ClipsDescendants = true
 			Input.InputFrame.InputBox.TextXAlignment = Enum.TextXAlignment.Left
 
-			Input.InputFrame.InputBox:GetPropertyChangedSignal("Text"):Connect(function() 
-				if string.len(Input.InputFrame.InputBox.Text) == 0 then
-					Input.InputFrame.InputBox.TextXAlignment = Enum.TextXAlignment.Center
-				else
-					Input.InputFrame.InputBox.TextXAlignment = Enum.TextXAlignment.Left
-				end
-			end)
-			
 			Input.InputFrame.InputBox.FocusLost:Connect(function()
 				Input.InputFrame.InputBox.ClearTextOnFocus = true
 				Input.InputFrame.InputBox.ClipsDescendants = true
