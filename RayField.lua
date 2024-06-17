@@ -2587,7 +2587,9 @@ function RayfieldLibrary:LoadConfiguration()
 			local a,b = pcall(function()
 				for i,v in pairs(getgenv().Config) do
 					if RayfieldLibrary.Flags[i] then
-						RayfieldLibrary.Flags[i]:Set(v)
+						task.spawn(function()
+							RayfieldLibrary.Flags[i]:Set(v)
+						end)
 					end
 				end
 			end)
