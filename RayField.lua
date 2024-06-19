@@ -15,6 +15,7 @@ local NotificationDuration = 6.5
 local RayfieldFolder = "Rayfield"
 local ConfigurationFolder = RayfieldFolder.."/Configurations"
 local ConfigurationExtension = ".json"
+local SessionStarted = os.time()
 
 
 
@@ -2497,6 +2498,7 @@ function RayfieldLibrary:CreateScriptInfoTab(Window, Game)
 	Info:CreateLabel("Script Status: "..(ScriptInfo.Status or "Unknown"))
 	Info:CreateLabel("Script Updated: "..(ScriptInfo.Update or "Unknown"))
 	Info:CreateLabel("Script Info: "..(ScriptInfo.Info or "Unknown"))
+	local SessionTime = Info:CreateLabel("Session Time: 00:00:00")
 
 	Info:CreateButton({
 		Name = "Discord: discord.gg/MArf5n46gA (press to copy)",
@@ -2512,6 +2514,21 @@ function RayfieldLibrary:CreateScriptInfoTab(Window, Game)
 		end,
 	})
 
+	local function Format(Int)
+		return string.format("%02i", Int)
+	end
+
+	local function convertToHMS(Seconds)
+		local Minutes = (Seconds - Seconds%60)/60
+		Seconds = Seconds - Minutes*60
+		local Hours = (Minutes - Minutes%60)/60
+		Minutes = Minutes - Hours*60
+		return Format(Hours)..":"..Format(Minutes)..":"..Format(Seconds)
+	end
+
+	RunService.Stepped:Connect(function()
+		SessionTime:Set(convertToHMS(os.time() - SessionStarted))
+	end)
 
 	return Info
 end
