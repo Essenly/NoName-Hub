@@ -2527,7 +2527,7 @@ function RayfieldLibrary:CreateScriptInfoTab(Window, Game)
 	end
 
 	RunService.Stepped:Connect(function()
-		SessionTime:Set(convertToHMS(os.time() - SessionStarted))
+		SessionTime:Set("Session Time: "..convertToHMS(os.time() - SessionStarted))
 	end)
 
 	return Info
