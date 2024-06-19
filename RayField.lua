@@ -2527,6 +2527,7 @@ function RayfieldLibrary:CreateScriptInfoTab(Window, Game)
 		return Format(Hours)..":"..Format(Minutes)..":"..Format(Seconds)
 	end
 
+	-- extra
 	RunService.Stepped:Connect(function()
 		SessionTime:Set("Session Time: "..convertToHMS(os.time() - SessionStarted))
 	end)
