@@ -2504,7 +2504,7 @@ function RayfieldLibrary:CreateScriptInfoTab(Window, Game)
 		Name = "Discord: discord.gg/MArf5n46gA (press to copy)",
 		Callback = function()
 			setclipboard("discord.gg/MArf5n46gA")
-			RayfieldLibrary:Notify({Title = "NoName Hub", Content = "Discord link was copied to clipboard!})
+			RayfieldLibrary:Notify({Title = "NoName Hub", Content = "Discord link was copied to clipboard!"})
 		end
 	})
 
