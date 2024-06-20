@@ -1293,6 +1293,50 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 		end)
 
+		-- Hide Gui
+
+		local HideGui = Instance.new("TextButton")
+		local UICorner = Instance.new("UICorner")
+		local UIStroke = Instance.new("UIStroke")
+
+		--Properties:
+
+		HideGui.Name = "HideGui"
+		HideGui.Parent = Rayfield
+		HideGui.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+		HideGui.BackgroundTransparency = 0.350
+		HideGui.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		HideGui.BorderSizePixel = 0
+		HideGui.Position = UDim2.new(0, 0, 0.907800734, 0)
+		HideGui.Size = UDim2.new(0, 55, 0, 55)
+		HideGui.Font = Enum.Font.SourceSans
+		HideGui.Text = "Hide Gui"
+		HideGui.TextColor3 = Color3.fromRGB(255, 255, 255)
+		HideGui.TextScaled = true
+		HideGui.TextSize = 14.000
+		HideGui.TextWrapped = true
+
+		UICorner.CornerRadius = UDim.new(1, 0)
+		UICorner.Parent = HideGui
+
+		UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+		UIStroke.Thickness = 2
+		UIStroke.Parent = HideGui
+
+		HideGui.MouseButton1Click:Connect(function()
+			if Debounce then return end
+			if Hidden then
+				Hidden = false
+				Minimised = false
+				Unhide()
+			else
+				Hidden = true
+				Hide()
+			end
+		end)
+
+		--
+
 		local Tab = {}
 
 		-- Button
@@ -2557,18 +2601,6 @@ Topbar.Hide.MouseButton1Click:Connect(function()
 		Hide()
 	end
 end)
-
-getgenv().HideFunction = function()
-	if Debounce then return end
-	if Hidden then
-		Hidden = false
-		Minimised = false
-		Unhide()
-	else
-		Hidden = true
-		Hide()
-	end
-end
 
 UserInputService.InputBegan:Connect(function(input, processed)
 	if (input.KeyCode == Enum.KeyCode.L and not processed) then
