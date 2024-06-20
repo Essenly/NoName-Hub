@@ -119,7 +119,7 @@ local CoreGui = game:GetService("CoreGui")
 local ScriptStatus = loadstring(game:HttpGet("https://raw.githubusercontent.com/Essenly/NoName-Hub/main/ScriptStatus.lua"))() or {}
 
 -- Interface Management
-local Rayfield = game:GetObjects("rbxassetid://18130731274")[1]
+local Rayfield = game:GetObjects("rbxassetid://10804731440")[1]
 
 Rayfield.Enabled = false
 
