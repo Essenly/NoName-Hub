@@ -2534,7 +2534,8 @@ function RayfieldLibrary:CreateScriptInfoTab(Window, Game)
 	local ScriptInfo = ScriptStatus[Game] or {} 
 
 	if ScriptInfo.Status == "Down" then
-		game.Players.LocalPlayer:Kick("Script is down, join discord.gg/MArf5n46gA and wait future news about script")
+		setclipboard("discord.gg/MArf5n46gA")
+		game.Players.LocalPlayer:Kick("Script is down, join discord.gg/MArf5n46gA for news about script [link was copied]")
 		return error("Script is down")
 	end
 	
