@@ -2576,6 +2576,18 @@ function RayfieldLibrary:CreateScriptInfoTab(Window, Game)
 		SessionTime:Set("Session Time: "..convertToHMS(os.time() - SessionStarted))
 	end)
 
+	getgenv().getSessionTime = function(type)
+		type = type or "number"
+
+		if type == "number" then
+			return os.time() - SessionStarted
+		end
+
+		if type == "string" then
+			return convertToHMS(os.time() - SessionStarted)
+		end
+	end
+
 	return Info
 end
 
