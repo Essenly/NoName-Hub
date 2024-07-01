@@ -14,7 +14,7 @@ local DEFAULT_SETTINGS = {
 
 	COMPARISON_CHECKS = 1;
 
-	JUMP_WHEN_STUCK = true;
+	JUMP_WHEN_STUCK = false;
 }
 
 ---------------------------------------------------------------------
