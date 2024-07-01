@@ -6,7 +6,7 @@ return {
 	},
 	["Gym League"] = {
 		Status = "Working",
-		Update = "30.06.2024",
+		Update = "01.07.2024",
 		Info = "no info"
 	},
 }
