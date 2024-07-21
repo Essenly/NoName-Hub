@@ -515,9 +515,10 @@ local neon = (function() -- Open sourced neon module
 end)()
 
 function RayfieldLibrary:Notify(NotificationSettings)
+	local Notification = Notifications.Template:Clone()
+
 	spawn(function()
 		local ActionCompleted = true
-		local Notification = Notifications.Template:Clone()
 		Notification.Parent = Notifications
 		Notification.Name = NotificationSettings.Title or "Unknown Title"
 		Notification.Visible = true
@@ -656,6 +657,18 @@ function RayfieldLibrary:Notify(NotificationSettings)
 		wait(0.9)
 		Notification:Destroy()
 	end)
+
+	local NotifyMethods = {}
+
+	function NotifyMethods:Destroy()
+		if Notification.Parent then
+			Notification:Destroy()
+			return true
+		end
+		return false
+	end
+
+	return NotifyMethods
 end
 
 function Hide()
