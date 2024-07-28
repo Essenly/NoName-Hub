@@ -9,4 +9,9 @@ return {
 		Update = "16.07.2024",
 		Info = "no info"
 	},
+	["Void Fishing"] = {
+		Status = "Working",
+		Update = "28.07.2024",
+		Info = "no info"
+	},
 }
