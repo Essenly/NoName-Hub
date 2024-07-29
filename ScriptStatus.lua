@@ -1,7 +1,7 @@
 return {
 	["Anime Dimension"] = {
 		Status = "Working",
-		Update = "25.07.2024",
+		Update = "29.07.2024",
 		Info = "no info"
 	},
 	["Gym League"] = {
