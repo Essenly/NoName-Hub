@@ -2553,7 +2553,7 @@ function RayfieldLibrary:CreateScriptInfoTab(Window, Game)
 	end
 
 	if ScriptInfo.Status == "Discontinued" then
-		RayfieldLibrary:Notify({Title = "NoName Hub", Content = "Script ["..Game.."] was discontinued, use it on your own risk!, Duration = 30})
+		RayfieldLibrary:Notify({Title = "NoName Hub", Content = "Script ["..Game.."] was discontinued, use it on your own risk!", Duration = 30})
 	end
 	
 	local Info = Window:CreateTab("Script Info")
