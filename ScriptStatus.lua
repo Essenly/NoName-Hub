@@ -10,7 +10,7 @@ return {
 		Info = "no info"
 	},
 	["Void Fishing"] = {
-		Status = "Working",
+		Status = "Discontinued",
 		Update = "28.07.2024",
 		Info = "no info"
 	},
