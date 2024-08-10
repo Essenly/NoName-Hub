@@ -2551,6 +2551,10 @@ function RayfieldLibrary:CreateScriptInfoTab(Window, Game)
 		game.Players.LocalPlayer:Kick("Script is down, join discord.gg/MArf5n46gA for news about script [link was copied]")
 		return error("Script is down")
 	end
+
+	if ScriptInfo.Status == "Discontinued" then
+		RayfieldLibrary:Notify({Title = "NoName Hub", Content = "Script ["..Game.."] was discontinued, use it on your own risk!, Duration = 30})
+	end
 	
 	local Info = Window:CreateTab("Script Info")
 	Info:CreateLabel("Script Status: "..(ScriptInfo.Status or "Unknown"))
