@@ -2512,6 +2512,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 			Slider.Main.Interact.MouseButton1Down:Connect(function(X)
 
+                print("is dragging: "..tostring(Dragging))
                 if Dragging then
                     while Dragging do
                         task.wait()
