@@ -2014,7 +2014,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 			function DropdownSettings:Clear()
 				for i,v in pairs(Dropdown.List:GetChildren()) do
-					if v:IsA("TextButton") then
+					if v:IsA("Frame") and v:FindFirstChildOfClass("TextLabel") then
 						v:Destroy()
 					end
 				end
