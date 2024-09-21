@@ -24,6 +24,11 @@ local Games = {
         Name = "Gym League",
         Load = "813c2e324b302a9ab757b961c7d37cfa.lua"
     },
+    ["Anime Simulator"] = {
+        Ids = {17316900493, 131692389956697},
+        Name = "Anime Simulator",
+        Load = "2e7742dcc06b0c147eca76483fa85f61.lua"
+    },
 }
 
 --
