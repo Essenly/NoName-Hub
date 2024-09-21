@@ -9,4 +9,9 @@ return {
 		Update = "18.08.2024",
 		Info = "no info"
 	},
+	["Anime Simulator"] = {
+		Status = "Working",
+		Update = "21.09.2024",
+		Info = "no info"
+	},
 }
