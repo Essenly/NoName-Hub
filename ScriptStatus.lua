@@ -12,6 +12,6 @@ return {
 	["Anime Simulator"] = {
 		Status = "Working",
 		Update = "21.09.2024",
-		Info = "no info"
+		Info = "other features in progress"
 	},
 }
