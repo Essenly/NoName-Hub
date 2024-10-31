@@ -2,12 +2,12 @@ return {
 	["Anime Dimension"] = {
 		Status = "Working",
 		Update = "29.07.2024",
-		Info = "no info"
+		Info = "game without halloween"
 	},
 	["Gym League"] = {
 		Status = "Working",
-		Update = "18.08.2024",
-		Info = "no info"
+		Update = "31.10.2024",
+		Info = "booo, halloween"
 	},
 	["Anime Simulator"] = {
 		Status = "Working",
