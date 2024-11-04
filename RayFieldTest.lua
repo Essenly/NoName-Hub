@@ -16,7 +16,7 @@ local ConfigurationFolder = RayfieldFolder.."/Configurations"
 local ConfigurationExtension = ".json"
 local SessionStarted = os.time()
 
-
+local ScriptStatus = loadstring(game:HttpGet("https://raw.githubusercontent.com/Essenly/NoName-Hub/main/ScriptStatus.lua"))() or {}
 
 local RayfieldLibrary = {
 	Flags = {},
@@ -263,16 +263,34 @@ local function LoadConfiguration(Configuration)
 	local Data = HttpService:JSONDecode(Configuration)
 	for FlagName, FlagValue in next, Data do
 		if RayfieldLibrary.Flags[FlagName] then
-			task.spawn(function() 
+			spawn(function() 
 				if RayfieldLibrary.Flags[FlagName].Type == "ColorPicker" then
 					RayfieldLibrary.Flags[FlagName]:Set(UnpackColor(FlagValue))
 				else
-					if RayfieldLibrary.Flags[FlagName].CurrentValue or RayfieldLibrary.Flags[FlagName].CurrentKeybind or RayfieldLibrary.Flags[FlagName].CurrentOption or RayfieldLibrary.Flags[FlagName].Color ~= FlagValue then RayfieldLibrary.Flags[FlagName]:Set(FlagValue) end
+					if RayfieldLibrary.Flags[FlagName].CurrentValue or RayfieldLibrary.Flags[FlagName].CurrentKeybind or RayfieldLibrary.Flags[FlagName].CurrentOption or RayfieldLibrary.Flags[FlagName].Color ~= FlagValue or RayfieldLibrary.Flags[FlagName].Text then RayfieldLibrary.Flags[FlagName]:Set(FlagValue) end
 				end    
 			end)
 		else
-			RayfieldLibrary:Notify({Title = "Flag Error", Content = "Rayfield was unable to find '"..FlagName.. "'' in the current script. Check docs.sirius.menu for help."})
+			print("Rayfield was unable to find '"..FlagName.. "'' in the current script")
 		end
+	end
+end
+
+local function getValue(object)
+	if object.CurrentValue ~= nil then
+		return object.CurrentValue
+	end
+	if object.CurrentKeybind ~= nil then
+		return object.CurrentKeybind
+	end
+	if object.CurrentOption ~= nil then
+		return object.CurrentOption
+	end
+	if object.Color ~= nil then
+		return object.Color
+	end
+	if object.Text ~= nil then
+		return object.Text
 	end
 end
 
@@ -283,7 +301,7 @@ local function SaveConfiguration()
 		if v.Type == "ColorPicker" then
 			Data[i] = PackColor(v.Color)
 		else
-			Data[i] = v.CurrentValue or v.CurrentKeybind or v.CurrentOption or v.Color
+			Data[i] = getValue(v)
 		end
 	end	
 	writefile(ConfigurationFolder .. "/" .. CFileName .. ConfigurationExtension, tostring(HttpService:JSONEncode(Data)))
@@ -2255,6 +2273,39 @@ function RayfieldLibrary:Destroy()
 	Rayfield:Destroy()
 end
 
+function RayfieldLibrary:CopyConfig()
+	local str = "getgenv().Config = {\n"
+
+	for i,v in pairs(RayfieldLibrary.Flags) do
+		local value = getValue(v)
+
+		if type(value) == "boolean" then
+			str = str.."	"..i.." = "..tostring(value)..",\n"
+		end
+
+		if type(value) == "number" then
+			str = str.."	"..i.." = "..tostring(value)..",\n"
+		end
+		
+		if type(value) == "string" then
+			str = str.."	"..i.." = "..'"'..value..'"'..",\n"
+		end
+
+		if type(value) == "table" then
+			local newTable = {}
+			for i,v in pairs(value) do
+				table.insert(newTable, '"'..v..'"')
+			end
+			
+			str = str.."	"..i.." = {"..table.concat(newTable, ", ").."},\n"
+		end
+	end
+
+	str = str.."}"
+	setclipboard(str)
+	RayfieldLibrary:Notify({Title = "NoName Hub", Content = "Config was copied to clipboard", Duration = 15})
+end
+
 function RayfieldLibrary:CreateScriptInfoTab(Window, Game)
 	local ScriptInfo = ScriptStatus[Game] or {} 
 
@@ -2405,7 +2456,7 @@ function RayfieldLibrary:LoadConfiguration()
 
 		if not a then 
 			print("NoName Hub Config Error: "..b)
-			RayfieldLibrary:Notify({Title = "Configuration Failed to load!", Content = "Press F9 or type /console in chat for logs"})  
+			RayfieldLibrary:Notify({Title = "Configuration Failed to load!", Content = "Press F9 or type /console in chat for logs"})
 		end
 	end
 end
