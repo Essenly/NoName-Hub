@@ -2585,6 +2585,4 @@ if not noMarket then
 	end)
 end
 
-task.delay(3.5, RayfieldLibrary.LoadConfiguration, RayfieldLibrary)
-
 return RayfieldLibrary
