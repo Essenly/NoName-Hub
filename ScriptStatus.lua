@@ -9,9 +9,9 @@ return {
 		Update = "31.10.2024",
 		Info = "booo, halloween"
 	},
-	["Anime Simulator"] = {
+	["Murder Mystery 2"] = {
 		Status = "Working",
-		Update = "21.09.2024",
+		Update = "04.11.2024",
 		Info = "other features in progress"
 	},
 }
