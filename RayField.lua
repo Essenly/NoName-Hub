@@ -1446,9 +1446,9 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 			Input.InputFrame.InputBox.FocusLost:Connect(function()
 
-
 				local Success, Response = pcall(function()
 					InputSettings.Callback(Input.InputFrame.InputBox.Text)
+					InputSettings.Text = Input.InputFrame.InputBox.Text
 				end)
 				if not Success then
 					TweenService:Create(Input, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(85, 0, 0)}):Play()
@@ -1481,7 +1481,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 			end)
 
 			local InputSettings = {}
-			function InputSettings:Set(text) --Doesnt fire the event
+			function InputSettings:Set(text)
 				Input.InputFrame.InputBox.ClearTextOnFocus = true
 				Input.InputFrame.InputBox.ClipsDescendants = true
 				Input.InputFrame.InputBox.TextXAlignment = Enum.TextXAlignment.Left
