@@ -1858,7 +1858,6 @@ function RayfieldLibrary:CreateWindow(Settings)
 			function InputSettings:Set(text)
 				Input.InputFrame.InputBox.ClearTextOnFocus = true
 				Input.InputFrame.InputBox.ClipsDescendants = true
-				Input.InputFrame.InputBox.TextXAlignment = Enum.TextXAlignment.Left
 					
 				InputSettings.Callback(text)
 				Input.InputFrame.InputBox.Text = text
