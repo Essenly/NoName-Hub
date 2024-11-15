@@ -1855,7 +1855,6 @@ function RayfieldLibrary:CreateWindow(Settings)
 				SaveConfiguration()
 			end)
 
-			local InputSettings = {}
 			function InputSettings:Set(text)
 				Input.InputFrame.InputBox.ClearTextOnFocus = true
 				Input.InputFrame.InputBox.ClipsDescendants = true
@@ -1868,9 +1867,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 			end
 
 			if Settings.ConfigurationSaving then
-				print(0, InputSettings.Flag)
 				if Settings.ConfigurationSaving.Enabled and InputSettings.Flag then
-					print(1)
 					RayfieldLibrary.Flags[InputSettings.Flag] = InputSettings
 				end
 			end
