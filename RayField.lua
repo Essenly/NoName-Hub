@@ -1852,6 +1852,8 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 			Input.InputFrame.InputBox:GetPropertyChangedSignal("Text"):Connect(function()
 				TweenService:Create(Input.InputFrame, TweenInfo.new(0.55, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Size = UDim2.new(0, Input.InputFrame.InputBox.TextBounds.X + 24, 0, 30)}):Play()
+				InputSettings.Text = Input.InputFrame.InputBox.Text
+				SaveConfiguration()
 			end)
 
 			local InputSettings = {}
@@ -1860,8 +1862,8 @@ function RayfieldLibrary:CreateWindow(Settings)
 				Input.InputFrame.InputBox.ClipsDescendants = true
 				Input.InputFrame.InputBox.TextXAlignment = Enum.TextXAlignment.Left
 					
-				InputSettings.Callback(value)
-				Input.InputFrame.InputBox.Text = value
+				InputSettings.Callback(text)
+				Input.InputFrame.InputBox.Text = text
 				InputSettings.Text = Input.InputFrame.InputBox.Text
 				SaveConfiguration()
 			end
