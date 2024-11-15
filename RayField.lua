@@ -1820,9 +1820,8 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 			Input.InputFrame.InputBox.FocusLost:Connect(function()
 
-
 				local Success, Response = pcall(function()
-					InputSettings.Text = Input.InputFrame.InputBox.Text
+					InputSettings.CurrentValue = Input.InputFrame.InputBox.Text
 					InputSettings.Callback(Input.InputFrame.InputBox.Text)
 				end)
 				if not Success then
@@ -1853,7 +1852,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 			Input.InputFrame.InputBox:GetPropertyChangedSignal("Text"):Connect(function()
 				TweenService:Create(Input.InputFrame, TweenInfo.new(0.55, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Size = UDim2.new(0, Input.InputFrame.InputBox.TextBounds.X + 24, 0, 30)}):Play()
-				InputSettings.Text = Input.InputFrame.InputBox.Text
+				InputSettings.CurrentValue = Input.InputFrame.InputBox.Text
 				SaveConfiguration()
 			end)
 
@@ -1865,13 +1864,14 @@ function RayfieldLibrary:CreateWindow(Settings)
 					
 				InputSettings.Callback(text)
 				Input.InputFrame.InputBox.Text = text
-				InputSettings.Text = Input.InputFrame.InputBox.Text
+				InputSettings.CurrentValue = text
 				SaveConfiguration()
 			end
 
 			if Settings.ConfigurationSaving then
 				if Settings.ConfigurationSaving.Enabled and InputSettings.Flag then
 					RayfieldLibrary.Flags[InputSettings.Flag] = InputSettings
+					print(1)
 				end
 			end
 
