@@ -1868,6 +1868,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 			end
 
 			if Settings.ConfigurationSaving then
+				print(0)
 				if Settings.ConfigurationSaving.Enabled and InputSettings.Flag then
 					print(1)
 					RayfieldLibrary.Flags[InputSettings.Flag] = InputSettings
