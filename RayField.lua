@@ -594,6 +594,7 @@ local function SaveConfiguration()
 	if not CEnabled then return end
 	local Data = {}
 	for i,v in pairs(RayfieldLibrary.Flags) do
+		print(v.Type)
 		if v.Type == "ColorPicker" then
 			Data[i] = PackColor(v.Color)
 		else
