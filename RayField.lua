@@ -2657,15 +2657,15 @@ function RayfieldLibrary:CopyConfig()
 		local value = getValue(v)
 
 		if type(value) == "boolean" then
-			str = str.."	["..i.."] = "..tostring(value)..",\n"
+		    str = str..'	["'..i..'"] = '..tostring(value)..",\n"
 		end
-
+		
 		if type(value) == "number" then
-			str = str.."	["..i.."] = "..tostring(value)..",\n"
+		    str = str..'	["'..i..'"] = '..tostring(value)..",\n"
 		end
 		
 		if type(value) == "string" then
-			str = str.."	["..i.."] = "..'"'..value..'"'..",\n"
+		    str = str..'	["'..i..'"] = '..'"'..value..'"'..",\n"
 		end
 
 		if type(value) == "table" then
