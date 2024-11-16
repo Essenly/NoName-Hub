@@ -9,9 +9,19 @@ return {
 		Update = "31.10.2024",
 		Info = "booo, halloween"
 	},
-	["Murder Mystery 2"] = {
+	["Anime Reborn"] = {
 		Status = "Working",
-		Update = "04.11.2024",
+		Update = "16.11.2024",
+		Info = "other features in progress"
+	},
+	["Fisch"] = {
+		Status = "Working",
+		Update = "16.11.2024",
+		Info = "other features in progress"
+	},
+	["Anime Shadow"] = {
+		Status = "Working",
+		Update = "16.11.2024",
 		Info = "other features in progress"
 	},
 }
