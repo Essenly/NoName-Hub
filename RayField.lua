@@ -2674,7 +2674,7 @@ function RayfieldLibrary:CopyConfig()
 				table.insert(newTable, '"'..v..'"')
 			end
 			
-			str = str.."	["..i.."] = {"..table.concat(newTable, ", ").."},\n"
+			str = str..'	["'..i..'"] = {'..table.concat(newTable, ", ").."},\n"
 		end
 	end
 
