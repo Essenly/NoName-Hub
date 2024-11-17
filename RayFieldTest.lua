@@ -955,7 +955,6 @@ KeyGuardian.ValidateKey = function(_, Key)
 	end
 end
 
-KeyGuardian = {}
 KeyGuardian.Sanity = function()
 	return "hi!"
 end
