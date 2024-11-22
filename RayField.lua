@@ -422,15 +422,6 @@ local Rayfield = useStudio and script.Parent:FindFirstChild('Rayfield') or game:
 
 Rayfield.Enabled = false
 
-if set_thread_identity then
-    set_thread_identity(7)
-end
-
-if setthreadidentify then
-    setthreadidentify(7)
-end
-
-
 if gethui then
 	Rayfield.Parent = gethui()
 elseif syn and syn.protect_gui then 
