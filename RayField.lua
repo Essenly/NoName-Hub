@@ -422,6 +422,15 @@ local Rayfield = useStudio and script.Parent:FindFirstChild('Rayfield') or game:
 
 Rayfield.Enabled = false
 
+if set_thread_identity then
+    set_thread_identity(7)
+end
+
+if setthreadidentify then
+    setthreadidentify(7)
+end
+
+
 if gethui then
 	Rayfield.Parent = gethui()
 elseif syn and syn.protect_gui then 
@@ -430,7 +439,13 @@ elseif syn and syn.protect_gui then
 elseif not useStudio and CoreGui:FindFirstChild("RobloxGui") then
 	Rayfield.Parent = CoreGui:FindFirstChild("RobloxGui")
 elseif not useStudio then
-	Rayfield.Parent = CoreGui
+	pcall(function()
+		Rayfield.Parent = CoreGui
+	end)
+
+	if not Rayfield.Parent then
+		Rayfield.Parent = game.Players.LocalPlayer.PlayerGui
+	end
 end
 
 if gethui then
