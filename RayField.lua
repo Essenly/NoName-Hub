@@ -681,32 +681,19 @@ end
 
 local function LoadConfiguration(Configuration)
 	local Data = HttpService:JSONDecode(Configuration)
-	local changed
-	
-	-- Iterate through current UI elements' flags
-	for FlagName, Flag in pairs(RayfieldLibrary.Flags) do
-		local FlagValue = Data[FlagName]
-		
-		if FlagValue then
-			task.spawn(function()
-				if Flag.Type == "ColorPicker" then
-					changed = true
-					Flag:Set(UnpackColor(FlagValue))
+	for FlagName, FlagValue in next, Data do
+		if RayfieldLibrary.Flags[FlagName] then
+			spawn(function() 
+				if RayfieldLibrary.Flags[FlagName].Type == "ColorPicker" then
+					RayfieldLibrary.Flags[FlagName]:Set(UnpackColor(FlagValue))
 				else
-					if (Flag.CurrentValue or Flag.CurrentKeybind or Flag.CurrentOption or Flag.Color) ~= FlagValue then 
-						changed = true
-						Flag:Set(FlagValue) 	
-					end
-				end
+					if RayfieldLibrary.Flags[FlagName].CurrentValue or RayfieldLibrary.Flags[FlagName].CurrentKeybind or RayfieldLibrary.Flags[FlagName].CurrentOption or RayfieldLibrary.Flags[FlagName].Color ~= FlagValue or RayfieldLibrary.Flags[FlagName].Text then RayfieldLibrary.Flags[FlagName]:Set(FlagValue) end
+				end    
 			end)
 		else
-			warn("Rayfield | Unable to find '"..FlagName.. "' in the save file.")
-			print("The error above may not be an issue if new elements have been added or not been set values.")
-			--RayfieldLibrary:Notify({Title = "Rayfield Flags", Content = "Rayfield was unable to find '"..FlagName.. "' in the save file. Check sirius.menu/discord for help.", Image = 3944688398})
+			print("Rayfield was unable to find '"..FlagName.. "'' in the current script")
 		end
 	end
-	
-	return changed
 end
 
 local function SaveConfiguration()
@@ -3315,19 +3302,36 @@ for _, TopbarButton in ipairs(Topbar:GetChildren()) do
 	end
 end
 
-local function LoadConfiguration(Configuration)
-	local Data = HttpService:JSONDecode(Configuration)
-	for FlagName, FlagValue in next, Data do
-		if RayfieldLibrary.Flags[FlagName] then
-			spawn(function() 
-				if RayfieldLibrary.Flags[FlagName].Type == "ColorPicker" then
-					RayfieldLibrary.Flags[FlagName]:Set(UnpackColor(FlagValue))
-				else
-					if RayfieldLibrary.Flags[FlagName].CurrentValue or RayfieldLibrary.Flags[FlagName].CurrentKeybind or RayfieldLibrary.Flags[FlagName].CurrentOption or RayfieldLibrary.Flags[FlagName].Color ~= FlagValue or RayfieldLibrary.Flags[FlagName].Text then RayfieldLibrary.Flags[FlagName]:Set(FlagValue) end
-				end    
+function RayfieldLibrary:LoadConfiguration()
+	if CEnabled then
+		if getgenv().Config then
+			local a,b = pcall(function()
+				for i,v in pairs(getgenv().Config) do
+					if RayfieldLibrary.Flags[i] then
+						task.spawn(function()
+							RayfieldLibrary.Flags[i]:Set(v)
+						end)
+					end
+				end
 			end)
-		else
-			print("Rayfield was unable to find '"..FlagName.. "'' in the current script")
+
+			if not a then 
+				print("NoName Hub Config Error: "..b)
+				RayfieldLibrary:Notify({Title = "Configuration Failed to load!", Content = "Press F9 or type /console in chat for logs"}) 
+			end
+			return
+		end
+
+		local a,b = pcall(function()
+			if isfile(ConfigurationFolder .. "/" .. CFileName .. ConfigurationExtension) then
+				LoadConfiguration(readfile(ConfigurationFolder .. "/" .. CFileName .. ConfigurationExtension))
+				RayfieldLibrary:Notify({Title = "Configuration Loaded", Content = "The configuration file for this script has been loaded from a previous session."})
+			end
+		end)
+
+		if not a then 
+			print("NoName Hub Config Error: "..b)
+			RayfieldLibrary:Notify({Title = "Configuration Failed to load!", Content = "Press F9 or type /console in chat for logs"})
 		end
 	end
 end
