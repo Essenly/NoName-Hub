@@ -3315,38 +3315,19 @@ for _, TopbarButton in ipairs(Topbar:GetChildren()) do
 	end
 end
 
-function RayfieldLibrary:LoadConfiguration()
-	local config
-	
-	if useStudio then
-		config = [[{"Toggle1adwawd":"false","Keybind1":"Q","InputExample":"","Slider1dawd":40,"ColorPicfsefker1":{"B":255,"G":255,"R":255},"Slidefefsr1":80,"dawdawd":"","ColorPicker1awd":{"B":255,"G":255,"R":255},"Dropdown1":["Ocean"]}]]
-	end
-	
-	if CEnabled then
-		local notified
-		local loaded
-		
-		local success, result = pcall(function()
-			if useStudio and config then
-				loaded = LoadConfiguration(config)
-				return
-			end
-			
-			if isfile then 
-				if isfile(ConfigurationFolder .. "/" .. CFileName .. ConfigurationExtension) then
-					loaded = LoadConfiguration(readfile(ConfigurationFolder .. "/" .. CFileName .. ConfigurationExtension))
-				end
-			else
-				notified = true
-				RayfieldLibrary:Notify({Title = "Rayfield Configurations", Content = "We couldn't enable Configuration Saving as you are not using file supported software.", Image = 4384402990})
-			end
-		end)
-		
-		if success and loaded and not notified then
-			RayfieldLibrary:Notify({Title = "Rayfield Configurations", Content = "The configuration file for this script has been loaded from a previous session.", Image = 4384403532})
-		elseif not success and not notified then
-			warn('Rayfield Configurations Error | '..tostring(result))
-			RayfieldLibrary:Notify({Title = "Rayfield Configurations", Content = "We've encountered an issue loading your configuration correctly.\n\nCheck the Developer Console for more information.", Image = 4384402990})
+local function LoadConfiguration(Configuration)
+	local Data = HttpService:JSONDecode(Configuration)
+	for FlagName, FlagValue in next, Data do
+		if RayfieldLibrary.Flags[FlagName] then
+			spawn(function() 
+				if RayfieldLibrary.Flags[FlagName].Type == "ColorPicker" then
+					RayfieldLibrary.Flags[FlagName]:Set(UnpackColor(FlagValue))
+				else
+					if RayfieldLibrary.Flags[FlagName].CurrentValue or RayfieldLibrary.Flags[FlagName].CurrentKeybind or RayfieldLibrary.Flags[FlagName].CurrentOption or RayfieldLibrary.Flags[FlagName].Color ~= FlagValue or RayfieldLibrary.Flags[FlagName].Text then RayfieldLibrary.Flags[FlagName]:Set(FlagValue) end
+				end    
+			end)
+		else
+			print("Rayfield was unable to find '"..FlagName.. "'' in the current script")
 		end
 	end
 end
