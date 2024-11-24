@@ -684,7 +684,6 @@ local function LoadConfiguration(Configuration)
 	for FlagName, FlagValue in next, Data do
 		if RayfieldLibrary.Flags[FlagName] then
 			spawn(function() 
-				print(FlagName)
 				if RayfieldLibrary.Flags[FlagName].Type == "ColorPicker" then
 					RayfieldLibrary.Flags[FlagName]:Set(UnpackColor(FlagValue))
 				else
@@ -2493,7 +2492,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 						Dropdown.Selected.Text = "Various"
 					end
 				else
-					Dropdown.Selected.Text = DropdownSettings.CurrentOption[1]
+					Dropdown.Selected.Text = DropdownSettings.CurrentOption[1] or "None"
 				end
 
 
