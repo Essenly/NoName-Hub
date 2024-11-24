@@ -684,6 +684,7 @@ local function LoadConfiguration(Configuration)
 	for FlagName, FlagValue in next, Data do
 		if RayfieldLibrary.Flags[FlagName] then
 			spawn(function() 
+				print(FlagName)
 				if RayfieldLibrary.Flags[FlagName].Type == "ColorPicker" then
 					RayfieldLibrary.Flags[FlagName]:Set(UnpackColor(FlagValue))
 				else
