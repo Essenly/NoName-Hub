@@ -687,7 +687,7 @@ local function LoadConfiguration(Configuration)
 				if RayfieldLibrary.Flags[FlagName].Type == "ColorPicker" then
 					RayfieldLibrary.Flags[FlagName]:Set(UnpackColor(FlagValue))
 				else
-					if RayfieldLibrary.Flags[FlagName].CurrentValue or RayfieldLibrary.Flags[FlagName].CurrentKeybind or RayfieldLibrary.Flags[FlagName].CurrentOption or RayfieldLibrary.Flags[FlagName].Color ~= FlagValue or RayfieldLibrary.Flags[FlagName].Text then RayfieldLibrary.Flags[FlagName]:Set(FlagValue) end
+					if RayfieldLibrary.Flags[FlagName].CurrentValue or RayfieldLibrary.Flags[FlagName].CurrentKeybind or RayfieldLibrary.Flags[FlagName].CurrentOption or RayfieldLibrary.Flags[FlagName].Color ~= FlagValue or RayfieldLibrary.Flags[FlagName].Text ~= FlagValue then RayfieldLibrary.Flags[FlagName]:Set(FlagValue) end
 				end    
 			end)
 		else
