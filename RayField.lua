@@ -2214,7 +2214,8 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 			function InputSettings:Set(text)
 				Input.InputFrame.InputBox.Text = text
-				InputSettings.Callback(Input.InputFrame.InputBox.Text)
+				InputSettings.CurrentValue = text
+				InputSettings.Callback(text)
 				SaveConfiguration()
 			end
 
