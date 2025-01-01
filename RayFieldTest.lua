@@ -23,6 +23,7 @@ local settingsTable = {
 	},
 	System = {
 		usageAnalytics = {Type = 'toggle', Value = true, Name = 'Anonymised Analytics'},
+        copyConfig = {Type = 'button', Name = "Copy Config", Callback = function() print(1) end}
 	}
 }
 
