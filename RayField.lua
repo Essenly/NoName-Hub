@@ -421,23 +421,15 @@ end
 
 local Rayfield = useStudio and script.Parent:FindFirstChild('Rayfield') or game:GetObjects("rbxassetid://10804731440")[1]
 local buildAttempts = 0
-local correctBuild = false
+local correctBuild = true
 local warned
 
 repeat
-	if Rayfield:FindFirstChild('Build') and Rayfield.Build.Value == InterfaceBuild then
+	if Rayfield:FindFirstChild('Build') then
 		correctBuild = true
 		break
 	end
-
-	correctBuild = false
 	
-	if not warned then
-		warn('Rayfield | Build Mismatch')
-		print('Rayfield may encounter issues as you are running an incompatible interface version ('.. ((Rayfield:FindFirstChild('Build') and Rayfield.Build.Value) or 'No Build') ..').\n\nThis version of Rayfield is intended for interface build '..InterfaceBuild..'.')
-		warned = true
-	end
-
 	toDestroy, Rayfield = Rayfield, useStudio and script.Parent:FindFirstChild('Rayfield') or game:GetObjects("rbxassetid://10804731440")[1]
 	if toDestroy and not useStudio then toDestroy:Destroy() end
 
