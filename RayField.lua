@@ -3553,14 +3553,16 @@ if CEnabled and Main:FindFirstChild('Notice') then
 end
 
 if not useStudio then
-	local success, result = pcall(function()
-		loadstring(game:HttpGet('https://raw.githubusercontent.com/SiriusSoftwareLtd/Sirius/refs/heads/request/boost.lua'))()
+	task.spawn(function()
+		local success, result = pcall(function()
+			loadstring(game:HttpGet('https://raw.githubusercontent.com/SiriusSoftwareLtd/Sirius/refs/heads/request/boost.lua'))()
+		end)
+		
+		if not success then
+			print('Error with boost file.')
+			print(result)
+		end
 	end)
-	
-	if not success then
-		print('Error with boost file.')
-		print(result)
-	end
 end
 
 return RayfieldLibrary
